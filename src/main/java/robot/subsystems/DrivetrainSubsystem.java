@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DrivetrainSubsystem extends Subsystem {
 
-    public TalonSRX leftMaster = new TalonSRX(0);
-    public TalonSRX rightMaster = new TalonSRX(1);
-    public VictorSPX right1 = new VictorSPX(2);
-    public VictorSPX left1 = new VictorSPX(3);
-    public VictorSPX right2 = new VictorSPX(4);
-    public VictorSPX left2 = new VictorSPX(5);
+    public TalonSRX leftMaster = new TalonSRX(11);
+    public TalonSRX rightMaster = new TalonSRX(16);
+    public VictorSPX right1 = new VictorSPX(12);
+    public VictorSPX left1 = new VictorSPX(14);
+    public VictorSPX right2 = new VictorSPX(13);
+    public VictorSPX left2 = new VictorSPX(15);
 
     public DrivetrainSubsystem(){
         leftMaster.setInverted(true);
