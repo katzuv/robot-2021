@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import robot.subsystems.Commands.DriveCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -22,9 +23,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class OI {
 
+    XboxController xbox = new XboxController(2);
+    Button b = new JoystickButton(xbox, 1);
+    Button x = new JoystickButton(xbox, 3);
+    Button y = new JoystickButton(xbox, 4);
 
     public OI() {
-
+        b.whenPressed(new DriveCommand(0.5));
+        x.whenPressed(new DriveCommand(-0.5));
+        y.whenPressed(new DriveCommand(0));
     }
 
 
