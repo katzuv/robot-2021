@@ -36,6 +36,22 @@ public class DrivetrainSubsystem extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput,speed);
     }
 
+    public double getLeftDistance(){
+        return convertTicksToDistance(leftMaster.getSelectedSensorPosition());
+    }
+
+    public double getRightDistance(){
+        return convertTicksToDistance(rightMaster.getSelectedSensorPosition());
+    }
+
+    public int convertDistanceToTicks(double distance) {
+        return (int) (distance * DrivetrainConstants.TICKS_PER_METER);
+    }
+
+    public double convertTicksToDistance(int tick) {
+        return tick / DrivetrainConstants.TICKS_PER_METER;
+    }
+
     @Override
     protected void initDefaultCommand() {
 
