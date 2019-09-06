@@ -20,12 +20,13 @@ public class DriveCommand extends Command {
 
     @Override
     protected void execute() {
+        System.out.println(speed);
 
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.m_oi.xbox.getYButton();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class DriveCommand extends Command {
 
     @Override
     protected void end() {
-
+        Robot.drivetrain.setRightSpeed(0);
+        Robot.drivetrain.setLeftSpeed(0);
     }
 }
