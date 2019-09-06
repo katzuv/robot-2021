@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DrivetrainSubsystem extends Subsystem {
 
-    public TalonSRX leftMaster = new TalonSRX(11);
-    public TalonSRX rightMaster = new TalonSRX(16);
+    public TalonSRX leftMaster = new TalonSRX(16);
+    public TalonSRX rightMaster = new TalonSRX(11);
     public VictorSPX right1 = new VictorSPX(12);
     public VictorSPX left1 = new VictorSPX(14);
     public VictorSPX right2 = new VictorSPX(13);
@@ -16,11 +16,14 @@ public class DrivetrainSubsystem extends Subsystem {
 
     public DrivetrainSubsystem(){
         leftMaster.setInverted(true);
+        left1.setInverted(true);
+        left2.setInverted(true);
         rightMaster.setInverted(false);
+        right1.setInverted(false);
+        right2.setInverted(false);
 
         right1.follow(rightMaster);
         right2.follow(rightMaster);
-
         left1.follow(leftMaster);
         left2.follow(leftMaster);
     }
