@@ -56,6 +56,16 @@ public class DrivetrainSubsystem extends Subsystem {
         return (int) (distance * DrivetrainConstants.TICKS_PER_METER);
     }
 
+    /**
+     * because the max input from the joystick is 1 , the joystick input * max velocity is
+     * function which represent the relation
+     * @param joystickInput the y value from the joystick
+     * @return joystick value in m/s
+     */
+    public double convertJoystickInputToVelocity(double joystickInput){
+        return joystickInput*DrivetrainConstants.MAX_VEL;
+    }
+
     public double convertTicksToDistance(int tick) {
         return tick / DrivetrainConstants.TICKS_PER_METER;
     }
