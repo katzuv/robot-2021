@@ -26,6 +26,9 @@ public class DrivetrainSubsystem extends Subsystem {
         right2.follow(rightMaster);
         left1.follow(leftMaster);
         left2.follow(leftMaster);
+
+        leftMaster.configPeakCurrentLimit(DrivetrainConstants.MAX_CURRENT);
+        rightMaster.configPeakCurrentLimit(DrivetrainConstants.MAX_CURRENT);
     }
 
     public void setLeftSpeed(double speed){
