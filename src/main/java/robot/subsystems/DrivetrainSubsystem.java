@@ -66,6 +66,51 @@ public class DrivetrainSubsystem extends Subsystem {
         return joystickInput*DrivetrainConstants.MAX_VEL;
     }
 
+    /**
+     * limit the drivetrain's acceleration to a certain acceleration
+     * @param desiredVelocity the desired velocity
+     * @return the desired velocity if possible, if not the current velocity plus the max acceleration
+     */
+    public double limitAcceleration(double desiredVelocity){
+        double robotVelocity = (getLeftVelocity()+getRightVelocity())/2;
+
+        if (robotVelocity * DrivetrainConstants.TIME_STEP >= DrivetrainConstants.MAX_ACCELERATION){
+            return robotVelocity + DrivetrainConstants.MAX_ACCELERATION;
+        }
+
+        return desiredVelocity;
+    }
+
+    /**
+     * limit the drivetrain's right side acceleration to a certain acceleration
+     * @param desiredVelocity the desired velocity
+     * @return the desired velocity if possible, if not the current velocity plus the max acceleration
+     */
+    public double limitRightAcceleration(double desiredVelocity){
+
+
+        if ( (getRightVelocity()/2)/ DrivetrainConstants.TIME_STEP >= DrivetrainConstants.MAX_ACCELERATION){
+            return getRightVelocity() + DrivetrainConstants.MAX_ACCELERATION;
+        }
+
+        return desiredVelocity;
+    }
+
+    /**
+     * limit the drivetrain's left side acceleration to a certain acceleration
+     * @param desiredVelocity the desired velocity
+     * @return the desired velocity if possible, if not the current velocity plus the max acceleration
+     */
+    public double limitLeftAcceleration(double desiredVelocity){
+
+
+        if ( (getLeftVelocity()/2)/ DrivetrainConstants.TIME_STEP >= DrivetrainConstants.MAX_ACCELERATION){
+            return getLeftVelocity() + DrivetrainConstants.MAX_ACCELERATION;
+        }
+
+        return desiredVelocity;
+    }
+
     public double convertTicksToDistance(int tick) {
         return tick / DrivetrainConstants.TICKS_PER_METER;
     }
