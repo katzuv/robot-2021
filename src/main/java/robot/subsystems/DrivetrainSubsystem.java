@@ -44,6 +44,14 @@ public class DrivetrainSubsystem extends Subsystem {
         return convertTicksToDistance(rightMaster.getSelectedSensorPosition());
     }
 
+    public double getRightVelocity(){
+        return convertTicksToDistance(rightMaster.getSelectedSensorVelocity())*10;
+    }
+
+    public double getLeftVelocity(){
+        return convertTicksToDistance(leftMaster.getSelectedSensorVelocity())*10;
+    }
+
     public int convertDistanceToTicks(double distance) {
         return (int) (distance * DrivetrainConstants.TICKS_PER_METER);
     }
