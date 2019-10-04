@@ -7,7 +7,7 @@ public class DriveCommand extends Command {
 
     private double speed;
 
-    public DriveCommand(double speed){
+    public DriveCommand(double speed) {
         requires(Robot.drivetrain);
         this.speed = speed;
     }
