@@ -1,10 +1,13 @@
 package robot.subsystems.drivetrain;
 
+import static robot.Constants.Drivetrain.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+/**
+ * This is a temporary subsystem from last year.
+ */
 public class Drivetrain extends Subsystem {
 
     public TalonSRX leftMaster = new TalonSRX(16);
@@ -27,8 +30,8 @@ public class Drivetrain extends Subsystem {
         left1.follow(leftMaster);
         left2.follow(leftMaster);
 
-        leftMaster.configPeakCurrentLimit(DrivetrainConstants.MAX_CURRENT);
-        rightMaster.configPeakCurrentLimit(DrivetrainConstants.MAX_CURRENT);
+        leftMaster.configPeakCurrentLimit(MAX_CURRENT);
+        rightMaster.configPeakCurrentLimit(MAX_CURRENT);
     }
 
     public void setLeftSpeed(double speed) {
@@ -56,7 +59,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public int convertDistanceToTicks(double distance) {
-        return (int) (distance * DrivetrainConstants.TICKS_PER_METER);
+        return (int) (distance * TICKS_PER_METER);
     }
 
     /**
@@ -67,7 +70,7 @@ public class Drivetrain extends Subsystem {
      * @return joystick value in m/s
      */
     public double convertJoystickInputToVelocity(double joystickInput) {
-        return joystickInput * DrivetrainConstants.MAX_VEL;
+        return joystickInput * MAX_VEL;
     }
 
 
@@ -80,8 +83,8 @@ public class Drivetrain extends Subsystem {
     public double limitRightAcceleration(double desiredVelocity) {
 
         //Take the attempted acceleration and see if it is too high.
-        if (Math.abs(desiredVelocity - getRightVelocity()) / DrivetrainConstants.TIME_STEP >= DrivetrainConstants.MAX_ACCELERATION) {
-            return getRightVelocity() + DrivetrainConstants.MAX_ACCELERATION;
+        if (Math.abs(desiredVelocity - getRightVelocity()) / TIME_STEP >= MAX_ACCELERATION) {
+            return getRightVelocity() + MAX_ACCELERATION;
         }
 
         return desiredVelocity;
@@ -96,15 +99,15 @@ public class Drivetrain extends Subsystem {
     public double limitLeftAcceleration(double desiredVelocity) {
 
         //Take the attempted acceleration and see if it is too high.
-        if (Math.abs((desiredVelocity - getLeftVelocity()) / DrivetrainConstants.TIME_STEP) >= DrivetrainConstants.MAX_ACCELERATION) {
-            return getLeftVelocity() + DrivetrainConstants.MAX_ACCELERATION;
+        if (Math.abs((desiredVelocity - getLeftVelocity()) / TIME_STEP) >= MAX_ACCELERATION) {
+            return getLeftVelocity() + MAX_ACCELERATION;
         }
 
         return desiredVelocity;
     }
 
     public double convertTicksToDistance(int tick) {
-        return tick / DrivetrainConstants.TICKS_PER_METER;
+        return tick / TICKS_PER_METER;
     }
 
     @Override
