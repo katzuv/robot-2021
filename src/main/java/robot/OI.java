@@ -10,7 +10,7 @@ package robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import robot.subsystems.drivetrain.commands.DriveCommand;
+import robot.subsystems.drivetrain.commands.DriveStraight;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -24,8 +24,8 @@ public class OI {
     Button y = new JoystickButton(xbox, 4);
 
     public OI() {
-        b.whenPressed(new DriveCommand(0.4));
-        x.whenPressed(new DriveCommand(-0.4));
+        b.whenPressed(new DriveStraight(0.4));
+        x.whenPressed(new DriveStraight(-0.4));
     }
 
 
