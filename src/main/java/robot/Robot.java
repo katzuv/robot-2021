@@ -7,15 +7,11 @@
 
 package robot;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import robot.subsystems.DrivetrainSubsystem;
+import robot.subsystems.drivetrain.Drivetrain;
 
 
 /**
@@ -27,7 +23,7 @@ import robot.subsystems.DrivetrainSubsystem;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
-    public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+    public static Drivetrain drivetrain = new Drivetrain();
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();

@@ -7,15 +7,10 @@
 
 package robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.POVButton;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import robot.subsystems.Commands.DriveCommand;
+import robot.subsystems.drivetrain.commands.DriveCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator

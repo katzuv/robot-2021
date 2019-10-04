@@ -1,11 +1,12 @@
-package robot.subsystems;
+package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import robot.subsystems.drivetrain.DrivetrainConstants;
 
-public class DrivetrainSubsystem extends Subsystem {
+public class Drivetrain extends Subsystem {
 
     public TalonSRX leftMaster = new TalonSRX(16);
     public TalonSRX rightMaster = new TalonSRX(11);
@@ -14,7 +15,7 @@ public class DrivetrainSubsystem extends Subsystem {
     public VictorSPX right2 = new VictorSPX(13);
     public VictorSPX left2 = new VictorSPX(15);
 
-    public DrivetrainSubsystem(){
+    public Drivetrain(){
         leftMaster.setInverted(true);
         left1.setInverted(true);
         left2.setInverted(true);
