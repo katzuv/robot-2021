@@ -22,11 +22,9 @@ import robot.subsystems.drivetrain.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
-    public static OI m_oi;
-    public static Drivetrain drivetrain = new Drivetrain();
+    public static RobotContainer m_robotContainer;
 
     Command m_autonomousCommand;
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -34,7 +32,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        m_oi = new OI();
+        m_robotContainer = new RobotContainer();
     }
 
 
@@ -80,7 +78,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_chooser.getSelected();
+        m_autonomousCommand = m_robotContainer.getAutonomous();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.start();
         }
