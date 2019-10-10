@@ -7,15 +7,11 @@
 
 package robot;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import robot.subsystems.DrivetrainSubsystem;
+import robot.subsystems.drivetrain.Drivetrain;
 
 
 /**
@@ -26,11 +22,9 @@ import robot.subsystems.DrivetrainSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-    public static OI m_oi;
-    public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+    public static RobotContainer m_robotContainer;
 
     Command m_autonomousCommand;
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,7 +32,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        m_oi = new OI();
+        m_robotContainer = new RobotContainer();
     }
 
 
@@ -84,7 +78,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_chooser.getSelected();
+        m_autonomousCommand = m_robotContainer.getAutonomous();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.start();
         }

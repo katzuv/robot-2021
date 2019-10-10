@@ -1,13 +1,13 @@
-package robot.subsystems.Commands;
+package robot.subsystems.drivetrain.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 
-public class DriveCommand extends Command {
+public class DriveStraight extends Command {
 
     private double speed;
 
-    public DriveCommand(double speed){
+    public DriveStraight(double speed) {
         requires(Robot.drivetrain);
         this.speed = speed;
     }
@@ -26,7 +26,7 @@ public class DriveCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.m_oi.xbox.getYButton();
+        return false;
     }
 
     @Override
