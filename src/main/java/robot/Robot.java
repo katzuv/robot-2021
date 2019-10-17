@@ -22,6 +22,9 @@ import robot.subsystems.drivetrain.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
+    // The robot's subsystems
+    public static final Drivetrain m_drivetrain = new Drivetrain();
+    //public static final Elevator m_elevator = new Elevator();
     public static RobotContainer m_robotContainer;
 
     Command m_autonomousCommand;

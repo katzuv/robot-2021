@@ -21,10 +21,7 @@ import robot.subsystems.drivetrain.commands.DriveStraight;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class RobotContainer {
-    // The robot's subsystems
-    public final Drivetrain m_drivetrain = new Drivetrain();
     SendableChooser<Command> m_chooser = new SendableChooser<>();
-    //private final Elevator m_hatchSubsystem = new Elevator();
 
     public XboxController xbox = new XboxController(2);
     Button b = new JoystickButton(xbox, 1);
