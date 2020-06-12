@@ -9,6 +9,7 @@ public class Constants {
     //All general constants go here
     //public static final double TIME_STEP = 0.02;
 
+    public static final int TALON_TIMEOUT = 10;
 
     public static class Drivetrain {
         public static final double TICKS_PER_METER = 256 / (4 * 0.0254 * Math.PI);
@@ -22,6 +23,14 @@ public class Constants {
         public static final double ROBOT_LENGTH = 0;
         public static final double ROBOT_WIDTH = 0;
     }
+
+    public static class SwerveModule {
+        public static final double KP = 0;
+        public static final double KI = 0;
+        public static final double KD = 0;
+        public static final double KF = 0;
+    }
+
 
 
     public static class ExampleSubsystem1 {
