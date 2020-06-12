@@ -1,7 +1,11 @@
 package robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import static robot.Constants.SwerveModule.*;
+import static robot.Constants.TALON_TIMEOUT;
 
 public class SwerveModule {
     private final TalonSRX driveMotor;
@@ -9,8 +13,8 @@ public class SwerveModule {
 
     public SwerveModule(TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
-        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-        driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, TALON_TIMEOUT);
+        driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, TALON_TIMEOUT);
 
         // Set amperage limits
         angleMotor.configContinuousCurrentLimit(50);
@@ -18,6 +22,13 @@ public class SwerveModule {
 
         driveMotor.configContinuousCurrentLimit(50);
         driveMotor.enableCurrentLimit(true);
+
+        // set PIDF
+        angleMotor.config_kP(0, KP, TALON_TIMEOUT);
+        angleMotor.config_kI(0, KI, TALON_TIMEOUT);
+        angleMotor.config_kD(0, KD, TALON_TIMEOUT);
+        angleMotor.config_kF(0, KF, TALON_TIMEOUT);
+
 
         this.driveMotor = driveMotor;
         this.angleMotor = angleMotor;
