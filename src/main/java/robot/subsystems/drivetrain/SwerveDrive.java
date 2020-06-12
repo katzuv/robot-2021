@@ -12,11 +12,8 @@ public class SwerveDrive {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
     private SwerveModule[] swerveModules = new SwerveModule[4];
-    private double forward;
-    private double strafe;
-    private double rotation;
 
-    public SwerveDrive(double forward, double strafe, double rotation) {
+    public SwerveDrive() {
         gyro.reset();
 
         swerveModules[0] = new SwerveModule(new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
@@ -24,12 +21,9 @@ public class SwerveDrive {
         swerveModules[2] = new SwerveModule(new TalonSRX(backRightDrive), new TalonSRX(backRightAngle));
         swerveModules[3] = new SwerveModule(new TalonSRX(backLeftDrive), new TalonSRX(backLeftAngle));
 
-        this.forward = forward;
-        this.strafe = strafe;
-        this.rotation = rotation;
     }
 
-    public double[] calculateWheelVelocities() {
+    public double[] calculateWheelVelocities(double forward, double strafe, double rotation) {
         double[] robotHeading = {forward, strafe, rotation};
 
         double r = Math.sqrt(Math.pow(ROBOT_WIDTH/2, 2) + Math.pow(ROBOT_LENGTH/2, 2));
@@ -58,8 +52,8 @@ public class SwerveDrive {
     }
 
 
-    public void holonomicDrive() {
-        double[] velocities = calculateWheelVelocities();
+    public void holonomicDrive(double forward, double strafe, double rotation) {
+        double[] velocities = calculateWheelVelocities(forward, strafe, rotation);
         double[] polar;
         double[][] controls = new double[4][2];
 
