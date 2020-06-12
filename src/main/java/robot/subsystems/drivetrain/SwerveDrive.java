@@ -1,10 +1,14 @@
 package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 import static robot.Constants.SwerveDrive.*;
 
 public class SwerveDrive {
 
+    private AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final SwerveModule wheelFrontRight;
     private final SwerveModule wheelFrontLeft;
     private final SwerveModule wheelBackRight;
@@ -14,6 +18,8 @@ public class SwerveDrive {
     private double angle;
 
     public SwerveDrive(double forward, double strafe, double angle) {
+        gyro.reset();
+
         wheelFrontRight = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
         wheelFrontLeft = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
         wheelBackRight = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
