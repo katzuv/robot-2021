@@ -71,5 +71,23 @@ public class SwerveDrive {
         return out;
     }
 
+    public void holonomicDrive() {
+        double[] velocities = calculateWheelVelocities();
+        double[] polar;
+        double[][] controls = new double[4][2];
+
+        for (int i = 0; i < velocities.length; i += 2) {
+            polar = Utils.cartesianToPolar(velocities[i], velocities[i + 1]);
+            controls[i/2][0] = polar[0];
+            controls[i/2][1] = polar[1];
+        }
+
+        for (int k = 0; k < controls.length; k++) {
+            swerveModules[k].setSpeed(controls[k][0]);
+            swerveModules[k].setTargetAngle(controls[k][1]);
+        }
+    }
+
+
 
 }
