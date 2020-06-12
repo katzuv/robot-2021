@@ -1,6 +1,7 @@
 package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import static robot.Constants.SwerveDrive.*;
 
 public class SwerveDrive {
 
@@ -49,7 +50,22 @@ public class SwerveDrive {
 
         return wheelVelocities;
 
+    }
 
+    public double[] matrixVectorMult(double[][] m, double[] v) {
+        int sum;
+        double[] out = new double[m.length];
+
+        for (int i = 0; i < m.length; i++) {
+            sum = 0;
+            for (int j = 0; j < v.length; j++) {
+                sum += m[i][j] * v[j];
+            }
+            out[i] = sum;
+        }
+
+        return out;
+    }
 
 
 }
