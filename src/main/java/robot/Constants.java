@@ -23,7 +23,7 @@ public class Constants {
         public static final double ROBOT_LENGTH = 0;
         public static final double ROBOT_WIDTH = 0;
         public static final double SPEED_MULTIPLIER = 0.7;
-        public static final double ROTATION_MULTIPLIER = 200;
+        public static final double ROTATION_MULTIPLIER = 2 * Math.PI;
     }
 
     public static class SwerveModule {
@@ -31,8 +31,6 @@ public class Constants {
         public static final double KI = 0;
         public static final double KD = 0;
         public static final double KF = 0;
-
-        public static final double TICKS_PER_METER = 1;
     }
 
 
