@@ -22,6 +22,8 @@ public class Constants {
     public static class SwerveDrive {
         public static final double ROBOT_LENGTH = 0;
         public static final double ROBOT_WIDTH = 0;
+        public static final double SPEED_MULTIPLIER = 0.7;
+        public static final double ROTATION_MULTIPLIER = 200;
     }
 
     public static class SwerveModule {

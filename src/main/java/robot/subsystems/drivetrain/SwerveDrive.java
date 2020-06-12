@@ -53,6 +53,10 @@ public class SwerveDrive {
 
 
     public void holonomicDrive(double forward, double strafe, double rotation) {
+        forward *= SPEED_MULTIPLIER;
+        strafe *= SPEED_MULTIPLIER;
+        rotation *= ROTATION_MULTIPLIER;
+
         double[] velocities = calculateWheelVelocities(forward, strafe, rotation);
         double[] polar;
         double[][] controls = new double[4][2];
