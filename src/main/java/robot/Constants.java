@@ -29,6 +29,8 @@ public class Constants {
         public static final double KI = 0;
         public static final double KD = 0;
         public static final double KF = 0;
+
+        public static final double TICKS_PER_METER = 1;
     }
 
 
