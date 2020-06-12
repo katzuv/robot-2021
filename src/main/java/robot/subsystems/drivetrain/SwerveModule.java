@@ -10,6 +10,7 @@ import static robot.Constants.TALON_TIMEOUT;
 public class SwerveModule {
     private final TalonSRX driveMotor;
     private final TalonSRX angleMotor;
+    private UnitModel unit = new UnitModel(TICKS_PER_METER);
 
     public SwerveModule(TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
@@ -34,5 +35,16 @@ public class SwerveModule {
         this.angleMotor = angleMotor;
     }
 
+    public double getSpeed() {
+        return unit.toVelocity(driveMotor.getSelectedSensorVelocity());
+    }
+
+    public double getAngle() {
+        return unit.toUnits(angleMotor.getSelectedSensorPosition());
+    }
+
+    public void setSpeed(double speed) {
+        driveMotor.set(ControlMode.PercentOutput, speed);
+    }
 
 }
