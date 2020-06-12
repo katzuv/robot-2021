@@ -65,4 +65,9 @@ public class SwerveModule {
         angleMotor.set(ControlMode.MotionMagic, targetPosition);
     }
 
+    public void stopAngleMotor() {
+        angleMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+
 }

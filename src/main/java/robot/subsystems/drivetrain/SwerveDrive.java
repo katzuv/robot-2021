@@ -75,6 +75,15 @@ public class SwerveDrive {
         }
     }
 
+    public void stop() {
+        for (int i = 0; i < swerveModules.length; i++) {
+            swerveModules[i].setSpeed(0);
+            swerveModules[i].stopAngleMotor();
+        }
+
+    }
+
+
 
 
 }
