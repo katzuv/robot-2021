@@ -62,7 +62,7 @@ public class SwerveModule {
             }
         }
 
-        angleMotor.set(ControlMode.MotionMagic, targetPosition);
+        angleMotor.set(ControlMode.Position, targetPosition);
     }
 
     public void stopAngleMotor() {
