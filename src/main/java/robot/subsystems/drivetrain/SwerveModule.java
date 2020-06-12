@@ -27,10 +27,10 @@ public class SwerveModule {
         driveMotor.enableCurrentLimit(true);
 
         // set PIDF
-        angleMotor.config_kP(0, KP, TALON_TIMEOUT);
-        angleMotor.config_kI(0, KI, TALON_TIMEOUT);
-        angleMotor.config_kD(0, KD, TALON_TIMEOUT);
-        angleMotor.config_kF(0, KF, TALON_TIMEOUT);
+        angleMotor.config_kP(wheel, KP, TALON_TIMEOUT);
+        angleMotor.config_kI(wheel, KI, TALON_TIMEOUT);
+        angleMotor.config_kD(wheel, KD, TALON_TIMEOUT);
+        angleMotor.config_kF(wheel, KF, TALON_TIMEOUT);
 
 
         this.driveMotor = driveMotor;
