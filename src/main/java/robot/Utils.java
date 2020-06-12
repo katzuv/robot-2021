@@ -17,4 +17,12 @@ public class Utils {
         return value;
     }
 
+    public static double[] cartesianToPolar(double x, double y) {
+        double[] polar = new double[2];
+        polar[0] = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        polar[1] = Math.toDegrees(Math.acos(y/polar[0]));
+
+        return polar;
+    }
+
 }
