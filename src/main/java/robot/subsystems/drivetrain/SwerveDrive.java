@@ -12,15 +12,17 @@ public class SwerveDrive {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
     private SwerveModule[] swerveModules = new SwerveModule[4];
+    private boolean isFieldOriented;
 
-    public SwerveDrive() {
+    public SwerveDrive(boolean isFieldOriented) {
         gyro.reset();
 
-        swerveModules[0] = new SwerveModule(new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
-        swerveModules[1] = new SwerveModule(new TalonSRX(frontLeftDrive), new TalonSRX(frontLeftAngle));
-        swerveModules[2] = new SwerveModule(new TalonSRX(backRightDrive), new TalonSRX(backRightAngle));
-        swerveModules[3] = new SwerveModule(new TalonSRX(backLeftDrive), new TalonSRX(backLeftAngle));
+        swerveModules[0] = new SwerveModule(0, new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
+        swerveModules[1] = new SwerveModule(1, new TalonSRX(frontLeftDrive), new TalonSRX(frontLeftAngle));
+        swerveModules[2] = new SwerveModule(2, new TalonSRX(backRightDrive), new TalonSRX(backRightAngle));
+        swerveModules[3] = new SwerveModule(3, new TalonSRX(backLeftDrive), new TalonSRX(backLeftAngle));
 
+        this.isFieldOriented = isFieldOriented;
     }
 
     public double[] calculateWheelVelocities(double forward, double strafe, double rotation) {

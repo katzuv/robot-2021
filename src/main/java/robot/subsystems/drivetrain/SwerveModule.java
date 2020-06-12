@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import robot.Utils;
 
+import static robot.Constants.Drivetrain.TICKS_PER_METER;
 import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
@@ -13,10 +14,10 @@ public class SwerveModule {
     private final TalonSRX angleMotor;
     private UnitModel unit = new UnitModel(TICKS_PER_METER);
 
-    public SwerveModule(TalonSRX driveMotor, TalonSRX angleMotor) {
+    public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
-        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, TALON_TIMEOUT);
-        driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, TALON_TIMEOUT);
+        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
+        driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
 
         // Set amperage limits
         angleMotor.configContinuousCurrentLimit(50);
