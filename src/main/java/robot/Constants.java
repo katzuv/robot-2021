@@ -18,6 +18,11 @@ public class Constants {
         public static final int MAX_CURRENT = 35;
     }
 
+    public static class SwerveDrive {
+        public static final double ROBOT_LENGTH = 0;
+        public static final double ROBOT_WIDTH = 0;
+    }
+
 
     public static class ExampleSubsystem1 {
         //All of the Subsystem specific constants go here,and need to be static.
