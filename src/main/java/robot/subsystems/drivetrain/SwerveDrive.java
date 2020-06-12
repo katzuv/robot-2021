@@ -51,26 +51,12 @@ public class SwerveDrive {
             }
         }
 
-        double[] wheelVelocities = matrixVectorMult(M, robotHeading);
+        double[] wheelVelocities = Utils.matrixVectorMult(M, robotHeading);
 
         return wheelVelocities;
 
     }
 
-    public double[] matrixVectorMult(double[][] m, double[] v) {
-        int sum;
-        double[] out = new double[m.length];
-
-        for (int i = 0; i < m.length; i++) {
-            sum = 0;
-            for (int j = 0; j < v.length; j++) {
-                sum += m[i][j] * v[j];
-            }
-            out[i] = sum;
-        }
-
-        return out;
-    }
 
     public void holonomicDrive() {
         double[] velocities = calculateWheelVelocities();
