@@ -3,6 +3,7 @@ package robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import robot.Utils;
 
 import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
@@ -45,6 +46,23 @@ public class SwerveModule {
 
     public void setSpeed(double speed) {
         driveMotor.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void setTargetAngle(double angle) {
+        angle = Utils.floorMod(angle, 360);
+        double[] positions = {angle - 360, angle, angle + 360}; // An array of all possible target positions
+        double currentPosition = getAngle();
+        double targetPosition = currentPosition;
+        double shortestDistance = Double.MAX_VALUE;
+        for (double targetPos : positions) { // for each possible position
+            if (Math.abs(targetPos - currentPosition) < shortestDistance) // if the calculated distance is less than the current shortest distance
+            {
+                shortestDistance = Math.abs(targetPos - currentPosition);
+                targetPosition = targetPos;
+            }
+        }
+
+        angleMotor.set(ControlMode.MotionMagic, targetPosition);
     }
 
 }

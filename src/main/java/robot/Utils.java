@@ -16,5 +16,5 @@ public class Utils {
         value %= mod;
         return value;
     }
-    
+
 }
