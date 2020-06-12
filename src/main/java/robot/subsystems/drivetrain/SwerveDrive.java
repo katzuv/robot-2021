@@ -14,9 +14,9 @@ public class SwerveDrive {
     private SwerveModule[] swerveModules = new SwerveModule[4];
     private double forward;
     private double strafe;
-    private double angle;
+    private double rotation;
 
-    public SwerveDrive(double forward, double strafe, double angle) {
+    public SwerveDrive(double forward, double strafe, double rotation) {
         gyro.reset();
 
         swerveModules[0] = new SwerveModule(new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
@@ -26,11 +26,11 @@ public class SwerveDrive {
 
         this.forward = forward;
         this.strafe = strafe;
-        this.angle = angle;
+        this.rotation = rotation;
     }
 
     public double[] calculateWheelVelocities() {
-        double[] robotHeading = {forward, strafe, angle};
+        double[] robotHeading = {forward, strafe, rotation};
 
         double r = Math.sqrt(Math.pow(ROBOT_WIDTH/2, 2) + Math.pow(ROBOT_LENGTH/2, 2));
 
