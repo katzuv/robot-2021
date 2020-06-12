@@ -59,6 +59,13 @@ public class SwerveDrive {
         strafe *= SPEED_MULTIPLIER;
         rotation *= ROTATION_MULTIPLIER;
 
+        if (isFieldOriented) {
+            double robotAngle = gyro.getAngle();
+            double tmp = forward * Math.cos(robotAngle) + strafe * Math.sin(robotAngle);
+            strafe = (-1) * forward * Math.sin(robotAngle) + strafe * Math.cos(robotAngle);
+            forward = tmp;
+        }
+
         double[] velocities = calculateWheelVelocities(forward, strafe, rotation);
         double[] polar;
         double[][] controls = new double[4][2];
@@ -82,8 +89,5 @@ public class SwerveDrive {
         }
 
     }
-
-
-
 
 }
