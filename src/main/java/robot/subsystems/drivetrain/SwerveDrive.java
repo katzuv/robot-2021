@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SPI;
 import robot.Utils;
 
 import static robot.Constants.SwerveDrive.*;
+import static robot.Ports.SwerveDrive.*;
 
 public class SwerveDrive {
 
@@ -18,10 +19,10 @@ public class SwerveDrive {
     public SwerveDrive(double forward, double strafe, double angle) {
         gyro.reset();
 
-        swerveModules[0] = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
-        swerveModules[1] = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
-        swerveModules[2] = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
-        swerveModules[3] = new SwerveModule(new TalonSRX(10), new TalonSRX(10));
+        swerveModules[0] = new SwerveModule(new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
+        swerveModules[1] = new SwerveModule(new TalonSRX(frontLeftDrive), new TalonSRX(frontLeftAngle));
+        swerveModules[2] = new SwerveModule(new TalonSRX(backRightDrive), new TalonSRX(backRightAngle));
+        swerveModules[3] = new SwerveModule(new TalonSRX(backLeftDrive), new TalonSRX(backLeftAngle));
 
         this.forward = forward;
         this.strafe = strafe;
