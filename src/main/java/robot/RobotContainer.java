@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import robot.subsystems.drivetrain.Drivetrain;
+import robot.subsystems.drivetrain.SwerveDrive;
 import robot.subsystems.drivetrain.commands.DriveStraight;
+import robot.subsystems.drivetrain.commands.HolonomicDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,6 +29,9 @@ public class RobotContainer {
     Button b = new JoystickButton(xbox, 1);
     Button x = new JoystickButton(xbox, 3);
     Button y = new JoystickButton(xbox, 4);
+
+    public SwerveDrive swerveDrive = new SwerveDrive(true);
+    public HolonomicDrive holonomicDrive = new HolonomicDrive(swerveDrive);
 
     public RobotContainer(){
         configureButtonBindings();
