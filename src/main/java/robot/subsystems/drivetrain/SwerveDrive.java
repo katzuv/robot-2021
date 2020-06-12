@@ -23,6 +23,31 @@ public class SwerveDrive {
         this.angle = angle;
     }
 
+    public double[] calculateWheelVelocities() {
+        double[] robotHeading = {forward, strafe, angle};
+
+        double r = Math.sqrt(Math.pow(ROBOT_WIDTH/2, 2) + Math.pow(ROBOT_LENGTH/2, 2));
+
+        double[] signX = {1, 1, -1, -1};
+        double[] signY = {-1, 1, 1, -1};
+
+        double[][] M = new double[8][3];
+
+        for (int i = 0; i < 8; i++) {
+            if (i % 2 != 0) {
+                M[i][0] = 1;
+                M[i][1] = 0;
+                M[i][2] = r * signX[i/2];
+            } else {
+                M[i][0] = 0;
+                M[i][1] = 1;
+                M[i][2] = r * signY[i/2];
+            }
+        }
+
+        double[] wheelVelocities = matrixVectorMult(M, robotHeading);
+
+        return wheelVelocities;
 
 
 
