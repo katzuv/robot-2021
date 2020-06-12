@@ -16,7 +16,7 @@ public class HolonomicDrive extends Command {
 
     @Override
     public void execute() {
-        double forward = OI.getJoystickY();
+        double forward = -OI.getJoystickY();
         double strafe = OI.getJoystickX();
         double rotation = OI.getJoystickZ();
 
@@ -42,5 +42,7 @@ public class HolonomicDrive extends Command {
     public void end(boolean interrupted) {
         swerveDrive.stop();
     }
-    
+
+
+
 }
