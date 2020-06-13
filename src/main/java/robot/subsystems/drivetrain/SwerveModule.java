@@ -53,7 +53,7 @@ public class SwerveModule {
     }
 
     public void setSpeed(double speed) {
-        driveMotor.set(ControlMode.PercentOutput, speed);
+        driveMotor.set(ControlMode.PercentOutput, unit.toTicks100ms(speed));
     }
 
     public void setTargetAngle(double angle) {
@@ -70,7 +70,7 @@ public class SwerveModule {
             }
         }
 
-        angleMotor.set(ControlMode.Position, targetPosition);
+        angleMotor.set(ControlMode.Position, unit.toTicks(targetPosition));
     }
 
     public void stopAngleMotor() {
