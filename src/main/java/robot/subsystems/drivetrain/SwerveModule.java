@@ -57,8 +57,8 @@ public class SwerveModule {
     }
 
     public void setTargetAngle(double angle) {
-        angle = Utils.floorMod(angle, 360);
-        double[] positions = {angle - 360, angle, angle + 360}; // An array of all possible target positions
+        angle %= 2 * Math.PI;
+        double[] positions = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target positions
         double currentPosition = getAngle();
         double targetPosition = currentPosition;
         double shortestDistance = Double.MAX_VALUE;
