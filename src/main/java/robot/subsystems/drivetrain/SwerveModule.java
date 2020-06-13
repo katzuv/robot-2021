@@ -10,14 +10,21 @@ import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
 public class SwerveModule {
-    private final TalonSRX driveMotor;
     private final TalonSRX angleMotor;
+    private final TalonSRX driveMotor;
     private UnitModel unit = new UnitModel(TICKS_PER_METER);
 
     public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
         driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
+
+        // set inversions
+        angleMotor.setInverted(false);
+        driveMotor.setInverted(false);
+
+        angleMotor.setSensorPhase(false);
+        driveMotor.setSensorPhase(false);
 
         // Set amperage limits
         angleMotor.configContinuousCurrentLimit(50);
