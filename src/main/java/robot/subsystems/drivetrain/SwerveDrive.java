@@ -25,14 +25,25 @@ public class SwerveDrive {
         this.isFieldOriented = isFieldOriented;
     }
 
+    /**
+     * calculates the velocity vector of each wheel from the following three joystick outputs:
+     * @param forward the heading of the robot in the Y direction
+     * @param strafe the heading of the robot in the X direction
+     * @param rotation the rotation of the robot
+     * @return an array of length 8 in which each pair is the X and Y velocities of each wheel
+     */
     public double[] calculateWheelVelocities(double forward, double strafe, double rotation) {
         double[] robotHeading = {forward, strafe, rotation};
 
+        // calculates the distance from the center of the robot to the wheels
         double r = Math.sqrt(Math.pow(ROBOT_WIDTH/2, 2) + Math.pow(ROBOT_LENGTH/2, 2));
 
+        // the sign vectors of r
         double[] signX = {1, 1, -1, -1};
         double[] signY = {-1, 1, 1, -1};
 
+        // creates a matrix of all the mathematical operations needed to calculate the wheel velocities
+        // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
         double[][] M = new double[8][3];
 
         for (int i = 0; i < 8; i++) {
@@ -47,18 +58,27 @@ public class SwerveDrive {
             }
         }
 
+        // multiplies M by the robotHeading to obtain the wheel velocities
         double[] wheelVelocities = Utils.matrixVectorMult(M, robotHeading);
 
         return wheelVelocities;
 
     }
 
-
+    /**
+     * sets the wheels of the robot to the calculated angle and speed
+     * @param forward the Y value of the joystick
+     * @param strafe the X value of the joystick
+     * @param rotation the rotation Z of the joystick
+     */
     public void holonomicDrive(double forward, double strafe, double rotation) {
+        // turns the joystick values into the heading of the robot
         forward *= SPEED_MULTIPLIER;
         strafe *= SPEED_MULTIPLIER;
         rotation *= ROTATION_MULTIPLIER;
 
+        // if the drive style is field oriented, changes the forward and strafe to be according to the field axises
+        // see https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383
         if (isFieldOriented) {
             double robotAngle = gyro.getAngle();
             double tmp = forward * Math.cos(robotAngle) + strafe * Math.sin(robotAngle);
@@ -70,18 +90,23 @@ public class SwerveDrive {
         double[] polar;
         double[][] controls = new double[4][2];
 
+        // converts the cartesian velocities to polar and transfers them to a control matrix
         for (int i = 0; i < velocities.length; i += 2) {
             polar = Utils.cartesianToPolar(velocities[i], velocities[i + 1]);
             controls[i/2][0] = polar[0];
             controls[i/2][1] = polar[1];
         }
 
+        // feeds the corresponding control to each wheel
         for (int k = 0; k < controls.length; k++) {
             swerveModules[k].setSpeed(controls[k][0]);
             swerveModules[k].setTargetAngle(controls[k][1]);
         }
     }
 
+    /**
+     * stops all the wheels
+     */
     public void stop() {
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setSpeed(0);
