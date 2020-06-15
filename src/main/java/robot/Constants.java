@@ -20,13 +20,19 @@ public class Constants {
     }
 
     public static class SwerveDrive {
+        // TODO: not actual measurements and constants
         public static final double ROBOT_LENGTH = 0;
         public static final double ROBOT_WIDTH = 0;
+
+        // the speed of the robot, this constant multiplies the speed outputs from the joysticks
         public static final double SPEED_MULTIPLIER = 0.7;
+
+        // the rotational speed of the robot, this constant multiplies the rotation output of the joystick
         public static final double ROTATION_MULTIPLIER = 2 * Math.PI;
     }
 
     public static class SwerveModule {
+        // TODO: set PIDF
         public static final double KP = 0;
         public static final double KI = 0;
         public static final double KD = 0;
