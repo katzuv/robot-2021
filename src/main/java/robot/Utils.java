@@ -17,6 +17,12 @@ public class Utils {
         return value;
     }
 
+    /**
+     * converts cartesian coordinates to polar coordinates
+     * @param x the X cartesian coordinate
+     * @param y the Y cartesian coordinate
+     * @return a vector of length 2 with the polar coordinates [length, angle]
+     */
     public static double[] cartesianToPolar(double x, double y) {
         double[] polar = new double[2];
         polar[0] = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
@@ -25,6 +31,13 @@ public class Utils {
         return polar;
     }
 
+    /**
+     * calculates the matrix - vector multiplication
+     * assuming that the number of columns in the matrix correspond to the number of rows in the vector
+     * @param m a matrix of size R * C
+     * @param v a vector of size C
+     * @return a vector of length R with the corresponding matrix multiplication
+     */
     public static double[] matrixVectorMult(double[][] m, double[] v) {
         int sum;
         double[] out = new double[m.length];
