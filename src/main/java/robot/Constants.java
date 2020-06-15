@@ -29,6 +29,8 @@ public class Constants {
 
         // the rotational speed of the robot, this constant multiplies the rotation output of the joystick
         public static final double ROTATION_MULTIPLIER = 2 * Math.PI;
+
+        public static final double JOYSTICK_THRESHOLD = 0.05;
     }
 
     public static class SwerveModule {

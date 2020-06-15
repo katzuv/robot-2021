@@ -3,6 +3,8 @@ package robot.subsystems.drivetrain.commands;
 import robot.OI;
 import robot.subsystems.drivetrain.SwerveDrive;
 
+import static robot.Constants.SwerveDrive.JOYSTICK_THRESHOLD;
+
 public class HolonomicDrive extends Command {
 
     private SwerveDrive swerveDrive;
@@ -33,7 +35,7 @@ public class HolonomicDrive extends Command {
      * @return 0 if val is less than the threshold else val
      */
     private double joystickDeadband(double val) {
-        if (val < 0.05)
+        if (val < JOYSTICK_THRESHOLD)
             return 0;
         return val;
     }
