@@ -27,6 +27,11 @@ public class HolonomicDrive extends Command {
         swerveDrive.holonomicDrive(forward, strafe, rotation);
     }
 
+    /**
+     * sets the value of the joystick to 0 if the value is less than the threshold
+     * @param val the joystick value
+     * @return 0 if val is less than the threshold else val
+     */
     private double joystickDeadband(double val) {
         if (val < 0.05)
             return 0;
