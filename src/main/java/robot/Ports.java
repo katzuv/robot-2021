@@ -11,14 +11,21 @@ public class Ports {
     }
 
     public static class SwerveDrive {
-        public static final int frontRightDrive = 11;
-        public static final int frontRightAngle = 12;
-        public static final int frontLeftDrive = 21;
-        public static final int frontLeftAngle = 22;
-        public static final int backRightDrive = 31;
-        public static final int backRightAngle = 32;
-        public static final int backLeftDrive = 41;
-        public static final int backLeftAngle = 42;
+        // front right
+        public static final int DRIVE_MOTOR_1 = 11;
+        public static final int ANGLE_MOTOR_1 = 12;
+
+        // front left
+        public static final int DRIVE_MOTOR_2 = 21;
+        public static final int ANGLE_MOTOR_2 = 22;
+
+        // back right
+        public static final int DRIVE_MOTOR_3 = 31;
+        public static final int ANGLE_MOTOR_3 = 32;
+
+        // back left
+        public static final int DRIVE_MOTOR_4 = 41;
+        public static final int ANGLE_MOTOR_4 = 42;
     }
 
 }

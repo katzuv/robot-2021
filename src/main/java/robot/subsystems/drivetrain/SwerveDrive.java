@@ -17,10 +17,10 @@ public class SwerveDrive {
     public SwerveDrive(boolean isFieldOriented) {
         gyro.reset();
 
-        swerveModules[0] = new SwerveModule(0, new TalonSRX(frontRightDrive), new TalonSRX(frontRightAngle));
-        swerveModules[1] = new SwerveModule(1, new TalonSRX(frontLeftDrive), new TalonSRX(frontLeftAngle));
-        swerveModules[2] = new SwerveModule(2, new TalonSRX(backRightDrive), new TalonSRX(backRightAngle));
-        swerveModules[3] = new SwerveModule(3, new TalonSRX(backLeftDrive), new TalonSRX(backLeftAngle));
+        swerveModules[0] = new SwerveModule(0, new TalonSRX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1));
+        swerveModules[1] = new SwerveModule(1, new TalonSRX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2));
+        swerveModules[2] = new SwerveModule(2, new TalonSRX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3));
+        swerveModules[3] = new SwerveModule(3, new TalonSRX(DRIVE_MOTOR_4), new TalonSRX(ANGLE_MOTOR_4));
 
         this.isFieldOriented = isFieldOriented;
     }
