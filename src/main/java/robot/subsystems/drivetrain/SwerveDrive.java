@@ -36,9 +36,10 @@ public class SwerveDrive {
         double[] robotHeading = {forward, strafe, rotation};
 
         // calculates the distance from the center of the robot to the wheels
-        double r = Math.sqrt(Math.pow(ROBOT_WIDTH/2, 2) + Math.pow(ROBOT_LENGTH/2, 2));
+        double Rx = ROBOT_WIDTH/2;
+        double Ry = ROBOT_LENGTH/2;
 
-        // the sign vectors of r
+        // the sign vectors of Rx and Ry
         double[] signX = {1, 1, -1, -1};
         double[] signY = {-1, 1, 1, -1};
 
@@ -50,11 +51,11 @@ public class SwerveDrive {
             if (i % 2 == 0) {
                 M[i][0] = 1;
                 M[i][1] = 0;
-                M[i][2] = r * signX[i/2];
+                M[i][2] = Rx * signX[i/2];
             } else {
                 M[i][0] = 0;
                 M[i][1] = 1;
-                M[i][2] = r * signY[i/2];
+                M[i][2] = Ry * signY[i/2];
             }
         }
 
