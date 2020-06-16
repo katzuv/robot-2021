@@ -3,6 +3,7 @@ package robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import kotlin.Unit;
 
 import static robot.Constants.Drivetrain.TICKS_PER_METER;
 import static robot.Constants.SwerveModule.*;
@@ -11,7 +12,8 @@ import static robot.Constants.TALON_TIMEOUT;
 public class SwerveModule {
     private final TalonSRX angleMotor;
     private final TalonSRX driveMotor;
-    private UnitModel unit = new UnitModel(TICKS_PER_METER);
+    private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
+    private UnitModel unitAngle = new UnitModel(TICKS_PER_DEGREE);
 
     public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
@@ -47,14 +49,14 @@ public class SwerveModule {
      * @return the speed of the wheel in [m/s]
      */
     public double getSpeed() {
-        return unit.toVelocity(driveMotor.getSelectedSensorVelocity());
+        return unitDrive.toVelocity(driveMotor.getSelectedSensorVelocity());
     }
 
     /**
      * @return the angle of the wheel in radians
      */
     public double getAngle() {
-        return unit.toUnits(angleMotor.getSelectedSensorPosition());
+        return unitAngle.toUnits(angleMotor.getSelectedSensorPosition());
     }
 
     /**
@@ -62,7 +64,7 @@ public class SwerveModule {
      * @param speed the speed of the wheel in [m/s]
      */
     public void setSpeed(double speed) {
-        driveMotor.set(ControlMode.PercentOutput, unit.toTicks100ms(speed));
+        driveMotor.set(ControlMode.PercentOutput, unitDrive.toTicks100ms(speed));
     }
 
     /**
@@ -83,7 +85,7 @@ public class SwerveModule {
             }
         }
 
-        angleMotor.set(ControlMode.Position, unit.toTicks(targetPosition));
+        angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetPosition));
     }
 
     /**
