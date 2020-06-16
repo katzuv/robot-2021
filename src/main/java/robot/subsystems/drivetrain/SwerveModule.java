@@ -3,9 +3,9 @@ package robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import kotlin.Unit;
 
-import static robot.Constants.Drivetrain.TICKS_PER_METER;
+
+import static robot.Constants.Drivetrain.*;
 import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
@@ -28,10 +28,10 @@ public class SwerveModule {
         driveMotor.setSensorPhase(false);
 
         // Set amperage limits
-        angleMotor.configContinuousCurrentLimit(50);
+        angleMotor.configContinuousCurrentLimit(MAX_CURRENT);
         angleMotor.enableCurrentLimit(true);
 
-        driveMotor.configContinuousCurrentLimit(50);
+        driveMotor.configContinuousCurrentLimit(MAX_CURRENT);
         driveMotor.enableCurrentLimit(true);
 
         // set PIDF
