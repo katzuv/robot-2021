@@ -72,8 +72,9 @@ public class SwerveModule {
      * @param angle the target angle in radians
      */
     public void setTargetAngle(double angle) {
-        angle %= 2 * Math.PI;
-        double[] positions = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles
+        // makes sure the value is between -pi and pi
+        angle %= Math.PI;
+        double[] positions = {angle - Math.PI, angle, angle + Math.PI}; // An array of all possible target angles
         double currentPosition = getAngle();
         double targetPosition = currentPosition;
         double shortestDistance = Double.MAX_VALUE;
