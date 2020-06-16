@@ -42,12 +42,12 @@ public class SwerveDrive {
         double[] signX = {1, 1, -1, -1};
         double[] signY = {-1, 1, 1, -1};
 
-        // creates a matrix of all the mathematical operations needed to calculate the wheel velocities
+        // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
         // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
         double[][] M = new double[8][3];
 
         for (int i = 0; i < 8; i++) {
-            if (i % 2 != 0) {
+            if (i % 2 == 0) {
                 M[i][0] = 1;
                 M[i][1] = 0;
                 M[i][2] = r * signX[i/2];
