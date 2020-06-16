@@ -91,14 +91,14 @@ public class SwerveDrive {
         double[][] controls = new double[4][2];
 
         // converts the cartesian velocities to polar and transfers them to a control matrix
-        for (int i = 0; i < velocities.length; i += 2) {
-            polar = Utils.cartesianToPolar(velocities[i], velocities[i + 1]);
-            controls[i/2][0] = polar[0];
-            controls[i/2][1] = polar[1];
+        for (int i = 0; i < 4; i ++) {
+            polar = Utils.cartesianToPolar(velocities[2*i], velocities[2*i + 1]);
+            controls[i][0] = polar[0];
+            controls[i][1] = polar[1];
         }
 
         // feeds the corresponding control to each wheel
-        for (int k = 0; k < controls.length; k++) {
+        for (int k = 0; k < 4; k++) {
             swerveModules[k].setSpeed(controls[k][0]);
             swerveModules[k].setTargetAngle(controls[k][1]);
         }
