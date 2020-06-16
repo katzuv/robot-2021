@@ -51,11 +51,11 @@ public class SwerveDrive {
             if (i % 2 == 0) {
                 M[i][0] = 1;
                 M[i][1] = 0;
-                M[i][2] = Rx * signX[i/2];
+                M[i][2] = Ry * signY[i/2];
             } else {
                 M[i][0] = 0;
                 M[i][1] = 1;
-                M[i][2] = Ry * signY[i/2];
+                M[i][2] = Rx * signX[i/2];
             }
         }
 
