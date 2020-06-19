@@ -106,6 +106,19 @@ public class SwerveDrive {
     }
 
     /**
+     * set the angle of the wheels on the robot to lock the robot in place
+     */
+    public void lock() {
+        // calculates the lock angle of the wheels
+        double lockAngle = Math.PI / 2 - Math.tan(ROBOT_WIDTH / ROBOT_LENGTH);
+
+        for (int i = 0; i < 4; i++) {
+            swerveModules[i].setSpeed(0);
+            swerveModules[i].setTargetAngle(lockAngle);
+        }
+    }
+
+    /**
      * stops all the wheels
      */
     public void stop() {
