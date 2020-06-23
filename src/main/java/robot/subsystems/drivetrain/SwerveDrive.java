@@ -3,12 +3,13 @@ package robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import robot.Utils;
 
 import static robot.Constants.SwerveDrive.*;
 import static robot.Ports.SwerveDrive.*;
 
-public class SwerveDrive {
+public class SwerveDrive extends SubsystemBase {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
     private SwerveModule[] swerveModules = new SwerveModule[4];

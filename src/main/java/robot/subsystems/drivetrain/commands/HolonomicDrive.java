@@ -1,11 +1,12 @@
 package robot.subsystems.drivetrain.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import robot.OI;
 import robot.subsystems.drivetrain.SwerveDrive;
 
 import static robot.Constants.SwerveDrive.JOYSTICK_THRESHOLD;
 
-public class HolonomicDrive extends Command {
+public class HolonomicDrive extends CommandBase {
 
     private SwerveDrive swerveDrive;
 

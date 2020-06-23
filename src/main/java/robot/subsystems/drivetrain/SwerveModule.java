@@ -3,13 +3,14 @@ package robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 import static robot.Constants.Drivetrain.*;
 import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase {
     private final TalonSRX angleMotor;
     private final TalonSRX driveMotor;
     private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
