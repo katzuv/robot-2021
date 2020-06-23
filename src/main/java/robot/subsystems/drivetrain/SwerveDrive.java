@@ -115,7 +115,7 @@ public class SwerveDrive extends SubsystemBase {
 
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setSpeed(0);
-            swerveModules[i].setTargetAngle(lockAngle);
+            swerveModules[i].setTargetAngle(lockAngle + i*Math.PI/2);
         }
     }
 
