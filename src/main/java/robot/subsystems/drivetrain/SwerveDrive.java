@@ -55,6 +55,13 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    /**
+     * turns the joystick inputs into the robot heading
+     * @param forward the Y value of the joystick
+     * @param strafe the X value of the joystick
+     * @param rotation the rotation Z of the joystick
+     * @return an array of the robot heading
+     */
     public double[] getRobotHeading(double forward, double strafe, double rotation) {
         // turns the joystick values into the heading of the robot
         forward *= SPEED_MULTIPLIER;
