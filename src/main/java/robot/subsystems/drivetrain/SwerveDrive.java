@@ -125,14 +125,28 @@ public class SwerveDrive extends SubsystemBase {
      * set the angle of the wheels on the robot to lock the robot in place
      */
     public void lock() {
-        // calculates the lock angle of the wheels
-        double lockAngle = Math.PI / 2 - Math.tan(ROBOT_WIDTH / ROBOT_LENGTH);
+        // calculates the lock angles of the wheels
+        double[] lockAngles = calculateLockAngles();
 
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setSpeed(0);
-            swerveModules[i].setTargetAngle(lockAngle + i*Math.PI/2);
+            swerveModules[i].setTargetAngle(lockAngles[i]);
         }
     }
+
+    /**
+     * calculates the angles for which the wheels will lock in place
+     */
+    public double[] calculateLockAngles() {
+        double[] lockAngles = new double[4];
+
+        for (int i = 0; i < 4; i++) {
+            lockAngles[i] = Math.PI / 2 - Math.tan(ROBOT_WIDTH / ROBOT_LENGTH) + i * Math.PI/2;
+        }
+
+        return lockAngles;
+    }
+
 
     /**
      * stops all the wheels
