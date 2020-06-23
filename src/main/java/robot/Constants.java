@@ -16,15 +16,15 @@ public class Constants {
         public static final double TICKS_PER_DEGREE = 1; // TODO: change to real value
 
         public static final double MAX_VEL = 3;// in m/s
-        public static final double TIME_STEP = 0.02;
+        public static final double TIME_STEP = 0.02; // in seconds
         public static final double MAX_ACCELERATION = 0.4;// in m/s^2 (currently not the correct number)
-        public static final int MAX_CURRENT = 35;
+        public static final int MAX_CURRENT = 35; // in ampere
     }
 
     public static class SwerveDrive {
         // TODO: not actual measurements and constants
-        public static final double ROBOT_LENGTH = 0;
-        public static final double ROBOT_WIDTH = 0;
+        public static final double ROBOT_LENGTH = 0; // in meters
+        public static final double ROBOT_WIDTH = 0; // in meters
 
         // the speed of the robot, this constant multiplies the speed outputs from the joysticks
         public static final double SPEED_MULTIPLIER = 0.7;
