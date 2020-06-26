@@ -13,7 +13,7 @@ public class Constants {
 
     public static class Drivetrain {
         public static final double TICKS_PER_METER = 256 / (4 * 0.0254 * Math.PI);
-        public static final double TICKS_PER_DEGREE = 1; // TODO: change to real value
+        public static final double TICKS_PER_RAD = 1; // TODO: change to real value
 
         public static final double MAX_VEL = 3;// in m/s
         public static final double TIME_STEP = 0.02; // in seconds
