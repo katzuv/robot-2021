@@ -51,7 +51,7 @@ public class SwerveDrive extends SubsystemBase {
         // feeds the corresponding control to each wheel
         for (int k = 0; k < 4; k++) {
             swerveModules[k].setSpeed(controls[k][0]);
-            swerveModules[k].setTargetAngle(controls[k][1]);
+            swerveModules[k].setAngle(controls[k][1]);
         }
     }
 
@@ -129,7 +129,7 @@ public class SwerveDrive extends SubsystemBase {
 
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setSpeed(0);
-            swerveModules[i].setTargetAngle(lockAngles[i]);
+            swerveModules[i].setAngle(lockAngles[i]);
         }
     }
 

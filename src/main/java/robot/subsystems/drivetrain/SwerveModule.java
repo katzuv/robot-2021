@@ -14,7 +14,7 @@ public class SwerveModule extends SubsystemBase {
     private final TalonSRX angleMotor;
     private final TalonSRX driveMotor;
     private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
-    private UnitModel unitAngle = new UnitModel(TICKS_PER_DEGREE);
+    private UnitModel unitAngle = new UnitModel(TICKS_PER_RAD);
 
     public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
@@ -72,22 +72,28 @@ public class SwerveModule extends SubsystemBase {
      * sets the angle of the wheel, in consideration of the shortest path to the target angle
      * @param angle the target angle in radians
      */
-    public void setTargetAngle(double angle) {
+    public void setAngle(double angle) {
+        double targetAngle = setTargetAngle(angle);
+
+        angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle));
+    }
+
+    public double setTargetAngle(double angle) {
         // makes sure the value is between -pi and pi
         angle %= Math.PI;
-        double[] positions = {angle - Math.PI, angle, angle + Math.PI}; // An array of all possible target angles
-        double currentPosition = getAngle();
-        double targetPosition = currentPosition;
+        double[] angles = {angle - Math.PI, angle, angle + Math.PI}; // An array of all possible target angles
+        double currentAngle = getAngle();
+        double targetAngle = currentAngle;
         double shortestDistance = Double.MAX_VALUE;
-        for (double targetPos : positions) { // for each possible position
-            if (Math.abs(targetPos - currentPosition) < shortestDistance) // if the calculated distance is less than the current shortest distance
+        for (double target : angles) { // for each possible angle
+            if (Math.abs(target - currentAngle) < shortestDistance) // if the calculated distance is less than the current shortest distance
             {
-                shortestDistance = Math.abs(targetPos - currentPosition);
-                targetPosition = targetPos;
+                shortestDistance = Math.abs(target - currentAngle);
+                targetAngle = target;
             }
         }
 
-        angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetPosition));
+        return targetAngle;
     }
 
     /**
