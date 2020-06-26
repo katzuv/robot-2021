@@ -141,7 +141,7 @@ public class SwerveDrive extends SubsystemBase {
         double[] lockAngles = new double[4];
 
         for (int i = 0; i < 4; i++) {
-            lockAngles[i] = Math.PI / 2 - Math.tan(ROBOT_WIDTH / ROBOT_LENGTH) + i * Math.PI/2;
+            lockAngles[i] = Math.PI / 2 - Math.atan(ROBOT_WIDTH / ROBOT_LENGTH) + i * Math.PI/2;
         }
 
         return lockAngles;
