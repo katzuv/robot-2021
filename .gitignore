@@ -163,3 +163,9 @@ imgui.ini
 *.properties
 
 .gradle/vcs-1/
+
+*.bin
+
+*.lock
+
+.idea/

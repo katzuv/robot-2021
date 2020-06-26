@@ -1,76 +1,99 @@
 package robot.subsystems.drivetrain;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 import static robot.Constants.SwerveDrive.*;
 
 public class SwerveDriveTest {
 
-    private SwerveDrive swerveDrive = new SwerveDrive(false);
-    private SwerveDrive swerveField = new SwerveDrive(true);
+    private SwerveDrive swerveDrive;
+    private SwerveDrive swerveField;
+
+    private double deviation, forward, strafe, rotation;
+    private double[] expectedHeading, expectedHeadingField, expectedVel,
+            expectedVelField, robotHeading, robotHeadingField;
+
+    @Before
+    public void setup() {
+        swerveDrive = new SwerveDrive(false);
+        swerveField = new SwerveDrive(true);
+    }
 
     @Test
     public void runTests() {
 
-        double deviation = 0.01;
+        deviation = 0.01;
 
-        turnInPlace(-0.7, deviation);
+        turnInPlace();
 
-        driveForward(0.5, Math.PI, deviation);
+        driveForward();
 
-        calculateLockAngles(new double[]{45, 135, 225, 315}, deviation);
-    }
-
-    public void turnInPlace(double rotation, double deviation) {
-        double[] expectedHeading = {0, 0, rotation * ROTATION_MULTIPLIER};
-        double[] expectedHeadingField = {0, 0, rotation * ROTATION_MULTIPLIER};
-
-        double[] expectedVel = {};
-        double[] expectedVelField = {};
-
-        double[] robotHeading = getRobotHeading(0, 0, rotation, expectedHeading, deviation);
-        double[] robotHeadingField = getRobotHeadingField(0, 0, rotation, expectedHeadingField, deviation);
-        calculateWheelVelocities(robotHeading, robotHeadingField, expectedVel, expectedVelField, deviation);
-    }
-
-    public void driveForward(double forward, double gyro, double deviation) {
-        double[] expectedHeading = {forward * SPEED_MULTIPLIER, 0, 0};
-        double[] expectedHeadingField = {forward * SPEED_MULTIPLIER * Math.cos(gyro), 0, 0};
-
-        double[] expectedVel = {};
-        double[] expectedVelField = {};
-
-        double[] robotHeading = getRobotHeading(forward, 0, 0, expectedHeading, deviation);
-        double[] robotHeadingField = getRobotHeadingField(forward, 0, 0, expectedHeadingField, deviation);
-        calculateWheelVelocities(robotHeading, robotHeadingField, expectedVel, expectedVelField, deviation);
+        calculateLockAngles();
     }
 
     @Test
-    public double[] getRobotHeading(double fwd, double str, double rtc, double[] expected, double deviation) {
-        double[] robotHeading = swerveDrive.getRobotHeading(fwd, str, rtc);
-        Assert.assertArrayEquals(robotHeading, expected, deviation);
-        return robotHeading;
+    public void turnInPlace() {
+        forward = 0;
+        strafe = 0;
+        rotation = -1;
+
+        expectedHeading = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
+        expectedHeadingField = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
+
+        expectedVel = new double[]{-0.7, 0.7, -0.7, -0.7, 0.7, -0.7, 0.7, 0.7};
+        expectedVelField = new double[]{0, 0, 0, 0, 0, 0, 0, 0};
+
+        getRobotHeading();
+        getRobotHeadingField();
+        calculateWheelVelocities();
     }
 
     @Test
-    public double[] getRobotHeadingField(double fwd, double str, double rtc, double[] expectedField, double deviation) {
-        double[] robotHeadingField = swerveField.getRobotHeading(fwd, str, rtc);
-        Assert.assertArrayEquals(robotHeadingField, expectedField, deviation);
-        return robotHeadingField;
+    public void driveForward() {
+        forward = 1;
+        strafe = 0;
+        rotation = 0;
+        double gyro = 0.5;
+
+        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, 0, 0};
+        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER * Math.cos(gyro), 0, 0};
+
+        expectedVel = new double[]{0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER};
+        expectedVelField = new double[]{0, 0, 0, 0, 0, 0, 0, 0};
+
+        getRobotHeading();
+        getRobotHeadingField();
+        calculateWheelVelocities();
+    }
+
+    @Test
+    public void getRobotHeading() {
+        robotHeading = swerveDrive.getRobotHeading(forward, strafe, rotation);
+        Assert.assertArrayEquals(robotHeading, expectedHeading, deviation);
+    }
+
+    @Test
+    public void getRobotHeadingField() {
+        robotHeadingField = swerveField.getRobotHeading(forward, strafe, rotation);
+        Assert.assertArrayEquals(robotHeadingField, expectedHeadingField, deviation);
     }
     
     @Test
-    public void calculateWheelVelocities(double[] robotHeading, double[] robotHeadingField, double[] expected, double[] expectedField, double deviation) {
+    public void calculateWheelVelocities() {
         double[] wheelVelocities = swerveDrive.calculateWheelVelocities(robotHeading);
         double[] wheelVelField = swerveField.calculateWheelVelocities(robotHeadingField);
 
-        Assert.assertArrayEquals(wheelVelocities, expected, deviation);
-        Assert.assertArrayEquals(wheelVelField, expectedField, deviation);
+        Assert.assertArrayEquals(wheelVelocities, expectedVel, deviation);
+        Assert.assertArrayEquals(wheelVelField, expectedVelField, deviation);
     }
 
     @Test
-    public void calculateLockAngles(double[] expected, double deviation) {
-        Assert.assertArrayEquals(swerveDrive.calculateLockAngles(), expected, deviation);
+    public void calculateLockAngles() {
+        Assert.assertArrayEquals(swerveDrive.calculateLockAngles(), new double[]{Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4}, deviation);
+    }
+
+    @Test
+    public void check() {
+        Assert.assertArrayEquals(new double[]{1, 0, 1}, new double[]{1, 0, 1}, 0.1);
     }
 }
