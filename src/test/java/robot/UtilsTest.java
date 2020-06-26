@@ -17,10 +17,10 @@ public class UtilsTest {
 
     @Test
     public void matrixVectorMult() {
-        double[][] mat = { {1, 0, 1}, {0, 1, 0}, {1, 0, 1} };
-        double[] v = {3, 3, 3};
+        double[][] mat = { {0, 1, 0.5}, {1, 0, -0.5}, {0, 1, 0.5}, {1, 0, .5}, {0, 1, -0.5}, {1, 0, .5}, {0, 1, -0.5}, {1, 0, -0.5} };
+        double[] v = {.7, 0, 0};
         double[] vec = Utils.matrixVectorMult(mat, v);
-        double[] expected = {6, 3, 6};
+        double[] expected = {0, .7, 0, .7, 0, .7, 0, .7};
 
         Assert.assertArrayEquals(expected, vec, 0.01);
     }
