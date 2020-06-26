@@ -9,7 +9,8 @@ public class SwerveDriveTest {
     private SwerveDrive swerveDrive;
     private SwerveDrive swerveField;
 
-    private double deviation, forward, strafe, rotation;
+    private double forward, strafe, rotation, gyro;
+    private double deviation = 0.01;
     private double[] expectedHeading, expectedHeadingField, expectedVel,
             expectedVelField, robotHeading, robotHeadingField;
 
@@ -21,8 +22,6 @@ public class SwerveDriveTest {
 
     @Test
     public void runTests() {
-
-        deviation = 0.01;
 
         turnInPlace();
 
@@ -40,8 +39,8 @@ public class SwerveDriveTest {
         expectedHeading = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
         expectedHeadingField = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
 
-        expectedVel = new double[]{-0.7, 0.7, -0.7, -0.7, 0.7, -0.7, 0.7, 0.7};
-        expectedVelField = new double[]{0, 0, 0, 0, 0, 0, 0, 0};
+        expectedVel = new double[]{-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0};
+        expectedVelField = new double[]{-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0};
 
         getRobotHeading();
         getRobotHeadingField();
@@ -53,13 +52,13 @@ public class SwerveDriveTest {
         forward = 1;
         strafe = 0;
         rotation = 0;
-        double gyro = 0.5;
+        gyro =  3 * Math.PI / 2;
 
         expectedHeading = new double[]{forward * SPEED_MULTIPLIER, 0, 0};
-        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER * Math.cos(gyro), 0, 0};
+        expectedHeadingField = new double[]{0, -0.7, 0};
 
         expectedVel = new double[]{0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER};
-        expectedVelField = new double[]{0, 0, 0, 0, 0, 0, 0, 0};
+        expectedVelField = new double[]{-0.7, 0, -0.7, 0, -0.7, 0, -0.7, 0};
 
         getRobotHeading();
         getRobotHeadingField();
@@ -68,13 +67,20 @@ public class SwerveDriveTest {
 
     @Test
     public void getRobotHeading() {
-        robotHeading = swerveDrive.getRobotHeading(forward, strafe, rotation);
+        robotHeading = swerveDrive.getRobotHeading(forward, strafe, rotation, gyro);
+        for (int i = 0; i < 3; i++)
+            System.out.print(robotHeading[i] + " ");
+        System.out.println();
+
         Assert.assertArrayEquals(expectedHeading, robotHeading, deviation);
     }
 
     @Test
     public void getRobotHeadingField() {
-        robotHeadingField = swerveField.getRobotHeading(forward, strafe, rotation);
+        robotHeadingField = swerveField.getRobotHeading(forward, strafe, rotation, gyro);
+        for (int i = 0; i < 3; i++)
+            System.out.print(robotHeadingField[i] + " ");
+        System.out.println();
         Assert.assertArrayEquals(expectedHeadingField, robotHeadingField, deviation);
     }
     
@@ -82,6 +88,12 @@ public class SwerveDriveTest {
     public void calculateWheelVelocities() {
         double[] wheelVelocities = swerveDrive.calculateWheelVelocities(robotHeading);
         double[] wheelVelField = swerveField.calculateWheelVelocities(robotHeadingField);
+
+        for(int i = 0; i < 8; i++) {
+            System.out.print(wheelVelocities[i] + " ");
+        }
+
+        System.out.println();
 
         Assert.assertArrayEquals(expectedVel, wheelVelocities, deviation);
         Assert.assertArrayEquals(expectedVelField, wheelVelField, deviation);
