@@ -39,7 +39,7 @@ public class Utils {
      * @return a vector of length R with the corresponding matrix multiplication
      */
     public static double[] matrixVectorMult(double[][] m, double[] v) {
-        int sum;
+        double sum;
         double[] out = new double[m.length];
 
         for (int i = 0; i < m.length; i++) {
