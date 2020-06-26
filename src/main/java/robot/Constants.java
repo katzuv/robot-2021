@@ -23,8 +23,8 @@ public class Constants {
 
     public static class SwerveDrive {
         // TODO: not actual measurements and constants
-        public static final double ROBOT_LENGTH = 0; // in meters
-        public static final double ROBOT_WIDTH = 0; // in meters
+        public static final double ROBOT_LENGTH = 1; // in meters
+        public static final double ROBOT_WIDTH = 1; // in meters
 
         // the speed of the robot, this constant multiplies the speed outputs from the joysticks
         public static final double SPEED_MULTIPLIER = 0.7;
