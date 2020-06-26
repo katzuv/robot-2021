@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import robot.Utils;
 
 
 import static robot.Constants.Drivetrain.*;
@@ -73,16 +74,15 @@ public class SwerveModule extends SubsystemBase {
      * @param angle the target angle in radians
      */
     public void setAngle(double angle) {
-        double targetAngle = setTargetAngle(angle);
+        double targetAngle = setTargetAngle(angle, getAngle());
 
         angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle));
     }
 
-    public double setTargetAngle(double angle) {
+    public double setTargetAngle(double angle, double currentAngle) {
         // makes sure the value is between -pi and pi
-        angle %= Math.PI;
-        double[] angles = {angle - Math.PI, angle, angle + Math.PI}; // An array of all possible target angles
-        double currentAngle = getAngle();
+        angle = Utils.floorMod(angle, Math.PI);
+        double[] angles = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles
         double targetAngle = currentAngle;
         double shortestDistance = Double.MAX_VALUE;
         for (double target : angles) { // for each possible angle
