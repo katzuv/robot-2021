@@ -69,11 +69,11 @@ public class SwerveDrive extends SubsystemBase {
         rotation *= ROTATION_MULTIPLIER;
 
         // if the drive style is field oriented, changes the forward and strafe to be according to the field axises
-        // see https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383
         if (isFieldOriented) {
-            double tmp = forward * Math.cos(robotAngle) + strafe * Math.sin(robotAngle);
-            strafe = (-1) * forward * Math.sin(robotAngle) + strafe * Math.cos(robotAngle);
-            forward = tmp;
+            double[][] rotationMat = { {Math.cos(robotAngle), -Math.sin(robotAngle)}, {Math.sin(robotAngle), Math.cos(robotAngle)} };
+            double[] speeds = Utils.matrixVectorMult(rotationMat, new double[]{forward, strafe});
+            forward = speeds[0];
+            strafe = speeds[1];
         }
         double[] robotHeading = {forward, strafe, rotation};
 
