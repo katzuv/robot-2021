@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public void holonomicDrive(double forward, double strafe, double rotation) {
 
-        double[] robotHeading = getRobotHeading(forward, strafe, rotation);
+        double[] robotHeading = getRobotHeading(forward, strafe, rotation, gyro.getAngle());
 
         double[] velocities = calculateWheelVelocities(robotHeading);
         double[] polar;
@@ -62,7 +62,7 @@ public class SwerveDrive extends SubsystemBase {
      * @param rotation the rotation Z of the joystick
      * @return an array of the robot heading
      */
-    public double[] getRobotHeading(double forward, double strafe, double rotation) {
+    public double[] getRobotHeading(double forward, double strafe, double rotation, double robotAngle) {
         // turns the joystick values into the heading of the robot
         forward *= SPEED_MULTIPLIER;
         strafe *= SPEED_MULTIPLIER;
@@ -71,7 +71,6 @@ public class SwerveDrive extends SubsystemBase {
         // if the drive style is field oriented, changes the forward and strafe to be according to the field axises
         // see https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383
         if (isFieldOriented) {
-            double robotAngle = gyro.getAngle();
             double tmp = forward * Math.cos(robotAngle) + strafe * Math.sin(robotAngle);
             strafe = (-1) * forward * Math.sin(robotAngle) + strafe * Math.cos(robotAngle);
             forward = tmp;
@@ -104,13 +103,13 @@ public class SwerveDrive extends SubsystemBase {
 
         for (int i = 0; i < 8; i++) {
             if (i % 2 == 0) {
-                M[i][0] = 1;
-                M[i][1] = 0;
-                M[i][2] = Ry * signY[i/2];
-            } else {
                 M[i][0] = 0;
                 M[i][1] = 1;
                 M[i][2] = Rx * signX[i/2];
+            } else {
+                M[i][0] = 1;
+                M[i][1] = 0;
+                M[i][2] = Ry * signY[i/2];
             }
         }
 
