@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class SwerveModuleTest {
 
     private SwerveModule swerveModule;
@@ -17,8 +15,8 @@ public class SwerveModuleTest {
     }
 
     @Test
-    public void setTargetAngle() {
-        double targetAngle = swerveModule.setTargetAngle(-1.5 * Math.PI, -Math.PI / 4);
+    public void getTargetAngle() {
+        double targetAngle = swerveModule.getTargetAngle(-1.5 * Math.PI, -Math.PI / 4);
         double expectedAngle = Math.PI / 2;
 
         Assert.assertEquals(expectedAngle, targetAngle, 0.01);

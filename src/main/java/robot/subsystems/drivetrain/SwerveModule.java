@@ -74,12 +74,18 @@ public class SwerveModule extends SubsystemBase {
      * @param angle the target angle in radians
      */
     public void setAngle(double angle) {
-        double targetAngle = setTargetAngle(angle, getAngle());
+        double targetAngle = getTargetAngle(angle, getAngle());
 
         angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle));
     }
 
-    public double setTargetAngle(double angle, double currentAngle) {
+    /**
+     * finds the target angle of the wheel based on the shortest distance from the current position
+     * @param angle the current target angle
+     * @param currentAngle the current angle of the wheel
+     * @return the target angle
+     */
+    public double getTargetAngle(double angle, double currentAngle) {
         // makes sure the value is between -pi and pi
         angle = Utils.floorMod(angle, Math.PI);
         double[] angles = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles
