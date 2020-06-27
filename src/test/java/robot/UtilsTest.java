@@ -9,6 +9,14 @@ import static org.junit.Assert.*;
 public class UtilsTest {
 
     @Test
+    public void floorMod() {
+        double val = Utils.floorMod(-1.5 * Math.PI, Math.PI);
+        double expected = Math.PI / 2;
+
+        Assert.assertEquals(expected, val, 0.01);
+    }
+
+    @Test
     public void cartesianToPolar() {
         double[] polar = Utils.cartesianToPolar(3, 1);
         double[] expected = {Math.sqrt(10), Math.PI / 2.5};
