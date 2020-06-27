@@ -21,16 +21,6 @@ public class SwerveDriveTest {
     }
 
     @Test
-    public void runTests() {
-
-        turnInPlace();
-
-        driveForward();
-
-        calculateLockAngles();
-    }
-
-    @Test
     public void turnInPlace() {
         forward = 0;
         strafe = 0;
@@ -108,5 +98,5 @@ public class SwerveDriveTest {
         double[] expected = new double[]{Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4};
         Assert.assertArrayEquals(expected, swerveDrive.calculateLockAngles(), deviation);
     }
-    
+
 }
