@@ -2,6 +2,8 @@ package robot.subsystems.drivetrain;
 
 import org.junit.*;
 
+import java.util.Arrays;
+
 import static robot.Constants.SwerveDrive.*;
 
 public class SwerveDriveTest {
@@ -44,9 +46,8 @@ public class SwerveDriveTest {
         gyro =  3 * Math.PI / 2;
 
         expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
-        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER, -0.7, rotation * ROTATION_MULTIPLIER};
-
-        expectedVel = new double[]{strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER,
+        expectedHeadingField = new double[]{0, -0.7, 0};
+        expectedVel = new double[]{ strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER,
                 strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER};
         expectedVelField = new double[]{-0.7, 0, -0.7, 0, -0.7, 0, -0.7, 0};
 
@@ -56,6 +57,32 @@ public class SwerveDriveTest {
         calculateWheelVelocitiesField();
     }
 
+    @Test
+    public void diagonal() {
+        forward = 0.5;
+        strafe = 0.5;
+        rotation = 0;
+
+        gyro =  3 * Math.PI / 2;
+
+        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
+        expectedHeadingField = new double[]{0.35, -0.35, rotation * ROTATION_MULTIPLIER};
+
+        expectedVel = new double[]{strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER,
+                strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER};
+        expectedVelField = new double[]{-0.35, 0.35, -0.35, 0.35, -0.35, 0.35, -0.35, 0.35};
+
+        getRobotHeading();
+        getRobotHeadingField();
+        calculateWheelVelocities();
+        calculateWheelVelocitiesField();
+
+    }
+
+    @Test
+    public void diagonalRotation() {
+
+    }
 
     public void getRobotHeading() {
         robotHeading = swerveDrive.getRobotHeading(forward, strafe, rotation, gyro);
@@ -91,6 +118,7 @@ public class SwerveDriveTest {
 
     public void calculateWheelVelocitiesField() {
         double[] wheelVelField = swerveField.calculateWheelVelocities(robotHeadingField);
+        System.out.println(Arrays.toString(wheelVelField));
         Assert.assertArrayEquals(expectedVelField, wheelVelField, delta);
     }
 
