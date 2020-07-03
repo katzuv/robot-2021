@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public void holonomicDrive(double forward, double strafe, double rotation) {
 
-        double[] robotHeading = getRobotHeading(forward, strafe, rotation, gyro.getAngle());
+        double[] robotHeading = getRobotHeading(forward, strafe, rotation, Math.toRadians(gyro.getAngle()));
 
         double[] velocities = calculateWheelVelocities(robotHeading);
         double[] polar;
