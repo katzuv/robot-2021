@@ -2,7 +2,10 @@ package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import robot.Utils;
 
@@ -12,15 +15,17 @@ import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
 public class SwerveModule extends SubsystemBase {
+    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, MAX_CURRENT, 0, 0);
+    private final TalonFX driveMotor;
     private final TalonSRX angleMotor;
-    private final TalonSRX driveMotor;
+
     private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
     private UnitModel unitAngle = new UnitModel(TICKS_PER_RAD);
 
-    public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
+    public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
-        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
         driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
+        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
 
         // set inversions
         angleMotor.setInverted(false);
@@ -30,11 +35,10 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setSensorPhase(false);
 
         // Set amperage limits
+        driveMotor.configSupplyCurrentLimit(currLimitConfig);
+
         angleMotor.configContinuousCurrentLimit(MAX_CURRENT);
         angleMotor.enableCurrentLimit(true);
-
-        driveMotor.configContinuousCurrentLimit(MAX_CURRENT);
-        driveMotor.enableCurrentLimit(true);
 
         // set PIDF
         angleMotor.config_kP(wheel, KP, TALON_TIMEOUT);

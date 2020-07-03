@@ -1,5 +1,6 @@
 package robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -18,10 +19,10 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive(boolean isFieldOriented) {
         gyro.reset();
 
-        swerveModules[0] = new SwerveModule(0, new TalonSRX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1));
-        swerveModules[1] = new SwerveModule(1, new TalonSRX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2));
-        swerveModules[2] = new SwerveModule(2, new TalonSRX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3));
-        swerveModules[3] = new SwerveModule(3, new TalonSRX(DRIVE_MOTOR_4), new TalonSRX(ANGLE_MOTOR_4));
+        swerveModules[0] = new SwerveModule(0, new TalonFX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1));
+        swerveModules[1] = new SwerveModule(1, new TalonFX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2));
+        swerveModules[2] = new SwerveModule(2, new TalonFX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3));
+        swerveModules[3] = new SwerveModule(3, new TalonFX(DRIVE_MOTOR_4), new TalonSRX(ANGLE_MOTOR_4));
 
         this.isFieldOriented = isFieldOriented;
     }
