@@ -8,6 +8,7 @@ import org.junit.Test;
 public class SwerveModuleTest {
 
     private SwerveModule swerveModule;
+    private double delta = 0.01;
 
     @Before
     public void setUp() {
@@ -19,6 +20,6 @@ public class SwerveModuleTest {
         double targetAngle = swerveModule.getTargetAngle(-1.5 * Math.PI, -Math.PI / 4);
         double expectedAngle = Math.PI / 2;
 
-        Assert.assertEquals(expectedAngle, targetAngle, 0.01);
+        Assert.assertEquals(expectedAngle, targetAngle, delta);
     }
 }
