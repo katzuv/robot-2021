@@ -73,7 +73,8 @@ public class SwerveDrive extends SubsystemBase {
         if (isFieldOriented) {
             // multiplies the 2D rotation matrix by the robot heading, there by rotating the coordinate system
             // see https://en.wikipedia.org/wiki/Rotation_matrix
-            double[][] rotationMat = { {Math.cos(robotAngle), -Math.sin(robotAngle)}, {Math.sin(robotAngle), Math.cos(robotAngle)} };
+            double[][] rotationMat = { {Math.cos(robotAngle), -Math.sin(robotAngle)},
+                                        {Math.sin(robotAngle), Math.cos(robotAngle)} };
             double[] speeds = Utils.matrixVectorMult(rotationMat, new double[]{forward, strafe});
             forward = speeds[0];
             strafe = speeds[1];
