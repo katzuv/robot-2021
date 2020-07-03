@@ -69,8 +69,10 @@ public class SwerveDrive extends SubsystemBase {
         strafe *= SPEED_MULTIPLIER;
         rotation *= ROTATION_MULTIPLIER;
 
-        // if the drive style is field oriented, changes the forward and strafe to be according to the field axises
+        // if the drive style is field oriented, changes the forward and strafe to be according to the field coordinate system
         if (isFieldOriented) {
+            // multiplies the 2D rotation matrix by the robot heading, there by rotating the coordinate system
+            // see https://en.wikipedia.org/wiki/Rotation_matrix
             double[][] rotationMat = { {Math.cos(robotAngle), -Math.sin(robotAngle)}, {Math.sin(robotAngle), Math.cos(robotAngle)} };
             double[] speeds = Utils.matrixVectorMult(rotationMat, new double[]{forward, strafe});
             forward = speeds[0];
