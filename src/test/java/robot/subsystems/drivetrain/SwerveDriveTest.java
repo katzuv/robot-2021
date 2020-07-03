@@ -10,7 +10,7 @@ public class SwerveDriveTest {
     private SwerveDrive swerveField;
 
     private double forward, strafe, rotation, gyro;
-    private double deviation = 0.01;
+    private double delta = 0.01;
     private double[] expectedHeading, expectedHeadingField, expectedVel,
             expectedVelField, robotHeading, robotHeadingField;
 
@@ -62,7 +62,7 @@ public class SwerveDriveTest {
             System.out.print(robotHeading[i] + " ");
         System.out.println();
 
-        Assert.assertArrayEquals(expectedHeading, robotHeading, deviation);
+        Assert.assertArrayEquals(expectedHeading, robotHeading, delta);
     }
 
 
@@ -71,7 +71,7 @@ public class SwerveDriveTest {
         for (int i = 0; i < 3; i++)
             System.out.print(robotHeadingField[i] + " ");
         System.out.println();
-        Assert.assertArrayEquals(expectedHeadingField, robotHeadingField, deviation);
+        Assert.assertArrayEquals(expectedHeadingField, robotHeadingField, delta);
     }
     
 
@@ -84,19 +84,19 @@ public class SwerveDriveTest {
 
         System.out.println();
 
-        Assert.assertArrayEquals(expectedVel, wheelVelocities, deviation);
+        Assert.assertArrayEquals(expectedVel, wheelVelocities, delta);
     }
 
 
     public void calculateWheelVelocitiesField() {
         double[] wheelVelField = swerveField.calculateWheelVelocities(robotHeadingField);
-        Assert.assertArrayEquals(expectedVelField, wheelVelField, deviation);
+        Assert.assertArrayEquals(expectedVelField, wheelVelField, delta);
     }
 
     @Test
     public void calculateLockAngles() {
         double[] expected = new double[]{Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4};
-        Assert.assertArrayEquals(expected, swerveDrive.calculateLockAngles(), deviation);
+        Assert.assertArrayEquals(expected, swerveDrive.calculateLockAngles(), delta);
     }
 
 }
