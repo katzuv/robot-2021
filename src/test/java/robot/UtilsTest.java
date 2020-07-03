@@ -8,19 +8,21 @@ import static org.junit.Assert.*;
 
 public class UtilsTest {
 
+    private double delta = 0.01;
+
     @Test
     public void floorMod() {
         double val = Utils.floorMod(-1.5 * Math.PI, Math.PI);
         double expected = Math.PI / 2;
 
-        Assert.assertEquals(expected, val, 0.01);
+        Assert.assertEquals(expected, val, delta);
     }
 
     @Test
     public void cartesianToPolar() {
         double[] polar = Utils.cartesianToPolar(3, 1);
         double[] expected = {Math.sqrt(10), Math.PI / 2.5};
-        Assert.assertArrayEquals(expected, polar, 0.01);
+        Assert.assertArrayEquals(expected, polar, delta);
     }
 
     @Test
@@ -30,6 +32,13 @@ public class UtilsTest {
         double[] vec = Utils.matrixVectorMult(mat, v);
         double[] expected = {0, .7, 0, .7, 0, .7, 0, .7};
 
-        Assert.assertArrayEquals(expected, vec, 0.01);
+        Assert.assertArrayEquals(expected, vec, delta);
+
+        double[][] m = { {3, 2, .5}, {1, 4, .25}, {6, 7, 2}, {2, 4.5, 5} };
+        double[] V = {.5, 2, 3};
+        double[] vector = Utils.matrixVectorMult(m, V);
+        double[] exp = {7.0, 9.25, 23.0, 25.0};
+
+        Assert.assertArrayEquals(exp, vector, delta);
     }
 }
