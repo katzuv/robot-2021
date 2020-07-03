@@ -26,8 +26,8 @@ public class SwerveDriveTest {
         strafe = 0;
         rotation = -1;
 
-        expectedHeading = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
-        expectedHeadingField = new double[]{0, 0, rotation * ROTATION_MULTIPLIER};
+        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
+        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
 
         expectedVel = new double[]{-Math.PI / 2, Math.PI / 2, -Math.PI / 2, -Math.PI / 2, Math.PI / 2, -Math.PI / 2, Math.PI / 2, Math.PI / 2};
 
@@ -43,10 +43,11 @@ public class SwerveDriveTest {
         rotation = 0;
         gyro =  3 * Math.PI / 2;
 
-        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, 0, 0};
-        expectedHeadingField = new double[]{0, -0.7, 0};
+        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
+        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER, -0.7, rotation * ROTATION_MULTIPLIER};
 
-        expectedVel = new double[]{0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER, 0, forward * SPEED_MULTIPLIER};
+        expectedVel = new double[]{strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER,
+                strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER};
         expectedVelField = new double[]{-0.7, 0, -0.7, 0, -0.7, 0, -0.7, 0};
 
         getRobotHeading();
