@@ -61,6 +61,7 @@ public class SwerveDrive extends SubsystemBase {
      * @param forward the Y value of the joystick
      * @param strafe the X value of the joystick
      * @param rotation the rotation Z of the joystick
+     * @param robotAngle the current angle of the robot in radians
      * @return an array of the robot heading
      */
     public double[] getRobotHeading(double forward, double strafe, double rotation, double robotAngle) {
@@ -85,7 +86,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     /**
-     * calculates the velocity vector of each wheel from the following three joystick outputs:
+     * calculates the velocity vector of each wheel 
+     * @param robotHeading the three joystick outputs:
      * forward the heading of the robot in the Y direction
      * strafe the heading of the robot in the X direction
      * rotation the rotation of the robot
