@@ -8,13 +8,13 @@
 package robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import robot.subsystems.drivetrain.Drivetrain;
-import robot.subsystems.drivetrain.commands.DriveStraight;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import robot.subsystems.drivetrain.SwerveDrive;
+import robot.subsystems.drivetrain.commands.HolonomicDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,6 +27,9 @@ public class RobotContainer {
     Button b = new JoystickButton(xbox, 1);
     Button x = new JoystickButton(xbox, 3);
     Button y = new JoystickButton(xbox, 4);
+
+    public SwerveDrive swerveDrive = new SwerveDrive(true);
+    public HolonomicDrive holonomicDrive = new HolonomicDrive(swerveDrive);
 
     public RobotContainer(){
         configureButtonBindings();
@@ -41,7 +44,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // Grab the hatch when the 'A' button is pressed.
-        new JoystickButton(xbox,1).whenPressed(new DriveStraight(0.5));
+        new JoystickButton(xbox,1).whenPressed(new HolonomicDrive(swerveDrive));
         //new JoystickButton(m_driverController, Button.kB.value).whenPressed(new ExampleCommand());
     }
 
@@ -53,5 +56,9 @@ public class RobotContainer {
      */
     public Command getAutonomous() {
         return m_chooser.getSelected();
+    }
+
+    public Command getAutonomousCommand() {
+        return new HolonomicDrive(swerveDrive);
     }
 }

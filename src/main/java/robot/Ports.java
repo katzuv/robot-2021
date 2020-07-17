@@ -9,4 +9,23 @@ public class Ports {
     public static class ExampleSubsystem1 {
         //public static int TALON_PORT = 1;
     }
+
+    public static class SwerveDrive {
+        // front right
+        public static final int DRIVE_MOTOR_1 = 11;
+        public static final int ANGLE_MOTOR_1 = 12;
+
+        // front left
+        public static final int DRIVE_MOTOR_2 = 21;
+        public static final int ANGLE_MOTOR_2 = 22;
+
+        // back right
+        public static final int DRIVE_MOTOR_3 = 31;
+        public static final int ANGLE_MOTOR_3 = 32;
+
+        // back left
+        public static final int DRIVE_MOTOR_4 = 41;
+        public static final int ANGLE_MOTOR_4 = 42;
+    }
+
 }
