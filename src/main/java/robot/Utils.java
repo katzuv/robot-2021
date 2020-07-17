@@ -26,7 +26,7 @@ public class Utils {
     public static double[] cartesianToPolar(double x, double y) {
         double[] polar = new double[2];
         polar[0] = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        polar[1] = Math.atan2(y, polar[0]) * (180/Math.PI);
+        polar[1] = Math.atan2(x, y);
 
         return polar;
     }
@@ -39,7 +39,7 @@ public class Utils {
      * @return a vector of length R with the corresponding matrix multiplication
      */
     public static double[] matrixVectorMult(double[][] m, double[] v) {
-        int sum;
+        double sum;
         double[] out = new double[m.length];
 
         for (int i = 0; i < m.length; i++) {

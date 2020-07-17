@@ -2,8 +2,12 @@ package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import robot.Utils;
 
 
 import static robot.Constants.Drivetrain.*;
@@ -11,15 +15,17 @@ import static robot.Constants.SwerveModule.*;
 import static robot.Constants.TALON_TIMEOUT;
 
 public class SwerveModule extends SubsystemBase {
+    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, MAX_CURRENT, 0, 0);
+    private final TalonFX driveMotor;
     private final TalonSRX angleMotor;
-    private final TalonSRX driveMotor;
-    private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
-    private UnitModel unitAngle = new UnitModel(TICKS_PER_DEGREE);
 
-    public SwerveModule(int wheel, TalonSRX driveMotor, TalonSRX angleMotor) {
+    private UnitModel unitDrive = new UnitModel(TICKS_PER_METER);
+    private UnitModel unitAngle = new UnitModel(TICKS_PER_RAD);
+
+    public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor) {
         // configure feedback sensors
-        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
         driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
+        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, wheel, TALON_TIMEOUT);
 
         // set inversions
         angleMotor.setInverted(false);
@@ -29,11 +35,10 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setSensorPhase(false);
 
         // Set amperage limits
+        driveMotor.configSupplyCurrentLimit(currLimitConfig);
+
         angleMotor.configContinuousCurrentLimit(MAX_CURRENT);
         angleMotor.enableCurrentLimit(true);
-
-        driveMotor.configContinuousCurrentLimit(MAX_CURRENT);
-        driveMotor.enableCurrentLimit(true);
 
         // set PIDF
         angleMotor.config_kP(wheel, KP, TALON_TIMEOUT);
@@ -72,22 +77,33 @@ public class SwerveModule extends SubsystemBase {
      * sets the angle of the wheel, in consideration of the shortest path to the target angle
      * @param angle the target angle in radians
      */
-    public void setTargetAngle(double angle) {
+    public void setAngle(double angle) {
+        double targetAngle = getTargetAngle(angle, getAngle());
+
+        angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle));
+    }
+
+    /**
+     * finds the target angle of the wheel based on the shortest distance from the current position
+     * @param angle the current target angle
+     * @param currentAngle the current angle of the wheel
+     * @return the target angle
+     */
+    public double getTargetAngle(double angle, double currentAngle) {
         // makes sure the value is between -pi and pi
-        angle %= Math.PI;
-        double[] positions = {angle - Math.PI, angle, angle + Math.PI}; // An array of all possible target angles
-        double currentPosition = getAngle();
-        double targetPosition = currentPosition;
+        angle = Utils.floorMod(angle, Math.PI);
+        double[] angles = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles
+        double targetAngle = currentAngle;
         double shortestDistance = Double.MAX_VALUE;
-        for (double targetPos : positions) { // for each possible position
-            if (Math.abs(targetPos - currentPosition) < shortestDistance) // if the calculated distance is less than the current shortest distance
+        for (double target : angles) { // for each possible angle
+            if (Math.abs(target - currentAngle) < shortestDistance) // if the calculated distance is less than the current shortest distance
             {
-                shortestDistance = Math.abs(targetPos - currentPosition);
-                targetPosition = targetPos;
+                shortestDistance = Math.abs(target - currentAngle);
+                targetAngle = target;
             }
         }
 
-        angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetPosition));
+        return targetAngle;
     }
 
     /**
