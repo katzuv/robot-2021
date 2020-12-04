@@ -18,7 +18,7 @@ public class UtilsTest {
 
     @Test
     public void cartesianToPolar() {
-        double[] polar = Utils.cartesianToPolar(3, 1);
+        double[] polar = Utils.cartesianToPolar(1, 3);
         double[] expected = {Math.sqrt(10), Math.PI / 2.5};
         Assert.assertArrayEquals(expected, polar, delta);
     }
