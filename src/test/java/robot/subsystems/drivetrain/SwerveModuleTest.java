@@ -2,6 +2,8 @@ package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.Ports;
+import frc.robot.subsystems.drivetrain.SwerveModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,7 @@ public class SwerveModuleTest {
 
     @Before
     public void setUp() {
-        swerveModule = new SwerveModule(0, new TalonFX(0), new TalonSRX(1));
+        swerveModule = new SwerveModule(0, new TalonFX(0), new TalonSRX(1), new boolean[]{false, false, false, false});
     }
 
     @Test

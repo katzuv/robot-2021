@@ -1,4 +1,4 @@
-package robot;
+package frc.robot;
 
 /**
  * A class holding all of the constants of every mechanism on the robot.
@@ -9,11 +9,11 @@ public class Constants {
     //All general constants go here
     //public static final double TIME_STEP = 0.02;
 
-    public static final int TALON_TIMEOUT = 10;
+    public static final int TALON_TIMEOUT = 10; // in ms
 
     public static class Drivetrain {
         public static final double TICKS_PER_METER = 256 / (4 * 0.0254 * Math.PI);
-        public static final double TICKS_PER_RAD = 1; // TODO: change to real value
+        public static final double TICKS_PER_RAD = 1024 / (2 * Math.PI); // TODO: change to real value
 
         public static final double MAX_VEL = 3;// in m/s
         public static final double TIME_STEP = 0.02; // in seconds
@@ -22,9 +22,8 @@ public class Constants {
     }
 
     public static class SwerveDrive {
-        // TODO: not actual measurements and constants
-        public static final double ROBOT_LENGTH = 1; // in meters
-        public static final double ROBOT_WIDTH = 1; // in meters
+        public static final double ROBOT_LENGTH = 0.75; // in meters
+        public static final double ROBOT_WIDTH = 0.75; // in meters
 
         // the speed of the robot, this constant multiplies the speed outputs from the joysticks
         public static final double SPEED_MULTIPLIER = 0.7;
@@ -32,7 +31,10 @@ public class Constants {
         // the rotational speed of the robot, this constant multiplies the rotation output of the joystick
         public static final double ROTATION_MULTIPLIER = Math.PI;
 
-        public static final double JOYSTICK_THRESHOLD = 0.05;
+        public static final double JOYSTICK_THRESHOLD = 0.05; // TODO: tune to actual value
+
+        // encoder 0 for angle motors
+        public static final int[] MECHANICAL_OFFSET = new int[]{-1720, -1690, -1141, 1}; //TODO: incorrect
     }
 
     public static class SwerveModule {

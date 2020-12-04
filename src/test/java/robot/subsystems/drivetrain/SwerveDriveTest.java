@@ -1,10 +1,11 @@
 package robot.subsystems.drivetrain;
 
+import frc.robot.subsystems.drivetrain.SwerveDrive;
 import org.junit.*;
 
 import java.util.Arrays;
 
-import static robot.Constants.SwerveDrive.*;
+import static frc.robot.Constants.SwerveDrive.*;
 
 public class SwerveDriveTest {
 

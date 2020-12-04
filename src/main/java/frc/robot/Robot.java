@@ -5,8 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package robot;
+package frc.robot;
 
+import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,7 +20,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private robot.RobotContainer m_robotContainer;
+  private RobotContainer m_robotContainer;
+  Orchestra orchestra = new Orchestra();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -29,7 +31,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new robot.RobotContainer();
+    m_robotContainer = new RobotContainer();
+    orchestra.loadMusic("outyput.chrp");
+    System.out.println();
+    orchestra.addInstrument(m_robotContainer.swerveDrive.swerveModules[0].driveMotor);
+    orchestra.play();
+
+//    m_robotContainer.swerveDrive.swerveModules[0].driveMotor;
   }
 
   /**
@@ -46,6 +54,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    if (!orchestra.isPlaying()){
+      orchestra.play();
+    }
   }
 
   /**
