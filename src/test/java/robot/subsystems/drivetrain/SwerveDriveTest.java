@@ -80,7 +80,7 @@ public class SwerveDriveTest {
 
     }
 
-    @Test
+    @Ignore
     public void diagonalRotation() {
 
     }
