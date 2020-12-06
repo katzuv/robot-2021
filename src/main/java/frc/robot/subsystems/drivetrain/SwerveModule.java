@@ -5,9 +5,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Ports;
 import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
@@ -22,6 +22,7 @@ public class SwerveModule extends SubsystemBase {
     public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor, boolean[] inverted) {
         // configure feedback sensors
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, wheel, Constants.TALON_TIMEOUT);
+        angleMotor.configFeedbackNotContinuous(Ports.SwerveDrive.IS_NOT_CONTINUOUS_FEEDBACK, Constants.TALON_TIMEOUT);
 
         // set inversions
         angleMotor.setInverted(inverted[0]);
