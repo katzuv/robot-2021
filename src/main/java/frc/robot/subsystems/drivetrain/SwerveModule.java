@@ -43,6 +43,7 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.config_kD(wheel, Constants.SwerveModule.KD, Constants.TALON_TIMEOUT);
         angleMotor.config_kF(wheel, Constants.SwerveModule.KF, Constants.TALON_TIMEOUT);
 
+        // set voltage compensation and saturation
         driveMotor.enableVoltageCompensation(true);
         driveMotor.configVoltageCompSaturation(12);
 
