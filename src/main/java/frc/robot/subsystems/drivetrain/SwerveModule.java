@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -11,7 +12,7 @@ import frc.robot.Ports;
 import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
-    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, Constants.Drivetrain.MAX_CURRENT, 0, 0);
+    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, Constants.Drivetrain.MAX_CURRENT, 5, 0.02);
     public final TalonFX driveMotor;
     private final TalonSRX angleMotor;
     private final int wheel;
@@ -23,6 +24,10 @@ public class SwerveModule extends SubsystemBase {
         // configure feedback sensors
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, wheel, Constants.TALON_TIMEOUT);
         angleMotor.configFeedbackNotContinuous(Ports.SwerveDrive.IS_NOT_CONTINUOUS_FEEDBACK, Constants.TALON_TIMEOUT);
+
+        angleMotor.setNeutralMode(NeutralMode.Brake);
+
+        angleMotor.setSelectedSensorPosition(0);
 
         // set inversions
         angleMotor.setInverted(inverted[0]);
@@ -37,11 +42,18 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.configContinuousCurrentLimit(Constants.Drivetrain.MAX_CURRENT);
         angleMotor.enableCurrentLimit(true);
 
-        // set PIDF
-        angleMotor.config_kP(wheel, Constants.SwerveModule.KP, Constants.TALON_TIMEOUT);
-        angleMotor.config_kI(wheel, Constants.SwerveModule.KI, Constants.TALON_TIMEOUT);
-        angleMotor.config_kD(wheel, Constants.SwerveModule.KD, Constants.TALON_TIMEOUT);
-        angleMotor.config_kF(wheel, Constants.SwerveModule.KF, Constants.TALON_TIMEOUT);
+        // set PIDF - angle motor
+        angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+
+        // set PIDF - drive motor
+        driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kI(0, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kD(0, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kF(0, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
+
 
         // set voltage compensation and saturation
         driveMotor.enableVoltageCompensation(true);
@@ -49,6 +61,9 @@ public class SwerveModule extends SubsystemBase {
 
         angleMotor.enableVoltageCompensation(true);
         angleMotor.configVoltageCompSaturation(12);
+
+        angleMotor.selectProfileSlot(0, 0);
+        driveMotor.selectProfileSlot(0, 0);
 
         this.driveMotor = driveMotor;
         this.angleMotor = angleMotor;
@@ -67,7 +82,7 @@ public class SwerveModule extends SubsystemBase {
      * @return the angle of the wheel in radians
      */
     public double getAngle() {
-        return unitAngle.toUnits(angleMotor.getSelectedSensorPosition());
+        return unitAngle.toUnits(angleMotor.getSelectedSensorPosition() - Constants.SwerveModule.ZERO_POSITION[wheel]);
     }
 
     /**
@@ -75,19 +90,16 @@ public class SwerveModule extends SubsystemBase {
      * @param speed the speed of the wheel in [m/s]
      */
     public void setSpeed(double speed) {
-        driveMotor.set(ControlMode.PercentOutput, unitDrive.toTicks100ms(speed));
+       driveMotor.set(ControlMode.Velocity, unitDrive.toTicks100ms(speed));
     }
-
     /**
      * sets the angle of the wheel, in consideration of the shortest path to the target angle
      * @param angle the target angle in radians
      */
     public void setAngle(double angle) {
-        double targetAngle = getTargetAngle(angle, getAngle());
-        if (wheel % 2 == 0)
-            angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle) + Constants.SwerveDrive.MECHANICAL_OFFSET[wheel]);
-        else
-            angleMotor.set(ControlMode.Position, unitAngle.toTicks(targetAngle) - Constants.SwerveDrive.MECHANICAL_OFFSET[wheel]);
+        //double targetAngle = getTargetAngle(angle, getAngle());
+        angleMotor.set(ControlMode.Position, unitAngle.toTicks(angle) + Constants.SwerveModule.ZERO_POSITION[wheel]);
+
     }
 
     /**
@@ -120,5 +132,23 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.set(ControlMode.PercentOutput, 0);
     }
 
+    public void resetAngle(){
+        angleMotor.setSelectedSensorPosition(0);
+    }
 
+
+    @Override
+    public void periodic(){
+        // set PIDF - angle motor
+        angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
+        angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+
+        // set PIDF - drive motor
+        driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kI(0, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kD(0, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
+        driveMotor.config_kF(0, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
+    }
 }
