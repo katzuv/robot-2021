@@ -3,7 +3,9 @@ package frc.robot.subsystems.drivetrain.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
+import org.techfire225.webapp.FireLog;
 
 public class HolonomicDrive extends CommandBase {
 
@@ -11,6 +13,7 @@ public class HolonomicDrive extends CommandBase {
 
     public HolonomicDrive(SwerveDrive swerveDrive) {
         this.swerveDrive = swerveDrive;
+        addRequirements(swerveDrive);
     }
 
     @Override
@@ -25,10 +28,14 @@ public class HolonomicDrive extends CommandBase {
         forward = joystickDeadband(forward);
         strafe = joystickDeadband(strafe);
         rotation = joystickDeadband(rotation);
-
+        System.out.println(forward);
+        System.out.println(strafe);
+        System.out.println(rotation);
         swerveDrive.holonomicDrive(forward, strafe, rotation);
+        //FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
+        FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
+        FireLog.log("swerve direction", Robot.gyro.getAngle());
     }
-
     /**
      * sets the value of the joystick to 0 if the value is less than the threshold
      * @param val the joystick value
