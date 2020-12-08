@@ -32,6 +32,17 @@ public class Utils {
     }
 
     /**
+     *
+     * @return
+     */
+    public static double[] polarToCartesian(double velocity, double angle) {
+        double[] v = new double[2];
+        v[0] = Math.sin(angle) * velocity;
+        v[1] = Math.cos(angle) * velocity;
+        return v;
+    }
+
+    /**
      * calculates the matrix - vector multiplication
      * assuming that the number of columns in the matrix correspond to the number of rows in the vector
      * @param m a matrix of size R * C

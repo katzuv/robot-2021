@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {
 
-    public static Joystick joystick = new Joystick(1);
+    public static Joystick joystick = new Joystick(0);
 
     /**
      * @return the X value of the joystick

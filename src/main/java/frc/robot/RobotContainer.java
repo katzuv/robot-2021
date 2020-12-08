@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
 import frc.robot.subsystems.drivetrain.commands.HolonomicDrive;
+import frc.robot.subsystems.drivetrain.commands.ResetPositions;
+import frc.robot.subsystems.drivetrain.commands.TurnInPlace;
+import frc.robot.valuetuner.ValueTuner;
+import org.techfire225.webapp.Webserver;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -23,13 +27,14 @@ import frc.robot.subsystems.drivetrain.commands.HolonomicDrive;
 public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-    public XboxController xbox = new XboxController(2);
+    public static XboxController xbox = new XboxController(2);
     Button b = new JoystickButton(xbox, 1);
     Button x = new JoystickButton(xbox, 3);
     Button y = new JoystickButton(xbox, 4);
     private JoystickButton a = new JoystickButton(xbox, XboxController.Button.kA.value);
+    private JoystickButton c = new JoystickButton(OI.joystick, 3);
 
-    public SwerveDrive swerveDrive = new SwerveDrive(true);
+    public SwerveDrive swerveDrive = new SwerveDrive(false);
 //    public HolonomicDrive holonomicDrive = new HolonomicDrive(swerveDrive);
 
     public RobotContainer(){
@@ -39,6 +44,10 @@ public class RobotContainer {
         //m_chooser.addOption("Example Auto 2", new ExampleCommand());
         //m_chooser.setDefaultOption();
         Shuffleboard.getTab("Autonomous").add(m_chooser);
+        if (Robot.debug) {
+            startValueTuner();
+            startFireLog();
+        }
     }
 
 
@@ -46,7 +55,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Grab the hatch when the 'A' button is pressed.
 //        a.whenPressed(new HolonomicDrive(swerveDrive));
-        swerveDrive.setDefaultCommand(new HolonomicDrive(swerveDrive));
+        swerveDrive.setDefaultCommand(new TurnInPlace(swerveDrive));
+        c.whenPressed(new ResetPositions(swerveDrive));
         //new JoystickButton(m_driverController, Button.kB.value).whenPressed(new ExampleCommand());
     }
 
@@ -63,4 +73,24 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return new HolonomicDrive(swerveDrive);
     }
+
+
+    /**
+     * Initiates the value tuner.
+     */
+    private void startValueTuner() {
+        new ValueTuner().start();
+    }
+
+    /**
+     * Initiates the port of team 225s Fire-Logger.
+     */
+    private void startFireLog() {
+        try {
+            new Webserver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
