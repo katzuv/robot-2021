@@ -7,18 +7,42 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Ports;
+import frc.robot.Robot;
 import frc.robot.Utils;
+import org.techfire225.webapp.FireLog;
 
 import static frc.robot.Ports.SwerveDrive.*;
 
 public class SwerveDrive extends SubsystemBase {
 
-    private AHRS gyro = new AHRS(SPI.Port.kMXP);
+    double[][] M = new double[8][3];
     public SwerveModule[] swerveModules = new SwerveModule[4];
+    // calculates the distance from the center of the robot to the wheels
+    double Rx = Constants.SwerveDrive.ROBOT_WIDTH/2;
+    double Ry = Constants.SwerveDrive.ROBOT_LENGTH/2;
+
+    // the sign vectors of Rx and Ry
+    double[] signX = {1, 1, -1, -1};
+    double[] signY = {-1, 1, 1, -1};
+
+    // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
+    // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
     private boolean isFieldOriented;
 
     public SwerveDrive(boolean isFieldOriented) {
-        gyro.reset();
+
+        for (int i = 0; i < 8; i++) {
+            if (i % 2 == 0) {
+                M[i][0] = 0;
+                M[i][1] = 1;
+                M[i][2] = Rx * signX[i/2];
+            } else {
+                M[i][0] = 1;
+                M[i][1] = 0;
+                M[i][2] = Ry * signY[i/2];
+            }
+        }
+        Robot.gyro.reset();
 
         swerveModules[0] = new SwerveModule(0, new TalonFX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1), FRONT_RIGHT_INVERTED);
         swerveModules[1] = new SwerveModule(1, new TalonFX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2), FRONT_LEFT_INVERTED);
@@ -37,7 +61,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public void holonomicDrive(double forward, double strafe, double rotation) {
 
-        double[] robotHeading = getRobotHeading(forward, strafe, rotation, Math.toRadians(gyro.getAngle()));
+        double[] robotHeading = getRobotHeading(forward, strafe, rotation, Math.toRadians(Robot.gyro.getAngle()));
 
         double[] velocities = calculateWheelVelocities(robotHeading);
         double[] polar;
@@ -52,9 +76,21 @@ public class SwerveDrive extends SubsystemBase {
 
         // feeds the corresponding control to each wheel
         for (int k = 0; k < 4; k++) {
+            System.out.println(k + " angle " + controls[k][1]);
+            System.out.println(k + " velocity " + controls[k][0]);
             swerveModules[k].setSpeed(controls[k][0]);
             swerveModules[k].setAngle(controls[k][1]);
         }
+
+        double sumx = 0;
+        double sumy = 0;
+        for (int j = 0; j < 4; j++) {
+            sumx += velocities[j*2];
+            sumy += velocities[j*2+1];
+        }
+        double[] target = Utils.cartesianToPolar(sumx, sumy);
+        FireLog.log("target velocity", target[0]);
+        FireLog.log("target angle", target[1]);
     }
 
     /**
@@ -96,29 +132,6 @@ public class SwerveDrive extends SubsystemBase {
      */
     public double[] calculateWheelVelocities(double[] robotHeading) {
 
-        // calculates the distance from the center of the robot to the wheels
-        double Rx = Constants.SwerveDrive.ROBOT_WIDTH/2;
-        double Ry = Constants.SwerveDrive.ROBOT_LENGTH/2;
-
-        // the sign vectors of Rx and Ry
-        double[] signX = {1, 1, -1, -1};
-        double[] signY = {-1, 1, 1, -1};
-
-        // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
-        // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
-        double[][] M = new double[8][3];
-
-        for (int i = 0; i < 8; i++) {
-            if (i % 2 == 0) {
-                M[i][0] = 0;
-                M[i][1] = 1;
-                M[i][2] = Rx * signX[i/2];
-            } else {
-                M[i][0] = 1;
-                M[i][1] = 0;
-                M[i][2] = Ry * signY[i/2];
-            }
-        }
 
         // multiplies M by the robotHeading to obtain the wheel velocities
         double[] wheelVelocities = Utils.matrixVectorMult(M, robotHeading);
@@ -163,6 +176,34 @@ public class SwerveDrive extends SubsystemBase {
             swerveModules[i].stopAngleMotor();
         }
 
+    }
+
+    public double[][] getXYVelocities() {
+        double[][] velocities = new double[4][2];
+        for (int i = 0; i < 4; i++) {
+            double[] cart = Utils.polarToCartesian(swerveModules[i].getSpeed(), swerveModules[i].getAngle());
+            velocities[i][0] = cart[0];
+            velocities[i][1] = cart[1];
+        }
+
+        return velocities;
+    }
+
+    public double[] getVelocity() {
+        double[][] velocities = getXYVelocities();
+        double sumx = 0;
+        double sumy = 0;
+        for (int i = 0; i < 4; i++) {
+            sumx += velocities[i][0];
+            sumy += velocities[i][1];
+        }
+        return Utils.cartesianToPolar(sumx, sumy);
+    }
+
+    public void resetAll(){
+        for (int i = 0; i < 4; i++){
+            swerveModules[i].resetAngle();
+        }
     }
 
 }
