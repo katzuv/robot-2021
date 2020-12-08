@@ -14,22 +14,22 @@ public class Ports {
         // front right
         public static final int DRIVE_MOTOR_1 = 11;
         public static final int ANGLE_MOTOR_1 = 12;
-        public static final boolean[] FRONT_RIGHT_INVERTED = {false, false, false, false};
+        public static final boolean[] FRONT_RIGHT_INVERTED = {false, false, true, false};
 
         // front left
         public static final int DRIVE_MOTOR_2 = 21;
         public static final int ANGLE_MOTOR_2 = 22;
-        public static final boolean[] FRONT_LEFT_INVERTED = {false, false, false, false};
+        public static final boolean[] FRONT_LEFT_INVERTED = {true, true, false, false};
 
         // back right
         public static final int DRIVE_MOTOR_3 = 31;
         public static final int ANGLE_MOTOR_3 = 32;
-        public static final boolean[] BACK_RIGHT_INVERTED = {false, false, false, false};
+        public static final boolean[] BACK_RIGHT_INVERTED = {true, false, false, false};
 
         // back left
         public static final int DRIVE_MOTOR_4 = 41;
         public static final int ANGLE_MOTOR_4 = 42;
-        public static final boolean[] BACK_LEFT_INVERTED = {false, false, false, false};
+        public static final boolean[] BACK_LEFT_INVERTED = {true, true, false, true};
 
         // encoder not continuous feedback
         public static final boolean IS_NOT_CONTINUOUS_FEEDBACK = true;
