@@ -98,9 +98,19 @@ public class SwerveModule extends SubsystemBase {
      */
     public void setAngle(double angle) {
         //double targetAngle = getTargetAngle(angle, getAngle());
-        angleMotor.set(ControlMode.Position, unitAngle.toTicks(angle) + Constants.SwerveModule.ZERO_POSITION[wheel]);
-
+        int targetTicks = getTargetTicks(angle);
+        angleMotor.set(ControlMode.Position, targetTicks);
     }
+
+    public int getTargetTicks(double targetAngle) { 
+        int currEnc = angleMotor.getSelectedSensorPosition() + Constants.SwerveModule.ZERO_POSITION[wheel];
+        int curr = currEnc % Constants.Drivetrain.TICKS_IN_ENCODER;
+        int angleTicks = unitAngle.toTicks(targetAngle) + Constants.SwerveModule.ZERO_POSITION[wheel];
+        int delta = angleTicks - curr;
+        int targetTicks = currEnc + delta;
+        return targetTicks;
+    }
+
 
     /**
      * finds the target angle of the wheel based on the shortest distance from the current position

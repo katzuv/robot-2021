@@ -16,6 +16,7 @@ public class Constants {
     public static class Drivetrain {
         public static final double TICKS_PER_METER = 2048 / (4 * 0.0254 * Math.PI) * 7.5 ;
         public static final double TICKS_PER_RAD = 1024 / (2 * Math.PI);
+        public static final int TICKS_IN_ENCODER = 1024;
 
         public static final double MAX_VEL = 3;// in m/s
         public static final double TIME_STEP = 0.02; // in seconds
@@ -51,7 +52,7 @@ public class Constants {
         public static final WebConstant KD_DRIVE = new WebConstant("KD_Drive", 0);
         public static final WebConstant KF_DRIVE = new WebConstant("KF_Drive", 0);
 
-        public static final double[] ZERO_POSITION = {-353, -855, -450, -380};
+        public static final int[] ZERO_POSITION = {-353, -855, -450, -380};
 
         // sick man
         public static final WebConstant KP_SICK = new WebConstant("KP_SICK", 2.25);
