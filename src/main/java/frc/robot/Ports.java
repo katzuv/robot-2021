@@ -32,7 +32,7 @@ public class Ports {
         public static final boolean[] BACK_LEFT_INVERTED = {true, true, false, true};
 
         // encoder not continuous feedback
-        public static final boolean IS_NOT_CONTINUOUS_FEEDBACK = true;
+        public static final boolean IS_NOT_CONTINUOUS_FEEDBACK = false;
     }
 
 }
