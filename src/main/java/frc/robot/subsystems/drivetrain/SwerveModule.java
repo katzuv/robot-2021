@@ -43,10 +43,17 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.enableCurrentLimit(true);
 
         // set PIDF - angle motor
-        angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+        if (wheel != 2) {
+            angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+        } else {
+            angleMotor.config_kP(0, Constants.SwerveModule.KP_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kI(0, Constants.SwerveModule.KI_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kD(0, Constants.SwerveModule.KD_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kF(0, Constants.SwerveModule.KF_SICK.get(), Constants.TALON_TIMEOUT);
+        }
 
         // set PIDF - drive motor
         driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
@@ -150,10 +157,17 @@ public class SwerveModule extends SubsystemBase {
     @Override
     public void periodic(){
         // set PIDF - angle motor
-        angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
-        angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+        if (wheel != 2) {
+            angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
+        } else {
+            angleMotor.config_kP(0, Constants.SwerveModule.KP_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kI(0, Constants.SwerveModule.KI_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kD(0, Constants.SwerveModule.KD_SICK.get(), Constants.TALON_TIMEOUT);
+            angleMotor.config_kF(0, Constants.SwerveModule.KF_SICK.get(), Constants.TALON_TIMEOUT);
+        }
 
         // set PIDF - drive motor
         driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
