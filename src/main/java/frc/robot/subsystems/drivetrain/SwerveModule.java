@@ -27,8 +27,6 @@ public class SwerveModule extends SubsystemBase {
 
         angleMotor.setNeutralMode(NeutralMode.Brake);
 
-        angleMotor.setSelectedSensorPosition(0);
-
         // set inversions
         angleMotor.setInverted(inverted[0]);
         driveMotor.setInverted(inverted[1]);
@@ -55,12 +53,17 @@ public class SwerveModule extends SubsystemBase {
             angleMotor.config_kF(0, Constants.SwerveModule.KF_SICK.get(), Constants.TALON_TIMEOUT);
         }
 
-        // set PIDF - drive motor
-        driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kI(0, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kD(0, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kF(0, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
-
+        if (wheel != 1) {
+            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
+        } else {
+            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+        }
 
         // set voltage compensation and saturation
         driveMotor.enableVoltageCompensation(true);
@@ -70,7 +73,7 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.configVoltageCompSaturation(12);
 
         angleMotor.selectProfileSlot(0, 0);
-        driveMotor.selectProfileSlot(0, 0);
+        driveMotor.selectProfileSlot(1, 0);
 
         this.driveMotor = driveMotor;
         this.angleMotor = angleMotor;
@@ -82,7 +85,7 @@ public class SwerveModule extends SubsystemBase {
      * @return the speed of the wheel in [m/s]
      */
     public double getSpeed() {
-        return unitDrive.toVelocity(driveMotor.getSelectedSensorVelocity());
+        return unitDrive.toVelocity(driveMotor.getSelectedSensorVelocity(1));
     }
 
     /**
@@ -105,8 +108,9 @@ public class SwerveModule extends SubsystemBase {
      */
     public void setAngle(double angle) {
         //double targetAngle = getTargetAngle(angle, getAngle());
-        int targetTicks = getTargetTicks(angle);
-        angleMotor.set(ControlMode.Position, targetTicks);
+        //int targetTicks = getTargetTicks(angle);
+        int angleTicks = unitAngle.toTicks(angle) + Constants.SwerveModule.ZERO_POSITION[wheel];
+        angleMotor.set(ControlMode.Position, angleTicks);
     }
 
     public int getTargetTicks(double targetAngle) {
@@ -153,6 +157,9 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.setSelectedSensorPosition(0);
     }
 
+    public void setPower(double power) {
+        driveMotor.set(ControlMode.PercentOutput, power);
+    }
 
     @Override
     public void periodic(){
@@ -170,9 +177,16 @@ public class SwerveModule extends SubsystemBase {
         }
 
         // set PIDF - drive motor
-        driveMotor.config_kP(0, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kI(0, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kD(0, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
-        driveMotor.config_kF(0, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
+        if (wheel != 1) {
+            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
+        } else {
+            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
+        }
     }
 }

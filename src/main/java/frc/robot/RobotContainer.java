@@ -14,9 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
-import frc.robot.subsystems.drivetrain.commands.HolonomicDrive;
-import frc.robot.subsystems.drivetrain.commands.ResetPositions;
-import frc.robot.subsystems.drivetrain.commands.TurnInPlace;
+import frc.robot.subsystems.drivetrain.commands.*;
 import frc.robot.valuetuner.ValueTuner;
 import org.techfire225.webapp.Webserver;
 
@@ -55,7 +53,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Grab the hatch when the 'A' button is pressed.
 //        a.whenPressed(new HolonomicDrive(swerveDrive));
-        swerveDrive.setDefaultCommand(new TurnInPlace(swerveDrive));
+//        swerveDrive.setDefaultCommand(new TurnInPlace(swerveDrive));
+        swerveDrive.setDefaultCommand(new DriveForward(swerveDrive));
+
+//        swerveDrive.setDefaultCommand(new TankDrive(swerveDrive));
         c.whenPressed(new ResetPositions(swerveDrive));
         //new JoystickButton(m_driverController, Button.kB.value).whenPressed(new ExampleCommand());
     }

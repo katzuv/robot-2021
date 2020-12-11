@@ -32,14 +32,14 @@ public class TurnInPlace extends CommandBase {
         System.out.println(rotation);
 
         for (int i = 0; i < 4; i++){
-            if (i != 2) {
-                swerveDrive.swerveModules[i].setAngle(target.get());
-                System.out.println(i + " " + swerveDrive.swerveModules[i].getAngle());
-            }
+
+            swerveDrive.swerveModules[i].setAngle(target.get());
+            System.out.println(i + " " + swerveDrive.swerveModules[i].getAngle());
+
         }
 //        swerveDrive.holonomicDrive(0, 0, rotation);
         FireLog.log("target angle", target.get());
-        FireLog.log("angle ", swerveDrive.swerveModules[0].getAngle());
+        FireLog.log("angle ", swerveDrive.swerveModules[2].getAngle());
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
         FireLog.log("swerve direction", Robot.gyro.getAngle());

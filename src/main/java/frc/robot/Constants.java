@@ -42,22 +42,28 @@ public class Constants {
 
     public static class SwerveModule {
         // TODO: set PIDF
-        public static final WebConstant KP = new WebConstant("KP", 0.2);
+        public static final WebConstant KP = new WebConstant("KP", 6);
         public static final WebConstant KI = new WebConstant("KI", 0);
-        public static final WebConstant KD = new WebConstant("KD", 0);
+        public static final WebConstant KD = new WebConstant("KD", 10);
         public static final WebConstant KF = new WebConstant("KF", 0);
 
-        public static final WebConstant KP_DRIVE = new WebConstant("KP_Drive", 0.2);
+        public static final WebConstant KP_DRIVE = new WebConstant("KP_Drive", 0.05);
         public static final WebConstant KI_DRIVE = new WebConstant("KI_Drive", 0);
-        public static final WebConstant KD_DRIVE = new WebConstant("KD_Drive", 0);
+        public static final WebConstant KD_DRIVE = new WebConstant("KD_Drive", 2);
         public static final WebConstant KF_DRIVE = new WebConstant("KF_Drive", 0);
 
-        public static final int[] ZERO_POSITION = {-353, -855, -450, -380};
+        // slow man
+        public static final WebConstant KP_DRIVE_SLOW = new WebConstant("KP_Drive_Slow", 0.2);
+        public static final WebConstant KI_DRIVE_SLOW = new WebConstant("KI_Drive_Slow", 0);
+        public static final WebConstant KD_DRIVE_SLOW = new WebConstant("KD_Drive_Slow", 0);
+        public static final WebConstant KF_DRIVE_SLOW = new WebConstant("KF_Drive_Slow", 0);
+
+        public static final int[] ZERO_POSITION = {-1, 4, 0, -3};
 
         // sick man
-        public static final WebConstant KP_SICK = new WebConstant("KP_SICK", 2.25);
+        public static final WebConstant KP_SICK = new WebConstant("KP_SICK", 6);
         public static final WebConstant KI_SICK = new WebConstant("KI_SICK", 0);
-        public static final WebConstant KD_SICK = new WebConstant("KD_SICK", 2);
+        public static final WebConstant KD_SICK = new WebConstant("KD_SICK", 8);
         public static final WebConstant KF_SICK = new WebConstant("KF_SICK", 0);
     }
 
