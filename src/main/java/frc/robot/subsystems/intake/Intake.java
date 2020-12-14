@@ -14,26 +14,44 @@ public class Intake extends SubsystemBase {
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
     private UnitModel unitModel = new UnitModel(Constants.Intake.TICK_PER_METER);
 
+    /**
+     * sets the motor inverted
+     */
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
     }
 
+    /**
+     * @return intake's motor velocity
+     */
     public double getVelocity(){
         return unitModel.toVelocity(motor.getSelectedSensorVelocity());
     }
 
+    /**
+     * @return the state of the right solenoid
+     */
     public boolean getStateRight(){
         return solenoidR.get();
     }
 
+    /**
+     * @return the state of the left solenoid
+     */
     public boolean getStateL(){
         return solenoidL.get();
     }
 
+    /**
+     * sets the output of intake's motor by present output (%)
+     */
     public void setPower(double power){
         motor.set(ControlMode.PercentOutput,power);
     }
 
+    /**
+     * toggles piston's state (opened --> closed || closed -- > opened)
+     */
     public void togglePiston(){
         solenoidL.set(!solenoidL.get());
         solenoidR.set(!solenoidR.get());
