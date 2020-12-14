@@ -13,7 +13,7 @@ public class SwitchMechanicalStopper extends InstantCommand {
 
     @Override
     public void initialize() {
-        climber.setStopperMode(!climber.getGearboxMode().getValue());
+        climber.toggleStopperMode();
     }
 
     @Override
