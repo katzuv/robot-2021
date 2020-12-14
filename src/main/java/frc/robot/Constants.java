@@ -16,8 +16,13 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
     public static class Climber {
-        public static final int TICKS_PER_UNIT = 0;
+        public static final int TICKS_PER_METER = 0;
+
+        public static final int kP = 0;
+
+        public static final int kI = 0;
+
+        public static final int kD = 0;
     }
 }
