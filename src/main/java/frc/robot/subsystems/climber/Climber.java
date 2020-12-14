@@ -10,27 +10,27 @@ import frc.robot.subsystems.UnitModel;
 
 public class Climber extends SubsystemBase {
     private final TalonFX motor = new TalonFX(Ports.Climber.MOTOR);
-    private final TalonFX salve = new TalonFX(Ports.Climber.SLAVE);
+    private final TalonFX slave = new TalonFX(Ports.Climber.SLAVE);
     private final UnitModel unitModel = new UnitModel(Constants.Climber.TICKS_PER_METER);
     private final Solenoid stopper = new Solenoid(Ports.Climber.STOPPER);
     private final Solenoid gearbox = new Solenoid(Ports.Climber.GEARBOX);
 
     public Climber() {
-        salve.follow(motor);
+        slave.follow(motor);
 
         motor.setInverted(Ports.Climber.MOTOR_INVERTED);
-        salve.setInverted(Ports.Climber.SLAVE_INVERTED);
+        slave.setInverted(Ports.Climber.SLAVE_INVERTED);
 
         motor.setSensorPhase(Ports.Climber.MOTOR_SENSOR_PHASE_INVERTED);
-        salve.setSensorPhase(Ports.Climber.SLAVE_SENSOR_PHASE_INVERTED);
+        slave.setSensorPhase(Ports.Climber.SLAVE_SENSOR_PHASE_INVERTED);
 
         motor.config_kP(0, Constants.Climber.kP);
         motor.config_kI(0, Constants.Climber.kI);
         motor.config_kD(0, Constants.Climber.kD);
 
-        salve.config_kP(0, Constants.Climber.kP);
-        salve.config_kI(0, Constants.Climber.kI);
-        salve.config_kD(0, Constants.Climber.kD);
+        slave.config_kP(0, Constants.Climber.kP);
+        slave.config_kI(0, Constants.Climber.kI);
+        slave.config_kD(0, Constants.Climber.kD);
     }
 
     /**
