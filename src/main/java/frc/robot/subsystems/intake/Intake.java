@@ -13,6 +13,7 @@ public class Intake extends SubsystemBase {
     private Solenoid solenoidR = new Solenoid(Ports.Intake.SOLENOID_RIGHT);
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
     private UnitModel unitModel = new UnitModel(Constants.Intake.TICK_PER_METER);
+    private State position = State.CLOSE;
 
     /**
      * sets the motor inverted
@@ -29,17 +30,10 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * @return the state of the right solenoid
+     * @return the state of the solenoids
      */
-    public boolean getStateRight(){
-        return solenoidR.get();
-    }
-
-    /**
-     * @return the state of the left solenoid
-     */
-    public boolean getStateL(){
-        return solenoidL.get();
+    public State getState(){
+        return position;
     }
 
     /**
@@ -53,7 +47,20 @@ public class Intake extends SubsystemBase {
      * toggles piston's state (opened --> closed || closed -- > opened)
      */
     public void togglePiston(){
-        solenoidL.set(!solenoidL.get());
-        solenoidR.set(!solenoidR.get());
+        if(position == State.OPEN){
+            solenoidL.set(false);
+            solenoidR.set(false);
+            position = State.CLOSE;
+        }
+        else{
+            solenoidL.set(true);
+            solenoidR.set(true);
+            position = State.OPEN;
+        }
+    }
+
+    public enum State{
+        OPEN,
+        CLOSE
     }
 }
