@@ -18,5 +18,6 @@ package frc.robot;
 public final class Constants {
     public static final class Intake{
         public static final int TICK_PER_METER = 0;
+        public static final double POWER = 0;
     }
 }
