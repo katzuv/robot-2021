@@ -48,7 +48,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     a.whenPressed(new ToggleIntake(intake));
-    BL.whenHeld(new StartIntake(intake));
+    BL.whileHeld(new StartIntake(intake));
   }
 
 
