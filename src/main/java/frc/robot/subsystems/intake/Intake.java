@@ -25,4 +25,9 @@ public class Intake {
     public void setPower(double power){
         motor.set(ControlMode.PercentOutput,power);
     }
+
+    public void togglePiston(){
+        solenoidL.set(!solenoidL.get());
+        solenoidR.set(!solenoidR.get());
+    }
 }
