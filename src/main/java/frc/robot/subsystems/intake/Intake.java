@@ -2,7 +2,9 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.Constants;
 import frc.robot.Ports;
+import frc.robot.subsystems.UnitModel;
 
 public class Intake {
     private TalonSRX motor = new TalonSRX(Ports.Intake.MOTOR);
@@ -11,5 +13,6 @@ public class Intake {
 
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
+        UnitModel unitModel = new UnitModel(Constants.Intake.TICK_PER_METER);
     }
 }
