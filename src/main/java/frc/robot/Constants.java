@@ -20,9 +20,13 @@ import edu.wpi.first.wpilibj.util.Color;
 public final class Constants {
 
     public static class ColourWheel {
-        public static final int[] RED = {0, 0, 0};
-        public static final int[] GREEN = {0, 0, 0};
-        public static final int[] BLUE = {0, 0, 0};
-        public static final int[] YELLOW = {0, 0, 0};
+        public static final double[] RED = {0, 0, 0};
+        public static final double[] GREEN = {0, 0, 0};
+        public static final double[] BLUE = {0, 0, 0};
+        public static final double[] YELLOW = {0, 0, 0};
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
     }
 }
