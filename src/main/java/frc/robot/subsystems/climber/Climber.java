@@ -9,24 +9,24 @@ import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
 
 public class Climber extends SubsystemBase {
-    private final TalonFX motor = new TalonFX(Ports.Climber.MOTOR);
+    private final TalonFX master = new TalonFX(Ports.Climber.MASTER);
     private final TalonFX slave = new TalonFX(Ports.Climber.SLAVE);
     private final UnitModel unitModel = new UnitModel(Constants.Climber.TICKS_PER_METER);
     private final Solenoid stopper = new Solenoid(Ports.Climber.STOPPER);
-    private final Solenoid gearbox = new Solenoid(Ports.Climber.GEARBOX);
+    private final Solenoid gearboxPiston = new Solenoid(Ports.Climber.GEARBOX_PISTON);
 
     public Climber() {
-        slave.follow(motor);
+        slave.follow(master);
 
-        motor.setInverted(Ports.Climber.MOTOR_INVERTED);
+        master.setInverted(Ports.Climber.MASTER_INVERTED);
         slave.setInverted(Ports.Climber.SLAVE_INVERTED);
 
-        motor.setSensorPhase(Ports.Climber.MOTOR_SENSOR_PHASE_INVERTED);
+        master.setSensorPhase(Ports.Climber.MASTER_SENSOR_PHASE_INVERTED);
         slave.setSensorPhase(Ports.Climber.SLAVE_SENSOR_PHASE_INVERTED);
 
-        motor.config_kP(0, Constants.Climber.kP);
-        motor.config_kI(0, Constants.Climber.kI);
-        motor.config_kD(0, Constants.Climber.kD);
+        master.config_kP(0, Constants.Climber.kP);
+        master.config_kI(0, Constants.Climber.kI);
+        master.config_kD(0, Constants.Climber.kD);
 
         slave.config_kP(0, Constants.Climber.kP);
         slave.config_kI(0, Constants.Climber.kI);
@@ -39,7 +39,7 @@ public class Climber extends SubsystemBase {
      * @return the climber's height [double].
      */
     public double getHeight() {
-        return unitModel.toUnits(motor.getSelectedSensorPosition());
+        return unitModel.toUnits(master.getSelectedSensorPosition());
     }
 
     /**
@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
      * @param height height [double].
      */
     public void setHeight(double height) {
-        motor.set(ControlMode.Position, unitModel.toTicks(height));
+        master.set(ControlMode.Position, unitModel.toTicks(height));
     }
 
     /**
@@ -64,12 +64,12 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Get the gearbox mode.
+     * Get the gearboxPiston mode.
      *
-     * @return the gearbox mode [PistonMode].
+     * @return the gearboxPiston mode [PistonMode].
      */
     public PistonMode getGearboxMode() {
-        if (gearbox.get())
+        if (gearboxPiston.get())
             return PistonMode.OPEN;
         else
             return PistonMode.CLOSED;
@@ -80,17 +80,17 @@ public class Climber extends SubsystemBase {
      *
      * @param mode the stopper mode [boolean].
      */
-    public void setStopperMode(boolean mode) {
-        stopper.set(mode);
+    public void setStopperMode(PistonMode mode) {
+        stopper.set(mode.getValue());
     }
 
     /**
-     * Set the gearbox mode.
+     * Set the gearboxPiston mode.
      *
-     * @param mode the gearbox mode [boolean].
+     * @param mode the gearboxPiston mode [boolean].
      */
-    public void setGearboxMode(boolean mode) {
-        gearbox.set(mode);
+    public void setGearboxMode(PistonMode mode) {
+        gearboxPiston.set(mode.getValue());
     }
 
     /**
@@ -114,8 +114,12 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    @Override
-    public void periodic() {
-
+    public void toggleGearboxMode() {
+        gearboxPiston.set(!gearboxPiston.get());
     }
+
+    public void toggleStopperMode() {
+        stopper.set(!stopper.get());
+    }
+
 }
