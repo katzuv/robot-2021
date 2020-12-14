@@ -114,7 +114,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    public void toggleGearboxMode() {
+    public void toggleGear() {
         gearboxPiston.set(!gearboxPiston.get());
     }
 
