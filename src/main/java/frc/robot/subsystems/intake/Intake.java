@@ -14,5 +14,7 @@ public class Intake {
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
         UnitModel unitModel = new UnitModel(Constants.Intake.TICK_PER_METER);
+    public double getVelocity(){
+        return unitModel.toVelocity(motor.getSelectedSensorVelocity());
     }
 }
