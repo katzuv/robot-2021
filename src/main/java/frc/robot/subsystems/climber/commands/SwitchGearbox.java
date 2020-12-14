@@ -13,7 +13,7 @@ public class SwitchGearbox extends InstantCommand {
 
     @Override
     public void initialize() {
-        climber.setGearboxMode(!climber.getGearboxMode().getValue());
+        climber.toggleGearboxMode();
     }
 
     @Override
