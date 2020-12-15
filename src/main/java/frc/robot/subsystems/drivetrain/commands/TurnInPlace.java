@@ -12,7 +12,12 @@ import org.techfire225.webapp.FireLog;
 public class TurnInPlace extends CommandBase {
 
     private SwerveDrive swerveDrive;
-    private WebConstant target = new WebConstant("targetAngle", Math.PI);
+//    private WebConstant target = new WebConstant("targetAngle", 0);
+    private WebConstant target0 = new WebConstant("target0", 0);
+    private WebConstant target1 = new WebConstant("target1", 0);
+    private WebConstant target2 = new WebConstant("target2", 0);
+    private WebConstant target3 = new WebConstant("target3", 0);
+
 
     public TurnInPlace(SwerveDrive swerveDrive) {
         this.swerveDrive = swerveDrive;
@@ -31,14 +36,17 @@ public class TurnInPlace extends CommandBase {
 
         System.out.println(rotation);
 
-        for (int i = 0; i < 4; i++){
+        swerveDrive.swerveModules[0].setAngle(target0.get());
+        swerveDrive.swerveModules[1].setAngle(target1.get());
+        swerveDrive.swerveModules[2].setAngle(target2.get());
+        swerveDrive.swerveModules[3].setAngle(target3.get());
 
-            swerveDrive.swerveModules[i].setAngle(target.get());
+        for (int i = 0; i < 4; i++){
             System.out.println(i + " " + swerveDrive.swerveModules[i].getAngle());
 
         }
 //        swerveDrive.holonomicDrive(0, 0, rotation);
-        FireLog.log("target angle", target.get());
+//        FireLog.log("target angle", target.get());
         FireLog.log("angle ", swerveDrive.swerveModules[2].getAngle());
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
