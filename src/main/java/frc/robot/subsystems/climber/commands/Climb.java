@@ -5,12 +5,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.climber.Climber;
 
-public class Pull extends CommandBase {
+/**
+ * The command lifts the robot up by a given number of meters.
+ */
+public class Climb extends CommandBase {
 
     private final Climber climber;
     private double height;
 
-    public Pull(Climber climber, double height) {
+    public Climb(Climber climber, double height) {
         this.climber = climber;
         this.height = height;
         addRequirements(climber);
@@ -18,10 +21,7 @@ public class Pull extends CommandBase {
 
     @Override
     public void initialize() {
-        if (climber.getStopperMode() == Climber.PistonMode.OPEN)
-            new SwitchMechanicalStopper(climber);
-        if (climber.getGearboxMode() == Climber.PistonMode.CLOSED)
-            new SwitchGearbox(climber);
+        new AutoClimb(climber);
         climber.setHeight(height);
     }
 
@@ -37,6 +37,6 @@ public class Pull extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        new SetStopper(climber, Climber.PistonMode.CLOSED);
     }
 }
