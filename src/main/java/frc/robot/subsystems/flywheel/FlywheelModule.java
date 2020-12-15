@@ -49,6 +49,10 @@ public class FlywheelModule extends SubsystemBase {
         return distance;
     }
 
+    public boolean isReady(double desiredVelocity) {
+        return Math.abs(getVelocity() - desiredVelocity) < Constants.Flywheel.VELOCITY_TOLERANCE && getVelocity() > Constants.Flywheel.MINIMAL_VELOCITY;
+    }
+
     public void stop() {
         setPower(0);
     }

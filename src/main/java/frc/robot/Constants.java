@@ -20,6 +20,9 @@ public final class Constants {
     //TODO: change to real values
     public static final class Flywheel {
         public static final int TICKS_PER_ROTATION = 0;
+
+        public static final double VELOCITY_TOLERANCE = 0; //[rps]
+        public static final double MINIMAL_VELOCITY = 0;//[rps] the minimal velocity where the wheel would actually move
         public static final double[] PIDF = {0, 0, 0, 0};
     }
 }
