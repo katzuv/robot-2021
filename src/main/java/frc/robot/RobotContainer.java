@@ -26,13 +26,13 @@ public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     public static XboxController xbox = new XboxController(2);
-    Button b = new JoystickButton(xbox, 1);
+    public static Button b = new JoystickButton(xbox, 1);
     Button x = new JoystickButton(xbox, 3);
     Button y = new JoystickButton(xbox, 4);
     private JoystickButton a = new JoystickButton(xbox, XboxController.Button.kA.value);
     private JoystickButton c = new JoystickButton(OI.joystick, 3);
 
-    public SwerveDrive swerveDrive = new SwerveDrive(false);
+    public SwerveDrive swerveDrive = new SwerveDrive(true);
 //    public HolonomicDrive holonomicDrive = new HolonomicDrive(swerveDrive);
 
     public RobotContainer(){
@@ -54,8 +54,9 @@ public class RobotContainer {
         // Grab the hatch when the 'A' button is pressed.
 //        a.whenPressed(new HolonomicDrive(swerveDrive));
 //        swerveDrive.setDefaultCommand(new TurnInPlace(swerveDrive));
-        swerveDrive.setDefaultCommand(new DriveForward(swerveDrive));
-
+//        swerveDrive.setDefaultCommand(new DriveForward(swerveDrive));
+        swerveDrive.setDefaultCommand(new HolonomicDrive(swerveDrive));
+//        swerveDrive.setDefaultCommand(new DriveForward(swerveDrive));
 //        swerveDrive.setDefaultCommand(new TankDrive(swerveDrive));
         c.whenPressed(new ResetPositions(swerveDrive));
         //new JoystickButton(m_driverController, Button.kB.value).whenPressed(new ExampleCommand());
