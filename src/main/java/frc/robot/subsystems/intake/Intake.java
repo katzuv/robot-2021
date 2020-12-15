@@ -12,7 +12,7 @@ public class Intake extends SubsystemBase {
     private TalonSRX motor = new TalonSRX(Ports.Intake.MOTOR);
     private Solenoid solenoidR = new Solenoid(Ports.Intake.SOLENOID_RIGHT);
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
-    private State position = State.CLOSE;
+    private State position;
 
     /**
      * sets the motor inverted
@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
 
-        if(isOpen())
+        if (isOpen())
             position = State.OPEN;
         else
             position = State.CLOSE;
@@ -29,32 +29,33 @@ public class Intake extends SubsystemBase {
     /**
      * @return the state of the solenoids
      */
-    public boolean isOpen(){return position == State.OPEN;}
+    public boolean isOpen() {
+        return position == State.OPEN;
+    }
 
     /**
      * sets the output of intake's motor by present output (%)
      */
-    public void setPower(double power){
-        motor.set(ControlMode.PercentOutput,power);
+    public void setPower(double power) {
+        motor.set(ControlMode.PercentOutput, power);
     }
 
     /**
      * toggles piston's state (opened --> closed || closed -- > opened)
      */
-    public void togglePiston(){
-        if(position == State.OPEN){
+    public void togglePiston() {
+        if (position == State.OPEN) {
             position = State.CLOSE;
-        }
-        else{
+        } else {
             position = State.OPEN;
         }
-        
+
         solenoidL.set(!isOpen());
         solenoidR.set(!isOpen());
 
     }
 
-    public enum State{
+    public enum State {
         OPEN,
         CLOSE
     }
