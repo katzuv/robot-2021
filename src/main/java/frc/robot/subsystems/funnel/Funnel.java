@@ -6,7 +6,11 @@ import frc.robot.Ports;
 public class Funnel {
     private Victor motor = new Victor(Ports.Funnel.MOTOR);
 
-    public Funnel(){
+    public Funnel() {
         motor.setInverted(Ports.Funnel.IS_INVERTED);
+    }
+
+    public void setVelocity(double velocity) {
+        motor.set(velocity);
     }
 }
