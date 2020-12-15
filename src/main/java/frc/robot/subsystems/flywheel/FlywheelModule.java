@@ -41,8 +41,15 @@ public class FlywheelModule extends SubsystemBase {
         motor.set(ControlMode.Velocity, rpsUnitModel.toTicks100ms(velocity));
     }
 
+    public void setPower(double power) {
+        motor.set(ControlMode.PercentOutput, power);
+    }
+
     public double estimateVelocity(double distance) {
         return distance;
     }
 
+    public void stop() {
+        setPower(0);
+    }
 }
