@@ -24,9 +24,7 @@ public class Intake extends SubsystemBase {
     /**
      * @return the state of the solenoids
      */
-    public State getState(){
-        return position;
-    }
+    public boolean isOpen(){return position == State.OPEN;}
 
     /**
      * sets the output of intake's motor by present output (%)
