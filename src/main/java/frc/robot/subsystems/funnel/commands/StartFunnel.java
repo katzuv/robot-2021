@@ -1,10 +1,12 @@
 package frc.robot.subsystems.funnel.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.subsystems.funnel.Funnel;
 
+/**
+ * this command activates Funnel's motor
+ */
 public class StartFunnel extends CommandBase {
 
     private Funnel funnel;
