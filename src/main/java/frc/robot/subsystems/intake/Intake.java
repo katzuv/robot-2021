@@ -23,7 +23,8 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * @return intake's motor velocity
+     * @return intake's motor velocity.
+
      */
     public double getVelocity(){
         return unitModel.toVelocity(motor.getSelectedSensorVelocity());
