@@ -49,15 +49,15 @@ public class Intake extends SubsystemBase {
      */
     public void togglePiston(){
         if(position == State.OPEN){
-            solenoidL.set(false);
-            solenoidR.set(false);
             position = State.CLOSE;
         }
         else{
-            solenoidL.set(true);
-            solenoidR.set(true);
             position = State.OPEN;
         }
+        
+        solenoidL.set(!isOpen());
+        solenoidR.set(!isOpen());
+
     }
 
     public enum State{
