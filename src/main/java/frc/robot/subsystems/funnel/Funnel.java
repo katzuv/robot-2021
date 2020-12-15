@@ -1,9 +1,10 @@
 package frc.robot.subsystems.funnel;
 
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 
-public class Funnel {
+public class Funnel extends SubsystemBase {
     private Victor motor = new Victor(Ports.Funnel.MOTOR);
 
     public Funnel() {
