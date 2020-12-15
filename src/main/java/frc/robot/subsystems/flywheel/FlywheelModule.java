@@ -1,14 +1,17 @@
 package frc.robot.subsystems.flywheel;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.UnitModel;
 
 public class FlywheelModule extends SubsystemBase {
     private final TalonFX motor;
+    private final UnitModel rpsUnitModel = new UnitModel(Constants.Flywheel.TICKS_PER_ROTATION);
 
     public FlywheelModule(int port, boolean inverted, boolean sensorPhase) {
         motor = new TalonFX(port);
@@ -29,4 +32,17 @@ public class FlywheelModule extends SubsystemBase {
         motor.enableVoltageCompensation(true);
         motor.configVoltageCompSaturation(12);
     }
+
+    public double getVelocity() {
+        return rpsUnitModel.toVelocity(motor.getSelectedSensorVelocity());
+    }
+
+    public void setVelocity(double velocity) {
+        motor.set(ControlMode.Velocity, rpsUnitModel.toTicks100ms(velocity));
+    }
+
+    public double estimateVelocity(double distance) {
+        return distance;
+    }
+
 }
