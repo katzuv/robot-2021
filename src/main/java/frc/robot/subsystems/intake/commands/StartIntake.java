@@ -13,12 +13,12 @@ public class StartIntake extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.setPower(Constants.Intake.POWER);
+        intake.setVelocity(Constants.Intake.VELOCITY);
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.setPower(0);
+        intake.setVelocity(0);
     }
 
     @Override

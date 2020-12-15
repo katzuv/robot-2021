@@ -2,6 +2,7 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -9,7 +10,7 @@ import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
 
 public class Intake extends SubsystemBase {
-    private TalonSRX motor = new TalonSRX(Ports.Intake.MOTOR);
+    private PWMSparkMax motor = new PWMSparkMax(Ports.Intake.MOTOR);
     private Solenoid solenoidR = new Solenoid(Ports.Intake.SOLENOID_RIGHT);
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
     private State position;
@@ -34,10 +35,11 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * sets the output of intake's motor by present output (%)
+     * this function sets the motor's velocity
+     * @param speed - the target velocity (m/s)
      */
-    public void setPower(double power) {
-        motor.set(ControlMode.PercentOutput, power);
+    public void setVelocity(double speed) {
+        motor.set(speed);
     }
 
     /**

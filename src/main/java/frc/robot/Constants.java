@@ -17,6 +17,6 @@ package frc.robot;
  */
 public final class Constants {
     public static final class Intake{
-        public static final double POWER = 0;
+        public static final double VELOCITY = 0.3; // the target velocity of intake's motor(m/s)
     }
 }
