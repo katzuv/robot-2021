@@ -3,6 +3,9 @@ package frc.robot.subsystems.colour_wheel.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.colour_wheel.ColourWheel;
 
+/**
+ * Spin the wheel until you reach the desired color.
+ */
 public class FindColour extends CommandBase {
     private ColourWheel colourWheel;
     private String colour;
@@ -11,7 +14,6 @@ public class FindColour extends CommandBase {
     private String[] colours;
     int finalDis;
     int finalTemp;
-
 
     public FindColour(ColourWheel colourWheel, String colour, double power) {
         this.colourWheel = colourWheel;
@@ -37,7 +39,7 @@ public class FindColour extends CommandBase {
             clockDis = targetIndex + colours.length - currentIndex;
             antiDis = currentIndex - targetIndex;
         } else {
-            clockDis = targetIndex;
+            clockDis = targetIndex - currentIndex;
             antiDis = colours.length - targetIndex + currentIndex;
         }
         if (clockDis < antiDis) {
@@ -52,11 +54,17 @@ public class FindColour extends CommandBase {
     @Override
     public void execute() {
         colourWheel.updateSensor();
+        boolean flag = true;
         if (colourWheel.getColorString() != tempColour) {
             tempColour = colourWheel.getColorString();
             finalTemp--;
+            flag = true;
         }
         power = power - 0.1 * (finalDis - finalTemp);
+        if (flag) {
+            colourWheel.setPower(power - 0.1 * (finalDis - finalTemp));
+            flag = false;
+        }
     }
 
     @Override

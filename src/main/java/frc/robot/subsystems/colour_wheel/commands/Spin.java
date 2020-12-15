@@ -3,6 +3,9 @@ package frc.robot.subsystems.colour_wheel.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.colour_wheel.ColourWheel;
 
+/**
+ * Spin the wheel 3 times.
+ */
 public class Spin extends CommandBase {
 
     private final ColourWheel colourWheel;
@@ -36,8 +39,11 @@ public class Spin extends CommandBase {
                 spinCount++;
             }
         }
-        if (spinCount == 5)
+        boolean flag2 = true;
+        if (spinCount == 5 && flag2) {
             colourWheel.setPower(0.5 * power);
+            flag2 = false;
+        }
     }
 
     @Override
