@@ -1,9 +1,11 @@
 package frc.robot.subsystems.drivetrain.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
 import org.techfire225.webapp.FireLog;
 
@@ -21,18 +23,17 @@ public class HolonomicDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double forward = -OI.getJoystickY();
-        double strafe = OI.getJoystickX();
-        double rotation = OI.getJoystickZ();
-
-        forward = joystickDeadband(forward);
-        strafe = joystickDeadband(strafe);
+        double forward = -RobotContainer.xbox.getY(GenericHID.Hand.kRight);
+        double strafe = -RobotContainer.xbox.getX(GenericHID.Hand.kRight);
+        double rotation = -RobotContainer.xbox.getX(GenericHID.Hand.kLeft);
+        System.out.println("forward " + forward);
+        forward = joystickDeadband(forward) ;
+        strafe = joystickDeadband(strafe) ;
         rotation = joystickDeadband(rotation);
         System.out.println(forward);
         System.out.println(strafe);
         System.out.println(rotation);
         swerveDrive.holonomicDrive(forward, strafe, rotation);
-        //FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
         FireLog.log("swerve direction", Robot.gyro.getAngle());
     }
@@ -42,7 +43,7 @@ public class HolonomicDrive extends CommandBase {
      * @return 0 if val is less than the threshold else val
      */
     private double joystickDeadband(double val) {
-        if (val < Constants.SwerveDrive.JOYSTICK_THRESHOLD)
+        if (Math.abs(val) < Constants.SwerveDrive.JOYSTICK_THRESHOLD)
             return 0;
         return val;
     }
