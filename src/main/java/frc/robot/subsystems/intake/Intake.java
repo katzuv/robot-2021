@@ -19,6 +19,11 @@ public class Intake extends SubsystemBase {
      */
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
+
+        if(isOpen())
+            position = State.OPEN;
+        else
+            position = State.CLOSE;
     }
 
     /**
