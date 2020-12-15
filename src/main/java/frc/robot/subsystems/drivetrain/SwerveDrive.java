@@ -18,8 +18,8 @@ public class SwerveDrive extends SubsystemBase {
     static double[][] M = new double[8][3];
     public SwerveModule[] swerveModules = new SwerveModule[4];
     // calculates the distance from the center of the robot to the wheels
-    static double Rx = Constants.SwerveDrive.ROBOT_WIDTH/2;
-    static double Ry = Constants.SwerveDrive.ROBOT_LENGTH/2;
+    static double Rx = Constants.SwerveDrive.ROBOT_WIDTH / 2;
+    static double Ry = Constants.SwerveDrive.ROBOT_LENGTH / 2;
 
     // the sign vectors of Rx and Ry
     static double[] signX = {1, 1, -1, -1};
@@ -35,11 +35,11 @@ public class SwerveDrive extends SubsystemBase {
             if (i % 2 == 0) {
                 M[i][0] = 1;
                 M[i][1] = 0;
-                M[i][2] = Rx * signX[i/2];
+                M[i][2] = Rx * signX[i / 2];
             } else {
                 M[i][0] = 0;
                 M[i][1] = 1;
-                M[i][2] = Ry * signY[i/2];
+                M[i][2] = Ry * signY[i / 2];
             }
         }
         Robot.gyro.reset();
@@ -55,29 +55,28 @@ public class SwerveDrive extends SubsystemBase {
 
     /**
      * sets the wheels of the robot to the calculated angle and speed
-     * @param forward the Y value of the joystick
-     * @param strafe the X value of the joystick
+     *
+     * @param forward  the Y value of the joystick
+     * @param strafe   the X value of the joystick
      * @param rotation the rotation Z of the joystick
      */
     public void holonomicDrive(double forward, double strafe, double rotation) {
 
-        double[] robotHeading = getRobotHeading(strafe, forward, rotation, Math.toRadians(Robot.gyro.getAngle()));
+        double[] robotHeading = getRobotHeading(strafe, forward, rotation, -Math.toRadians(Robot.gyro.getAngle()));
 
         double[] velocities = calculateWheelVelocities(robotHeading);
         double[] polar;
         double[][] controls = new double[4][2];
 
         // converts the cartesian velocities to polar and transfers them to a control matrix
-        for (int i = 0; i < 4; i ++) {
-            polar = Utils.cartesianToPolar(velocities[2*i+1], velocities[2*i]);
+        for (int i = 0; i < 4; i++) {
+            polar = Utils.cartesianToPolar(velocities[2 * i + 1], velocities[2 * i]);
             controls[i][0] = polar[0];
             controls[i][1] = polar[1];
         }
 
         // feeds the corresponding control to each wheel
         for (int k = 0; k < 4; k++) {
-            System.out.println(k + " angle " + controls[k][1]);
-            System.out.println(k + " velocity " + controls[k][0]);
             swerveModules[k].setSpeed(controls[k][0]);
             swerveModules[k].setAngle(controls[k][1]);
         }
@@ -85,8 +84,8 @@ public class SwerveDrive extends SubsystemBase {
         double sumx = 0;
         double sumy = 0;
         for (int j = 0; j < 4; j++) {
-            sumx += velocities[j*2];
-            sumy += velocities[j*2+1];
+            sumx += velocities[j * 2];
+            sumy += velocities[j * 2 + 1];
         }
         double[] target = Utils.cartesianToPolar(sumx, sumy);
         FireLog.log("target velocity", target[0]);
@@ -95,9 +94,10 @@ public class SwerveDrive extends SubsystemBase {
 
     /**
      * turns the joystick inputs into the robot heading
-     * @param forward the Y value of the joystick
-     * @param strafe the X value of the joystick
-     * @param rotation the rotation Z of the joystick
+     *
+     * @param forward    the Y value of the joystick
+     * @param strafe     the X value of the joystick
+     * @param rotation   the rotation Z of the joystick
      * @param robotAngle the current angle of the robot in radians
      * @return an array of the robot heading
      */
@@ -106,28 +106,34 @@ public class SwerveDrive extends SubsystemBase {
         forward *= Constants.SwerveDrive.SPEED_MULTIPLIER;
         strafe *= Constants.SwerveDrive.SPEED_MULTIPLIER;
         rotation *= Constants.SwerveDrive.ROTATION_MULTIPLIER;
+        // multiplies the 2D rotation matrix by the robot heading, there by rotating the coordinate system
+        // see https://en.wikipedia.org/wiki/Rotation_matrix
+        double[][] rotationMat = {{Math.cos(robotAngle), -Math.sin(robotAngle)},
+                {Math.sin(robotAngle), Math.cos(robotAngle)}};
+        double[] speeds = Utils.matrixVectorMult(rotationMat, new double[]{forward, strafe});
+        System.out.println("forward" + forward);
+        System.out.println("strafe" + strafe);
 
         // if the drive style is field oriented, changes the forward and strafe to be according to the field coordinate system
         if (isFieldOriented) {
-            // multiplies the 2D rotation matrix by the robot heading, there by rotating the coordinate system
-            // see https://en.wikipedia.org/wiki/Rotation_matrix
-            double[][] rotationMat = { {Math.cos(robotAngle), -Math.sin(robotAngle)},
-                                        {Math.sin(robotAngle), Math.cos(robotAngle)} };
-            double[] speeds = Utils.matrixVectorMult(rotationMat, new double[]{forward, strafe});
             forward = speeds[0];
             strafe = speeds[1];
         }
+        System.out.println("relative forward" + speeds[0]);
+        System.out.println("relative strafe" + speeds[1]);
+
         double[] robotHeading = {forward, strafe, rotation};
 
         return robotHeading;
     }
 
     /**
-     * calculates the velocity vector of each wheel 
+     * calculates the velocity vector of each wheel
+     *
      * @param robotHeading the three joystick outputs:
-     * forward the heading of the robot in the Y direction
-     * strafe the heading of the robot in the X direction
-     * rotation the rotation of the robot
+     *                     forward the heading of the robot in the Y direction
+     *                     strafe the heading of the robot in the X direction
+     *                     rotation the rotation of the robot
      * @return an array of length 8 in which each pair is the X and Y velocities of each wheel
      */
     public static double[] calculateWheelVelocities(double[] robotHeading) {
@@ -149,7 +155,12 @@ public class SwerveDrive extends SubsystemBase {
 
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setSpeed(0);
-            swerveModules[i].setAngle(lockAngles[i]);
+            if (i == 2) {
+                swerveModules[i].setAngle(lockAngles[i + 1]);
+            }
+            if (i == 3) {
+                swerveModules[i].setAngle(lockAngles[i - 1]);
+            }
         }
     }
 
@@ -160,7 +171,7 @@ public class SwerveDrive extends SubsystemBase {
         double[] lockAngles = new double[4];
 
         for (int i = 0; i < 4; i++) {
-            lockAngles[i] = Math.PI / 2 - Math.atan(Constants.SwerveDrive.ROBOT_WIDTH / Constants.SwerveDrive.ROBOT_LENGTH) + i * Math.PI/2;
+            lockAngles[i] = Math.PI / 2 - Math.atan(Constants.SwerveDrive.ROBOT_WIDTH / Constants.SwerveDrive.ROBOT_LENGTH) + i * Math.PI / 2;
         }
 
         return lockAngles;
@@ -200,8 +211,8 @@ public class SwerveDrive extends SubsystemBase {
         return Utils.cartesianToPolar(sumx, sumy);
     }
 
-    public void resetAll(){
-        for (int i = 0; i < 4; i++){
+    public void resetAll() {
+        for (int i = 0; i < 4; i++) {
             swerveModules[i].resetAngle();
         }
     }
