@@ -24,70 +24,62 @@ public class Climber extends SubsystemBase {
         master.setSensorPhase(Ports.Climber.MASTER_SENSOR_PHASE_INVERTED);
         slave.setSensorPhase(Ports.Climber.SLAVE_SENSOR_PHASE_INVERTED);
 
-        master.config_kP(0, Constants.Climber.kP);
-        master.config_kI(0, Constants.Climber.kI);
-        master.config_kD(0, Constants.Climber.kD);
+        master.config_kP(0, Constants.Climber.kP, Constants.TALON_TIMEOUT);
+        master.config_kI(0, Constants.Climber.kI, Constants.TALON_TIMEOUT);
+        master.config_kD(0, Constants.Climber.kD, Constants.TALON_TIMEOUT);
 
-        slave.config_kP(0, Constants.Climber.kP);
-        slave.config_kI(0, Constants.Climber.kI);
-        slave.config_kD(0, Constants.Climber.kD);
+
     }
 
     /**
-     * Get the climber's height.
+     * Get the climber's elevation relative to the ground.
      *
-     * @return the climber's height [double].
+     * @return the climber's height [m].
      */
     public double getHeight() {
         return unitModel.toUnits(master.getSelectedSensorPosition());
     }
 
     /**
-     * Set the climber's height.
+     * Climb height meters up with the robot.
      *
-     * @param height height [double].
+     * @param height requested height to climb [m].
      */
     public void setHeight(double height) {
-        master.set(ControlMode.Position, unitModel.toTicks(height));
+        master.set(ControlMode.MotionMagic, unitModel.toTicks(height));
     }
 
     /**
-     * Get the stopper mode.
+     * Get whether or not the stopper is engaged.
      *
-     * @return the stopper mode [PistonMode].
+     * @return whether or not the stopper is engaged.
      */
-    public PistonMode getStopperMode() {
-        if (stopper.get())
-            return PistonMode.OPEN;
-        else
-            return PistonMode.CLOSED;
+    public boolean isStoppedEngaged() {
+        return stopper.get();
     }
 
     /**
-     * Get the gearboxPiston mode.
+     * Get whether or not the gearbox piston is engaged.
      *
-     * @return the gearboxPiston mode [PistonMode].
+     * @return whether or not the gearbox piston is engaged.
      */
-    public PistonMode getGearboxMode() {
-        if (gearboxPiston.get())
-            return PistonMode.OPEN;
-        else
-            return PistonMode.CLOSED;
+    public boolean isGearboxEngaged() {
+        return gearboxPiston.get();
     }
 
     /**
      * Set the stopper mode.
      *
-     * @param mode the stopper mode [boolean].
+     * @param mode the stopper mode.
      */
     public void setStopperMode(PistonMode mode) {
         stopper.set(mode.getValue());
     }
 
     /**
-     * Set the gearboxPiston mode.
+     * Set the gearbox piston mode to a given mode.
      *
-     * @param mode the gearboxPiston mode [boolean].
+     * @param mode the wanted gearbox piston mode.
      */
     public void setGearboxMode(PistonMode mode) {
         gearboxPiston.set(mode.getValue());
