@@ -7,7 +7,7 @@ import frc.robot.Ports;
 /**
  * this subsystem transfers balls from intake to conveyor
  */
-public class Funnel extends SubsystemBase{
+public class Funnel extends SubsystemBase {
     private Victor motor = new Victor(Ports.Funnel.MOTOR);
 
     public Funnel() {
@@ -15,8 +15,8 @@ public class Funnel extends SubsystemBase{
     }
 
     /**
-     * @param velocity - the target velocity (m/s)
      * this function sets the motor's velocity
+     * @param velocity - the target velocity (m/s)
      */
     public void setVelocity(double velocity) {
         motor.set(velocity);

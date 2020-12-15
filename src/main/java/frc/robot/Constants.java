@@ -16,7 +16,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class Funnel{
+    public static final class Funnel {
         public static final double VELOCITY = 0.3; //the default velocity of Funnel's motor (m/s)
     }
 
