@@ -13,16 +13,18 @@ public class StartIntake extends CommandBase {
 
     @Override
     public void initialize() {
+        if(!intake.isOpen())
+            intake.togglePiston();
         intake.setVelocity(Constants.Intake.VELOCITY);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        intake.setVelocity(0);
     }
 
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.setVelocity(0);
     }
 }
