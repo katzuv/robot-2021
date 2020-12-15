@@ -9,15 +9,15 @@ import frc.robot.Constants;
 import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
 
+/**
+ * this subsystem takes the balls from the field to the funnel.
+ */
 public class Intake extends SubsystemBase {
     private PWMSparkMax motor = new PWMSparkMax(Ports.Intake.MOTOR);
     private Solenoid solenoidR = new Solenoid(Ports.Intake.SOLENOID_RIGHT);
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
     private State position;
 
-    /**
-     * sets the motor inverted
-     */
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
 
