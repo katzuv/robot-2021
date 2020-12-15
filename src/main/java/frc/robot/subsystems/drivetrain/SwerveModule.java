@@ -97,19 +97,22 @@ public class SwerveModule extends SubsystemBase {
 
     /**
      * sets the speed of the the wheel in ticks per 100ms
+     *
      * @param speed the speed of the wheel in [m/s]
      */
     public void setSpeed(double speed) {
-       driveMotor.set(ControlMode.Velocity, unitDrive.toTicks100ms(speed));
+        driveMotor.set(ControlMode.Velocity, unitDrive.toTicks100ms(speed));
     }
+
     /**
      * sets the angle of the wheel, in consideration of the shortest path to the target angle
+     *
      * @param angle the target angle in radians
      */
     public void setAngle(double angle) {
-        //double targetAngle = getTargetAngle(angle, getAngle());
+        double targetAngle = getTargetAngle(angle, getAngle());
         //int targetTicks = getTargetTicks(angle);
-        int angleTicks = unitAngle.toTicks(angle) + Constants.SwerveModule.ZERO_POSITION[wheel];
+        int angleTicks = unitAngle.toTicks(targetAngle) + Constants.SwerveModule.ZERO_POSITION[wheel];
         angleMotor.set(ControlMode.Position, angleTicks);
     }
 
@@ -125,13 +128,14 @@ public class SwerveModule extends SubsystemBase {
 
     /**
      * finds the target angle of the wheel based on the shortest distance from the current position
-     * @param angle the current target angle
+     *
+     * @param angle        the current target angle
      * @param currentAngle the current angle of the wheel
      * @return the target angle
      */
     public double getTargetAngle(double angle, double currentAngle) {
         // makes sure the value is between -pi and pi
-        angle = Utils.floorMod(angle, Math.PI);
+        angle = Utils.floorMod(angle, 2 * Math.PI);
         double[] angles = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles
         double targetAngle = currentAngle;
         double shortestDistance = Double.MAX_VALUE;
@@ -153,7 +157,7 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    public void resetAngle(){
+    public void resetAngle() {
         angleMotor.setSelectedSensorPosition(0);
     }
 
@@ -162,7 +166,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         // set PIDF - angle motor
         if (wheel != 2) {
             angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
