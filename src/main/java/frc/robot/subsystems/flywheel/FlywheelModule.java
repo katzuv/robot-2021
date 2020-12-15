@@ -10,16 +10,16 @@ import frc.robot.Constants;
 public class FlywheelModule extends SubsystemBase {
     private final TalonFX motor;
 
-    public FlywheelModule(int port, boolean inverted, boolean sensorPhase, double[] PIDF) {
+    public FlywheelModule(int port, boolean inverted, boolean sensorPhase) {
         motor = new TalonFX(port);
 
         motor.setInverted(inverted);
         motor.setSensorPhase(sensorPhase);
 
-        motor.config_kP(0, PIDF[0], Constants.TALON_TIMEOUT);
-        motor.config_kI(0, PIDF[1], Constants.TALON_TIMEOUT);
-        motor.config_kD(0, PIDF[2], Constants.TALON_TIMEOUT);
-        motor.config_kF(0, PIDF[3], Constants.TALON_TIMEOUT);
+        motor.config_kP(0, Constants.Flywheel.PIDF[0], Constants.TALON_TIMEOUT);
+        motor.config_kI(0, Constants.Flywheel.PIDF[1], Constants.TALON_TIMEOUT);
+        motor.config_kD(0, Constants.Flywheel.PIDF[2], Constants.TALON_TIMEOUT);
+        motor.config_kF(0, Constants.Flywheel.PIDF[3], Constants.TALON_TIMEOUT);
 
         motor.setNeutralMode(NeutralMode.Coast);
 

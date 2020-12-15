@@ -17,4 +17,8 @@ package frc.robot;
  */
 public final class Constants {
     public static final int TALON_TIMEOUT = 10; // [ms]
+    //TODO: change to real values
+    public static final class Flywheel {
+        public static final double[] PIDF = {0, 0, 0, 0};
+    }
 }
