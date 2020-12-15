@@ -45,4 +45,9 @@ public class Flywheel extends SubsystemBase {
 
     }
 
+    public void setPower(double power) {
+        for (FlywheelModule module : flywheelModules) {
+            module.setPower(power);
+        }
+    }
 }
