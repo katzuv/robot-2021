@@ -40,14 +40,34 @@ public class Flywheel extends SubsystemBase {
             );
             this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, 12, Constants.ROBOT_TIMEOUT); // the last two are the voltage, and the time between loops
         }
+
         flywheelModules[0] = new FlywheelModule(MOTOR_1, MOTOR_1_INVERTED, MOTOR_1_SENSOR_INVERTED);
         flywheelModules[1] = new FlywheelModule(MOTOR_2, MOTOR_2_INVERTED, MOTOR_2_SENSOR_INVERTED);
+    }
 
+    public void setVelocity(double velocity) {
+        if (useStateSpace) {
+            stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference
+            stateSpacePredictor.correct(VecBuilder.fill(flywheelModules[0].getVelocity()));
+            stateSpacePredictor.predict(Constants.ROBOT_TIMEOUT); //every 20 ms
+
+            double voltage = stateSpacePredictor.getU(0); // u = input, calculated by the input.
+            // returns the voltage to apply (between 0 and 12)
+            setPower(voltage / 12); // map to be between 0 and 1
+        } else
+            for (FlywheelModule module : flywheelModules)
+                module.setVelocity(velocity);
     }
 
     public void setPower(double power) {
         for (FlywheelModule module : flywheelModules) {
             module.setPower(power);
+        }
+    }
+
+    public void stop() {
+        for (FlywheelModule module : flywheelModules) {
+            module.stop();
         }
     }
 }
