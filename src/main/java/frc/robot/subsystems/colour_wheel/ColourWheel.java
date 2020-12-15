@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.colour_wheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -33,23 +33,31 @@ public class ColourWheel extends SubsystemBase {
     public ColourWheel() {
         motor.setInverted(Ports.ColourWheel.MOTOR_INVERTED);
         motor.setSensorPhase(Ports.ColourWheel.MOTOR_SENSOR_PHASE_INVERTED);
-        motor.config_kP(0, Constants.ColourWheel.kP);
-        motor.config_kI(0, Constants.ColourWheel.kI);
-        motor.config_kD(0, Constants.ColourWheel.kD);
+
+        motor.config_kP(0, Constants.ColourWheel.kP, Constants.TALON_TIMEOUT);
+        motor.config_kI(0, Constants.ColourWheel.kI, Constants.TALON_TIMEOUT);
+        motor.config_kD(0, Constants.ColourWheel.kD, Constants.TALON_TIMEOUT);
+
         colorMatch.addColorMatch(RedTarget);
         colorMatch.addColorMatch(GreenTarget);
         colorMatch.addColorMatch(BlueTarget);
         colorMatch.addColorMatch(YellowTarget);
     }
 
+    /**
+     * Set power for the Colour Wheel.
+     *
+     * @param percent designated percentages for the Colour Wheel's power.
+     */
     public void setPower(double percent) {
         motor.set(ControlMode.PercentOutput, percent);
     }
 
-    public String getColorString() {
-        return colorString;
-    }
-
+    /**
+     * Convert the color seen by the color sensor to String.
+     *
+     * @return the color seen by the color sensor in String.
+     */
     public String colorToString() {
         if (RedTarget.equals(matchResult.color)) {
             return "RED";
@@ -64,11 +72,23 @@ public class ColourWheel extends SubsystemBase {
         }
     }
 
-
+    /**
+     * Match the color seen by the color sensor to a color from the list and set private String colorString to the String of the color.
+     */
     public void updateSensor() {
         matchResult = colorMatch.matchClosestColor(colorSensorV3.getColor());
         colorString = colorToString();
     }
+
+    /**
+     * Get the color of the closest color in String.
+     *
+     * @return the color of the closest color in String.
+     */
+    public String getColorString() {
+        return colorString;
+    }
+
 
 }
 
