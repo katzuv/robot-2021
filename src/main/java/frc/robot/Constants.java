@@ -14,7 +14,7 @@ public class Constants {
     public static final int TALON_TIMEOUT = 10; // in ms
 
     public static class Drivetrain {
-        public static final double TICKS_PER_METER = 2048 / (4 * 0.0254 * Math.PI) * 7.5 ;
+        public static final double TICKS_PER_METER = 2048 / (4 * 0.0254 * Math.PI) * 7.5;
         public static final double TICKS_PER_RAD = 1024 / (2 * Math.PI);
         public static final int TICKS_IN_ENCODER = 1024;
 
@@ -29,12 +29,12 @@ public class Constants {
         public static final double ROBOT_WIDTH = 0.75; // in meters
 
         // the speed of the robot, this constant multiplies the speed outputs from the joysticks
-        public static final double SPEED_MULTIPLIER = 1;
+        public static final double SPEED_MULTIPLIER = 4 / Math.sqrt(2);
 
         // the rotational speed of the robot, this constant multiplies the rotation output of the joystick
-        public static final double ROTATION_MULTIPLIER = 0.5;
+        public static final double ROTATION_MULTIPLIER = 1.5 * Math.PI;
 
-        public static final double JOYSTICK_THRESHOLD = 0.05; // TODO: tune to actual value
+        public static final double JOYSTICK_THRESHOLD = 0.1; // TODO: tune to actual value
 
         // encoder 0 for angle motors
         public static final int[] MECHANICAL_OFFSET = new int[]{-343, -0, -0, 0}; //TODO: incorrect
@@ -55,10 +55,10 @@ public class Constants {
         // slow man
         public static final WebConstant KP_DRIVE_SLOW = new WebConstant("KP_Drive_Slow", 0.2);
         public static final WebConstant KI_DRIVE_SLOW = new WebConstant("KI_Drive_Slow", 0);
-        public static final WebConstant KD_DRIVE_SLOW = new WebConstant("KD_Drive_Slow", 0);
-        public static final WebConstant KF_DRIVE_SLOW = new WebConstant("KF_Drive_Slow", 0);
+        public static final WebConstant KD_DRIVE_SLOW = new WebConstant("KD_Drive_Slow", 2);
+        public static final WebConstant KF_DRIVE_SLOW = new WebConstant("KF_Drive_Slow", 0.05);
 
-        public static final int[] ZERO_POSITION = {-1, 4, 0, -3};
+        public static final int[] ZERO_POSITION = {-339, 686, 221, -903};
 
         // sick man
         public static final WebConstant KP_SICK = new WebConstant("KP_SICK", 6);
@@ -66,7 +66,6 @@ public class Constants {
         public static final WebConstant KD_SICK = new WebConstant("KD_SICK", 8);
         public static final WebConstant KF_SICK = new WebConstant("KF_SICK", 0);
     }
-
 
 
     public static class ExampleSubsystem1 {
