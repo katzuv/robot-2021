@@ -19,21 +19,28 @@ public class HolonomicDrive extends CommandBase {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        Robot.gyro.reset();
+
+    }
 
     @Override
     public void execute() {
         double forward = -RobotContainer.xbox.getY(GenericHID.Hand.kRight);
         double strafe = -RobotContainer.xbox.getX(GenericHID.Hand.kRight);
         double rotation = -RobotContainer.xbox.getX(GenericHID.Hand.kLeft);
-        System.out.println("forward " + forward);
-        forward = joystickDeadband(forward) ;
+        forward = joystickDeadband(forward);
         strafe = joystickDeadband(strafe) ;
         rotation = joystickDeadband(rotation);
-        System.out.println(forward);
-        System.out.println(strafe);
-        System.out.println(rotation);
-        swerveDrive.holonomicDrive(forward, strafe, rotation);
+//        if (forward != 0 || strafe != 0 || rotation != 0){
+//            swerveDrive.holonomicDrive(forward, strafe, rotation);
+//        }else {
+//            for(int i = 0; i < 4; i++ ){
+//                swerveDrive.swerveModules[i].setSpeed(0);
+//                swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());
+//            }
+//        }
+        swerveDrive.lock();
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
         FireLog.log("swerve direction", Robot.gyro.getAngle());
     }
@@ -45,7 +52,7 @@ public class HolonomicDrive extends CommandBase {
     private double joystickDeadband(double val) {
         if (Math.abs(val) < Constants.SwerveDrive.JOYSTICK_THRESHOLD)
             return 0;
-        return val;
+        return Math.pow(val,3);
     }
 
     @Override
