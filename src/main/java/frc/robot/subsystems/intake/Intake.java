@@ -12,7 +12,6 @@ public class Intake extends SubsystemBase {
     private TalonSRX motor = new TalonSRX(Ports.Intake.MOTOR);
     private Solenoid solenoidR = new Solenoid(Ports.Intake.SOLENOID_RIGHT);
     private Solenoid solenoidL = new Solenoid(Ports.Intake.SOLENOID_LEFT);
-    private UnitModel unitModel = new UnitModel(Constants.Intake.TICK_PER_METER);
     private State position = State.CLOSE;
 
     /**
@@ -20,14 +19,6 @@ public class Intake extends SubsystemBase {
      */
     public Intake() {
         motor.setInverted(Ports.Intake.IS_INVERTED);
-    }
-
-    /**
-     * @return intake's motor velocity.
-
-     */
-    public double getVelocity(){
-        return unitModel.toVelocity(motor.getSelectedSensorVelocity());
     }
 
     /**
