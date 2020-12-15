@@ -17,12 +17,23 @@ package frc.robot;
  */
 public final class Constants {
     public static final int TALON_TIMEOUT = 10; // [ms]
+    public static final double ROBOT_TIMEOUT = 0.02; // [s]
+
     //TODO: change to real values
     public static final class Flywheel {
         public static final int TICKS_PER_ROTATION = 0;
 
         public static final double VELOCITY_TOLERANCE = 0; //[rps]
+        public static final double MODEL_TOLERANCE = 0;
+        public static final double ENCODER_TOLERANCE = 0; //[ticks]
         public static final double MINIMAL_VELOCITY = 0;//[rps] the minimal velocity where the wheel would actually move
+
         public static final double[] PIDF = {0, 0, 0, 0};
+
+        public static final double G = 0; //Gear Ratio
+        public static final double Kt = 0;
+        public static final double Kv = 0;
+        public static final double RADIUS = 0;
+        public static final double J = 0; //moment of inertia
     }
 }
