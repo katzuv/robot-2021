@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.util.Color;
  */
 public final class Constants {
 
+    public static final int TALON_TIMEOUT = 0;
+
     public static class ColourWheel {
         public static final double[] RED = {0, 0, 0};
         public static final double[] GREEN = {0, 0, 0};
