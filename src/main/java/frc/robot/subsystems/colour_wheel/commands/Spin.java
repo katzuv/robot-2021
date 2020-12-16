@@ -12,6 +12,8 @@ public class Spin extends CommandBase {
     private double power;
     private String initColour;
     private int spinCount;
+    boolean flag = true;
+    boolean flag2 = true;
 
     public Spin(ColourWheel colourWheel, double power) {
         this.colourWheel = colourWheel;
@@ -30,16 +32,14 @@ public class Spin extends CommandBase {
     @Override
     public void execute() {
         colourWheel.updateSensor();
-        boolean flag = true;
         if (!colourWheel.getColorString().equals(initColour))
-            flag = false;
+            flag = true;
         else {
-            if (!flag) {
-                flag = true;
+            if (flag) {
+                flag = false;
                 spinCount++;
             }
         }
-        boolean flag2 = true;
         if (spinCount == 5 && flag2) {
             colourWheel.setPower(0.5 * power);
             flag2 = false;

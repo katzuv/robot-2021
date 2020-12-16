@@ -13,7 +13,8 @@ public class FindColour extends CommandBase {
     private String tempColour;
     private String[] colours;
     int finalDis;
-    int finalTemp;
+    int tempDis;
+    boolean flag = false;
 
     public FindColour(ColourWheel colourWheel, String colour, double power) {
         this.colourWheel = colourWheel;
@@ -54,16 +55,13 @@ public class FindColour extends CommandBase {
     @Override
     public void execute() {
         colourWheel.updateSensor();
-        boolean flag = true;
         if (colourWheel.getColorString() != tempColour) {
             tempColour = colourWheel.getColorString();
-            finalTemp--;
+            tempDis--;
             flag = true;
         }
-        power = power - 0.1 * (finalDis - finalTemp);
         if (flag) {
-            colourWheel.setPower(power - 0.1 * (finalDis - finalTemp));
-            flag = false;
+            colourWheel.setPower(power - 0.1 * (finalDis - tempDis));
         }
     }
 
