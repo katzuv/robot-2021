@@ -27,6 +27,6 @@ public final class Constants {
         public static final int kD = 0;
         public static final int kF = 0;
 
-        public static final double TOLERANCE = 1; //Error tolerance for the height requested [m].
+        public static final double TOLERANCE = 0.1; //Error tolerance for the height [m].
     }
 }
