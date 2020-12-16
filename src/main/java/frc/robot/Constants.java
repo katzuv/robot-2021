@@ -17,7 +17,7 @@ package frc.robot;
  */
 public final class Constants {
 
-    public static final int TALON_TIMEOUT = 10; //Waiting period for configurations [ns].
+    public static final int TALON_TIMEOUT = 10; //Waiting period for configurations [ms].
 
     public static class Climber {
         public static final int TICKS_PER_METER = 0;
@@ -27,8 +27,8 @@ public final class Constants {
         public static final int kD = 0;
         public static final int kF = 0;
 
-        public static final int CRUISE_VELOCITY = 0;
-        public static final int ACCELERATION = 0;
+        public static final int CRUISE_VELOCITY = 0;//sensor units per 100ms per sec.
+        public static final int ACCELERATION = 0;//sensor units per 100ms per sec.
 
         public static final double TOLERANCE = 0.1; //Error tolerance for the height [m].
     }

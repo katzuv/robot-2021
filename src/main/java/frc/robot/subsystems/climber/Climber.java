@@ -22,8 +22,6 @@ public class Climber extends SubsystemBase {
         slave.setInverted(Ports.Climber.IS_SLAVE_INVERTED);
 
         master.setSensorPhase(Ports.Climber.IS_MASTER_SENSOR_PHASE_INVERTED);
-//        slave.setSensorPhase(Ports.Climber.IS_SLAVE_SENSOR_PHASE_INVERTED);
-
 
         master.configMotionCruiseVelocity(Constants.Climber.CRUISE_VELOCITY, Constants.TALON_TIMEOUT);
         master.configMotionAcceleration(Constants.Climber.ACCELERATION, Constants.TALON_TIMEOUT);
@@ -32,8 +30,6 @@ public class Climber extends SubsystemBase {
         master.config_kI(0, Constants.Climber.kI, Constants.TALON_TIMEOUT);
         master.config_kD(0, Constants.Climber.kD, Constants.TALON_TIMEOUT);
         master.config_kF(0, Constants.Climber.kF, Constants.TALON_TIMEOUT);
-
-
     }
 
     /**
@@ -46,7 +42,7 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * ManageClimb height meters up with the robot.
+     * climb height meters up with the robot.
      *
      * @param height requested height to climb [m].
      */
@@ -111,10 +107,16 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    /**
+     * Toggle the piston mode of the piston responsible for the gearbox.
+     */
     public void toggleGear() {
         gearboxShifter.set(!gearboxShifter.get());
     }
 
+    /**
+     * Toggle the piston mode of the piston responsible for the stopper.
+     */
     public void toggleStopper() {
         stopper.set(!stopper.get());
     }

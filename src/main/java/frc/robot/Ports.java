@@ -11,6 +11,5 @@ public class Ports {
         public static final boolean IS_MASTER_INVERTED = false;
         public static final boolean IS_MASTER_SENSOR_PHASE_INVERTED = false;
         public static final boolean IS_SLAVE_INVERTED = false;
-//        public static final boolean IS_SLAVE_SENSOR_PHASE_INVERTED = false;
     }
 }
