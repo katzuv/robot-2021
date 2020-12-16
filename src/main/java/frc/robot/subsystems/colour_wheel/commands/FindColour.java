@@ -62,6 +62,7 @@ public class FindColour extends CommandBase {
         }
         if (flag) {
             colourWheel.power(power - 0.1 * (finalDis - tempDis));
+            flag = false;
         }
     }
 
