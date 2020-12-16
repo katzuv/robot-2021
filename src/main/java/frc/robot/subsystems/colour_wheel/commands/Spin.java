@@ -10,10 +10,10 @@ public class Spin extends CommandBase {
 
     private final ColourWheel colourWheel;
     private double power;
-    private String initColour;
-    private int spinCount;
-    boolean flag = true;
-    boolean flag2 = true;
+    private String initColour;//The first color the sensor sees.
+    private int spinCount;//Amount of times the sensor has seen the first color.
+    boolean isDifferentColor = true;//Whether the sensor has seen a different color than the initial color.
+    boolean isPowerDecreased = true;//Whether the power decrease has been executed already.
 
     public Spin(ColourWheel colourWheel, double power) {
         this.colourWheel = colourWheel;
@@ -33,16 +33,16 @@ public class Spin extends CommandBase {
     public void execute() {
         colourWheel.updateSensor();
         if (!colourWheel.getColorString().equals(initColour))
-            flag = true;
+            isDifferentColor = true;
         else {
-            if (flag) {
-                flag = false;
+            if (isDifferentColor) {
+                isDifferentColor = false;
                 spinCount++;
             }
         }
-        if (spinCount == 5 && flag2) {
+        if (spinCount == 5 && isPowerDecreased) {
             colourWheel.power(0.5 * power);
-            flag2 = false;
+            isPowerDecreased = false;
         }
     }
 

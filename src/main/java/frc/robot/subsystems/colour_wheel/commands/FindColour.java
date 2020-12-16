@@ -10,24 +10,23 @@ public class FindColour extends CommandBase {
     private ColourWheel colourWheel;
     private String colour;
     private double power;
+    private String[] colours = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
     private String tempColour;
-    private String[] colours;
-    int finalDis;
-    int tempDis;
-    boolean flag = false;
+    private int resultColorDis;//Amount of colors away from initial color to target color.
+    private int previousColor;
+    private boolean isNewColorSeen = false;
 
     public FindColour(ColourWheel colourWheel, String colour, double power) {
         this.colourWheel = colourWheel;
         this.colour = colour;
         this.power = power;
-        colours = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
         addRequirements(colourWheel);
     }
 
     @Override
     public void initialize() {
-        tempColour = colourWheel.getColorString();
         colourWheel.updateSensor();
+        tempColour = colourWheel.getColorString();
         int targetIndex = 0, currentIndex = 0;
         for (int i = 0; i < colours.length; i++) {
             if (colours[i].equals(colour))
@@ -45,10 +44,10 @@ public class FindColour extends CommandBase {
         }
         if (clockDis < antiDis) {
             colourWheel.power(power);
-            finalDis = clockDis;
+            resultColorDis = clockDis;
         } else {
             colourWheel.power(-power);
-            finalDis = antiDis;
+            resultColorDis = antiDis;
         }
     }
 
@@ -57,22 +56,22 @@ public class FindColour extends CommandBase {
         colourWheel.updateSensor();
         if (colourWheel.getColorString() != tempColour) {
             tempColour = colourWheel.getColorString();
-            tempDis--;
-            flag = true;
+            previousColor--;
+            isNewColorSeen = true;
         }
-        if (flag) {
-            colourWheel.power(power - 0.1 * (finalDis - tempDis));
-            flag = false;
+        if (isNewColorSeen) {
+            colourWheel.power(power - 0.1 * (resultColorDis - previousColor));
+            isNewColorSeen = false;
         }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        colourWheel.power(0);
     }
 
     @Override
     public boolean isFinished() {
         return colourWheel.getColorString().equals(colour);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        colourWheel.power(0);
     }
 }
