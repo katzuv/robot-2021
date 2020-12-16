@@ -22,11 +22,16 @@ public class Climber extends SubsystemBase {
         slave.setInverted(Ports.Climber.IS_SLAVE_INVERTED);
 
         master.setSensorPhase(Ports.Climber.IS_MASTER_SENSOR_PHASE_INVERTED);
-        slave.setSensorPhase(Ports.Climber.IS_SLAVE_SENSOR_PHASE_INVERTED);
+//        slave.setSensorPhase(Ports.Climber.IS_SLAVE_SENSOR_PHASE_INVERTED);
+
+
+        master.configMotionCruiseVelocity(Constants.Climber.CRUISE_VELOCITY, Constants.TALON_TIMEOUT);
+        master.configMotionAcceleration(Constants.Climber.ACCELERATION, Constants.TALON_TIMEOUT);
 
         master.config_kP(0, Constants.Climber.kP, Constants.TALON_TIMEOUT);
         master.config_kI(0, Constants.Climber.kI, Constants.TALON_TIMEOUT);
         master.config_kD(0, Constants.Climber.kD, Constants.TALON_TIMEOUT);
+        master.config_kF(0, Constants.Climber.kF, Constants.TALON_TIMEOUT);
 
 
     }
@@ -41,7 +46,7 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Climb height meters up with the robot.
+     * ManageClimb height meters up with the robot.
      *
      * @param height requested height to climb [m].
      */
@@ -50,18 +55,18 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Get whether or not the stopper is engaged.
+     * Get whether the stopper is engaged.
      *
-     * @return whether or not the stopper is engaged.
+     * @return whether the stopper is engaged.
      */
     public boolean isStoppedEngaged() {
         return stopper.get();
     }
 
     /**
-     * Get whether or not the gearbox shifter is engaged.
+     * Get whether the gearbox shifter is engaged.
      *
-     * @return whether or not the gearbox shifter is engaged.
+     * @return whether the gearbox shifter is engaged.
      */
     public boolean isGearboxEngaged() {
         return gearboxShifter.get();
