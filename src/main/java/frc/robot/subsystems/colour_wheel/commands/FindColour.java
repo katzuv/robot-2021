@@ -21,13 +21,13 @@ public class FindColour extends CommandBase {
         this.colour = colour;
         this.power = power;
         colours = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
+        addRequirements(colourWheel);
     }
 
     @Override
     public void initialize() {
         tempColour = colourWheel.getColorString();
         colourWheel.updateSensor();
-        tempColour = colourWheel.getColorString();
         int targetIndex = 0, currentIndex = 0;
         for (int i = 0; i < colours.length; i++) {
             if (colours[i].equals(colour))
@@ -44,10 +44,10 @@ public class FindColour extends CommandBase {
             antiDis = colours.length - targetIndex + currentIndex;
         }
         if (clockDis < antiDis) {
-            colourWheel.setPower(power);
+            colourWheel.power(power);
             finalDis = clockDis;
         } else {
-            colourWheel.setPower(-power);
+            colourWheel.power(-power);
             finalDis = antiDis;
         }
     }
@@ -61,13 +61,13 @@ public class FindColour extends CommandBase {
             flag = true;
         }
         if (flag) {
-            colourWheel.setPower(power - 0.1 * (finalDis - tempDis));
+            colourWheel.power(power - 0.1 * (finalDis - tempDis));
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        colourWheel.setPower(0);
+        colourWheel.power(0);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class Spin extends CommandBase {
         colourWheel.updateSensor();
         initColour = colourWheel.getColorString();
         spinCount = 0;
-        colourWheel.setPower(power);
+        colourWheel.power(power);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Spin extends CommandBase {
             }
         }
         if (spinCount == 5 && flag2) {
-            colourWheel.setPower(0.5 * power);
+            colourWheel.power(0.5 * power);
             flag2 = false;
         }
     }
@@ -53,6 +53,6 @@ public class Spin extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        colourWheel.setPower(0);
+        colourWheel.power(0);
     }
 }

@@ -49,7 +49,7 @@ public class ColourWheel extends SubsystemBase {
      *
      * @param percent designated percentages for the Colour Wheel's power.
      */
-    public void setPower(double percent) {
+    public void power(double percent) {
         motor.set(ControlMode.PercentOutput, percent);
     }
 
