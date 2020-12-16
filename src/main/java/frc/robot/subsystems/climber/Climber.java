@@ -50,7 +50,7 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Get whether or not the stopper is engaged.
+     * Get whether the stopper is engaged.
      *
      * @return whether or not the stopper is engaged.
      */
