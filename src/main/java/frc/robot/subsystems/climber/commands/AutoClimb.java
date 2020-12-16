@@ -7,8 +7,8 @@ public class AutoClimb extends SequentialCommandGroup {
 
     private final Climber climber;
 
-    public AutoClimb(Climber climber) {
+    public AutoClimb(Climber climber, double height) {
         this.climber = climber;
-        addCommands(new SetGearbox(climber, Climber.PistonMode.OPEN), new SetStopper(climber, Climber.PistonMode.CLOSED));
+        addCommands(new ShiftGear(climber, Climber.PistonMode.OPEN), new SetStopper(climber, Climber.PistonMode.CLOSED), new ManageClimb(climber, height));
     }
 }
