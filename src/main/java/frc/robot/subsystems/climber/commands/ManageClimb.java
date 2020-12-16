@@ -36,6 +36,5 @@ public class ManageClimb extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        new SetStopper(climber, Climber.PistonMode.CLOSED);
     }
 }
