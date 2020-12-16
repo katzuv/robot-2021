@@ -13,16 +13,16 @@ public class Climber extends SubsystemBase {
     private final TalonFX slave = new TalonFX(Ports.Climber.SLAVE);
     private final UnitModel unitModel = new UnitModel(Constants.Climber.TICKS_PER_METER);
     private final Solenoid stopper = new Solenoid(Ports.Climber.STOPPER);
-    private final Solenoid gearboxPiston = new Solenoid(Ports.Climber.GEARBOX_PISTON);
+    private final Solenoid gearboxShifter = new Solenoid(Ports.Climber.GEARBOX_SHIFTER);
 
     public Climber() {
         slave.follow(master);
 
-        master.setInverted(Ports.Climber.MASTER_INVERTED);
-        slave.setInverted(Ports.Climber.SLAVE_INVERTED);
+        master.setInverted(Ports.Climber.IS_MASTER_INVERTED);
+        slave.setInverted(Ports.Climber.IS_SLAVE_INVERTED);
 
-        master.setSensorPhase(Ports.Climber.MASTER_SENSOR_PHASE_INVERTED);
-        slave.setSensorPhase(Ports.Climber.SLAVE_SENSOR_PHASE_INVERTED);
+        master.setSensorPhase(Ports.Climber.IS_MASTER_SENSOR_PHASE_INVERTED);
+        slave.setSensorPhase(Ports.Climber.IS_SLAVE_SENSOR_PHASE_INVERTED);
 
         master.config_kP(0, Constants.Climber.kP, Constants.TALON_TIMEOUT);
         master.config_kI(0, Constants.Climber.kI, Constants.TALON_TIMEOUT);
@@ -59,12 +59,12 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Get whether or not the gearbox piston is engaged.
+     * Get whether or not the gearbox shifter is engaged.
      *
-     * @return whether or not the gearbox piston is engaged.
+     * @return whether or not the gearbox shifter is engaged.
      */
     public boolean isGearboxEngaged() {
-        return gearboxPiston.get();
+        return gearboxShifter.get();
     }
 
     /**
@@ -77,12 +77,12 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Set the gearbox piston mode to a given mode.
+     * Set the gearbox shifter mode to a given mode.
      *
-     * @param mode the wanted gearbox piston mode.
+     * @param mode the wanted gearbox shifter mode.
      */
     public void setGearboxMode(PistonMode mode) {
-        gearboxPiston.set(mode.getValue());
+        gearboxShifter.set(mode.getValue());
     }
 
     /**
@@ -107,7 +107,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void toggleGear() {
-        gearboxPiston.set(!gearboxPiston.get());
+        gearboxShifter.set(!gearboxShifter.get());
     }
 
     public void toggleStopper() {
