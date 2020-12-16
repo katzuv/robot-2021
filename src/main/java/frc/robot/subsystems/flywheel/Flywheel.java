@@ -65,6 +65,10 @@ public class Flywheel extends SubsystemBase {
         }
     }
 
+    public double estimateVelocity(double distance) {
+        return distance;
+    }
+
     public void stop() {
         for (FlywheelModule module : flywheelModules) {
             module.stop();

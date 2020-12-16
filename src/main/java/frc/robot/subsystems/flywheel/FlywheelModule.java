@@ -45,10 +45,7 @@ public class FlywheelModule extends SubsystemBase {
         motor.set(ControlMode.PercentOutput, power);
     }
 
-    public double estimateVelocity(double distance) {
-        return distance;
-    }
-
+  
     public boolean isReady(double desiredVelocity) {
         return Math.abs(getVelocity() - desiredVelocity) < Constants.Flywheel.VELOCITY_TOLERANCE && getVelocity() > Constants.Flywheel.MINIMAL_VELOCITY;
     }
