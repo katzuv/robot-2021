@@ -8,12 +8,12 @@ import frc.robot.subsystems.climber.Climber;
 /**
  * The command lifts the robot up by a given number of meters.
  */
-public class Climb extends CommandBase {
+public class ManageClimb extends CommandBase {
 
     private final Climber climber;
     private double height;
 
-    public Climb(Climber climber, double height) {
+    public ManageClimb(Climber climber, double height) {
         this.climber = climber;
         this.height = height;
         addRequirements(climber);
@@ -21,7 +21,6 @@ public class Climb extends CommandBase {
 
     @Override
     public void initialize() {
-        new AutoClimb(climber);
         climber.setHeight(height);
     }
 
