@@ -27,8 +27,8 @@ public final class Constants {
         public static final int kD = 0;
         public static final int kF = 0;
 
-        public static final int CRUISE_VELOCITY = 0;//sensor units per 100ms per sec.
-        public static final int ACCELERATION = 0;//sensor units per 100ms per sec.
+        public static final int CRUISE_VELOCITY = 0; //sensor units per 100ms.
+        public static final int ACCELERATION = 0; //sensor units per 100ms.
 
         public static final double TOLERANCE = 0.1; //Error tolerance for the height [m].
     }
