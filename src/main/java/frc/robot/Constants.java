@@ -17,7 +17,7 @@ package frc.robot;
  */
 public final class Constants {
 
-    public static final int TALON_TIMEOUT = 0;
+    public static final int TALON_TIMEOUT = 10;
 
     public static class ColourWheel {
         public static final double[] RED = {0, 0, 0};
