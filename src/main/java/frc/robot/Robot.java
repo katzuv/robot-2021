@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,6 +23,9 @@ public class Robot extends TimedRobot {
     public static boolean debug = true;
     private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+
+  public static AHRS gyro = new AHRS(SPI.Port.kMXP);
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
