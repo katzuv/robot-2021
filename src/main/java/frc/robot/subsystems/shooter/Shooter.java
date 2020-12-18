@@ -55,8 +55,8 @@ public class Shooter extends SubsystemBase {
         return distance;
     }
 
-    public double getAvgVelocity() {
-        return 0;
+    public double getVelocity() {
+        return main.getVelocity();
     }
 
     public boolean isReady(double desiredVelocity) {
