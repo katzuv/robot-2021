@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
 import edu.wpi.first.wpilibj.estimator.KalmanFilter;
 import edu.wpi.first.wpilibj.system.LinearSystem;
@@ -11,16 +13,46 @@ import edu.wpi.first.wpiutil.math.VecBuilder;
 import edu.wpi.first.wpiutil.math.Vector;
 import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.Constants;
+import frc.robot.Ports;
+import frc.robot.subsystems.UnitModel;
 
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Ports.Shooter.*;
 
+/**
+ * The shooter class represents the physical shooter.
+ * The purpose of the flywheel is to provide a set of functions to handle a shooting situation in a game.
+ *
+ * @author Barel Shlidor
+ * @version 1.0
+ * @using TalonFX
+ * @since 2021
+ */
 public class Shooter extends SubsystemBase {
-    private final FlywheelModule main = new FlywheelModule(MOTOR_1, MOTOR_1_INVERTED, MOTOR_1_SENSOR_INVERTED);
-    private final FlywheelModule aux = new FlywheelModule(MOTOR_2, MOTOR_2_INVERTED, MOTOR_2_SENSOR_INVERTED);
+    private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
+    private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
+    private final UnitModel rpsUnitModel = new UnitModel(Constants.Shooter.TICKS_PER_ROTATION);
+
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
     public Shooter() {
+        main.setInverted(Ports.Shooter.MAIN_INVERTED);
+        aux.setInverted(Ports.Shooter.AUX_INVERTED);
+        main.setSensorPhase(Ports.Shooter.IS_SENSOR_INVERTED);
+
+        main.setNeutralMode(NeutralMode.Coast);
+        aux.setNeutralMode(NeutralMode.Coast);
+
+        main.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        main.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+
+        main.enableVoltageCompensation(true);
+        aux.enableVoltageCompensation(true);
+
+        main.configVoltageCompSaturation(Constants.VOLTAGE);
+        aux.configVoltageCompSaturation(Constants.VOLTAGE);
+
+        aux.follow(main);
+
         Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
         Vector<N1> B = VecBuilder.fill(G * Kt / (OMEGA * J));
         LinearSystem<N1, N1, N1> stateSpace = new LinearSystem<>(A, B, Matrix.eye(Nat.N1()), new Matrix<>(Nat.N1(), Nat.N1()));
@@ -30,40 +62,73 @@ public class Shooter extends SubsystemBase {
                 Constants.ROBOT_TIMEOUT
         );
         LinearQuadraticRegulator<N1, N1, N1> lqr = new LinearQuadraticRegulator<>(stateSpace, VecBuilder.fill(VELOCITY_TOLERANCE),
-                VecBuilder.fill(12), // voltage
+                VecBuilder.fill(Constants.VOLTAGE),
                 Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
         );
-        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, 12, Constants.ROBOT_TIMEOUT); // the last two are the voltage, and the time between loops
-        aux.follow(main);
+        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.VOLTAGE, Constants.ROBOT_TIMEOUT);
     }
 
+    /**
+     * @return the velocity of the shooter. [rps]
+     * @see #setVelocity(double)
+     */
+    public double getVelocity() {
+        return rpsUnitModel.toVelocity(main.getSelectedSensorVelocity());
+    }
+
+    /**
+     * Set the velocity to apply by the motor.
+     *
+     * @param velocity the desired velocity at which the motor will rotate. [rps]
+     * @see #setPower(double)
+     */
     public void setVelocity(double velocity) {
         stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference
-        stateSpacePredictor.correct(VecBuilder.fill(main.getVelocity()));
+        stateSpacePredictor.correct(VecBuilder.fill(getVelocity()));
         stateSpacePredictor.predict(Constants.ROBOT_TIMEOUT); //every 20 ms
 
-        double voltage = stateSpacePredictor.getU(0); // u = input, calculated by the input.
+        double voltageToApply = stateSpacePredictor.getU(0); // u = input, calculated by the input.
         // returns the voltage to apply (between 0 and 12)
-        setPower(voltage / 12); // map to be between 0 and 1
+        setPower(voltageToApply / Constants.VOLTAGE); // map to be between 0 and 1
     }
 
+    /**
+     * Set the power to apply by the motor.
+     *
+     * @param power the power at which the motor will rotate. [percentage, between 0 and 1]
+     * @see #stop()
+     */
     public void setPower(double power) {
-        main.setPower(power);
+        main.set(TalonFXControlMode.PercentOutput, power, DemandType.ArbitraryFeedForward, Constants.Shooter.ARBITRARY_FEED_FORWARD);
     }
 
+    /**
+     * Estimate the velocity that the shooter should apply in order to reach the target.
+     * The function created by running an experiment of different velocities for the "most used" distances.
+     * See the experiment results in (TODO: Add the path).
+     *
+     * @param distance the distance from the target.
+     * @return the velocity that should be applied by the shooter in order to reach the target.[rps]
+     */
     public double estimateVelocity(double distance) {
         return distance;
     }
 
-    public double getVelocity() {
-        return main.getVelocity();
-    }
-
+    /**
+     * Get whether the flywheel has reached the desired velocity in order to reach the target.
+     * Also, this function checks whether the flywheel has enough velocity in order to move the motor in first place.
+     *
+     * @param desiredVelocity the desired velocity at the motor will rotate. [rps]
+     * @return whether the flywheel reaches the desired velocity.
+     */
     public boolean isReady(double desiredVelocity) {
-        return main.isReady(desiredVelocity);
+        return Math.abs(getVelocity() - desiredVelocity) < Constants.Shooter.VELOCITY_TOLERANCE && getVelocity() > Constants.Shooter.MINIMAL_VELOCITY;
     }
 
+    /**
+     * Stop the shooter from moving.
+     */
     public void stop() {
-        main.stop();
+        setPower(0);
     }
 }
