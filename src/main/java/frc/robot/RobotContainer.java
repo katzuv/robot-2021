@@ -10,8 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ExampleSubsystem.ExampleSubsystem;
-import frc.robot.subsystems.ExampleSubsystem.commands.ExampleCommand;
+import frc.robot.subsystems.shooter.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,10 +19,8 @@ import frc.robot.subsystems.ExampleSubsystem.commands.ExampleCommand;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public Intake intake = new Intake();
-  public XboxController Xbox = new XboxController(1);
-  public JoystickButton a = new JoystickButton(Xbox, XboxController.Button.kA.value);
-  public JoystickButton b = new JoystickButton(Xbox, XboxController.Button.kB.value);
+  private final Shooter shooter = new Shooter(true);
+  public XboxController xbox = new XboxController(1);
   // The robot's subsystems and commands are defined here...
 
 
@@ -42,8 +39,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    a.whileHeld(new EatCommand(intake, 0.5));
-    b.whenPressed(new Chomp(Intake, Intake.state.OPEN))
   }
 
 

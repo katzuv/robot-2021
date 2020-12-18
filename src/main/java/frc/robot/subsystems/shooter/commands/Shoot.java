@@ -1,17 +1,17 @@
-package frc.robot.subsystems.flywheel.commands;
+package frc.robot.subsystems.shooter.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.flywheel.Flywheel;
+import frc.robot.subsystems.shooter.Shooter;
 
 public class Shoot extends CommandBase {
-    private final Flywheel flywheel;
+    private final Shooter shooter;
     private final double velocity;
 
-    public Shoot(Flywheel flywheel, double velocity) {
-        this.flywheel = flywheel;
+    public Shoot(Shooter shooter, double velocity) {
+        this.shooter = shooter;
         this.velocity = velocity;
 
-        addRequirements(flywheel);
+        addRequirements(shooter);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Shoot extends CommandBase {
 
     @Override
     public void execute() {
-        flywheel.setVelocity(velocity);
+        shooter.setVelocity(velocity);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class Shoot extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        flywheel.stop();
+        shooter.stop();
     }
 }

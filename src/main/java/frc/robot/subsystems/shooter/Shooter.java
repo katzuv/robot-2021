@@ -1,4 +1,4 @@
-package frc.robot.subsystems.flywheel;
+package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
 import edu.wpi.first.wpilibj.estimator.KalmanFilter;
@@ -12,22 +12,22 @@ import edu.wpi.first.wpiutil.math.Vector;
 import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.Constants;
 
-import static frc.robot.Constants.Flywheel.*;
-import static frc.robot.Ports.Flywheel.*;
+import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Ports.Shooter.*;
 
-public class Flywheel extends SubsystemBase {
+public class Shooter extends SubsystemBase {
     private final FlywheelModule[] flywheelModules = new FlywheelModule[2]; // Maybe the quantity will change
     private final boolean useStateSpace;
 
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
-    public Flywheel(boolean useStateSpace) {
+    public Shooter(boolean useStateSpace) {
         this.useStateSpace = useStateSpace;
         if (!useStateSpace) {
             this.stateSpacePredictor = null;
         } else {
-            Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * RADIUS * J)); //Change the amount of cells and rows
-            Vector<N1> B = VecBuilder.fill(G * Kt / (RADIUS * J));
+            Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
+            Vector<N1> B = VecBuilder.fill(G * Kt / (OMEGA * J));
             LinearSystem<N1, N1, N1> stateSpace = new LinearSystem<>(A, B, Matrix.eye(Nat.N1()), new Matrix<>(Nat.N1(), Nat.N1()));
             KalmanFilter<N1, N1, N1> kalman = new KalmanFilter<>(Nat.N1(), Nat.N1(), stateSpace,
                     VecBuilder.fill(MODEL_TOLERANCE),
@@ -53,6 +53,8 @@ public class Flywheel extends SubsystemBase {
 
             double voltage = stateSpacePredictor.getU(0); // u = input, calculated by the input.
             // returns the voltage to apply (between 0 and 12)
+            System.out.println("Voltage: " + voltage);
+            System.out.println("Percentage: " + (voltage / 12));
             setPower(voltage / 12); // map to be between 0 and 1
         } else
             for (FlywheelModule module : flywheelModules)
@@ -67,6 +69,22 @@ public class Flywheel extends SubsystemBase {
 
     public double estimateVelocity(double distance) {
         return distance;
+    }
+
+    public double getAvgVelocity() {
+        double avg = 0;
+        for (FlywheelModule module : flywheelModules) {
+            avg += module.getVelocity();
+        }
+        return avg / flywheelModules.length;
+    }
+
+    public boolean isReady(double desiredVelocity) {
+        for (FlywheelModule module : flywheelModules) {
+            if (!module.isReady(desiredVelocity))
+                return false;
+        }
+        return true;
     }
 
     public void stop() {

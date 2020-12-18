@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Ports {
 
-    public static final class Flywheel {
+    public static final class Shooter {
         public static final int MOTOR_1 = 0;
         public static final int MOTOR_2 = 0;
 
