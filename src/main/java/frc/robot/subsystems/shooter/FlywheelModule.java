@@ -130,4 +130,14 @@ public class FlywheelModule extends SubsystemBase {
     public void stop() {
         setPower(0);
     }
+
+    /**
+     * Set the control mode and output value so that this motor controller will
+     * follow another motor controller.
+     *
+     * @param module Motor Controller to follow.
+     */
+    public void follow(FlywheelModule module) {
+        motor.follow(module.motor);
+    }
 }
