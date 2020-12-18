@@ -16,55 +16,39 @@ import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Ports.Shooter.*;
 
 public class Shooter extends SubsystemBase {
-    private final FlywheelModule[] flywheelModules = new FlywheelModule[2]; // Maybe the quantity will change
-    private final boolean useStateSpace;
-
+    private final FlywheelModule main = new FlywheelModule(MOTOR_1, MOTOR_1_INVERTED, MOTOR_1_SENSOR_INVERTED);
+    private final FlywheelModule aux = new FlywheelModule(MOTOR_2, MOTOR_2_INVERTED, MOTOR_2_SENSOR_INVERTED);
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
-    public Shooter(boolean useStateSpace) {
-        this.useStateSpace = useStateSpace;
-        if (!useStateSpace) {
-            this.stateSpacePredictor = null;
-        } else {
-            Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
-            Vector<N1> B = VecBuilder.fill(G * Kt / (OMEGA * J));
-            LinearSystem<N1, N1, N1> stateSpace = new LinearSystem<>(A, B, Matrix.eye(Nat.N1()), new Matrix<>(Nat.N1(), Nat.N1()));
-            KalmanFilter<N1, N1, N1> kalman = new KalmanFilter<>(Nat.N1(), Nat.N1(), stateSpace,
-                    VecBuilder.fill(MODEL_TOLERANCE),
-                    VecBuilder.fill(ENCODER_TOLERANCE),
-                    Constants.ROBOT_TIMEOUT
-            );
-            LinearQuadraticRegulator<N1, N1, N1> lqr = new LinearQuadraticRegulator<>(stateSpace, VecBuilder.fill(VELOCITY_TOLERANCE),
-                    VecBuilder.fill(12), // voltage
-                    Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
-            );
-            this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, 12, Constants.ROBOT_TIMEOUT); // the last two are the voltage, and the time between loops
-        }
-
-        flywheelModules[0] = new FlywheelModule(MOTOR_1, MOTOR_1_INVERTED, MOTOR_1_SENSOR_INVERTED);
-        flywheelModules[1] = new FlywheelModule(MOTOR_2, MOTOR_2_INVERTED, MOTOR_2_SENSOR_INVERTED);
+    public Shooter() {
+        Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
+        Vector<N1> B = VecBuilder.fill(G * Kt / (OMEGA * J));
+        LinearSystem<N1, N1, N1> stateSpace = new LinearSystem<>(A, B, Matrix.eye(Nat.N1()), new Matrix<>(Nat.N1(), Nat.N1()));
+        KalmanFilter<N1, N1, N1> kalman = new KalmanFilter<>(Nat.N1(), Nat.N1(), stateSpace,
+                VecBuilder.fill(MODEL_TOLERANCE),
+                VecBuilder.fill(ENCODER_TOLERANCE),
+                Constants.ROBOT_TIMEOUT
+        );
+        LinearQuadraticRegulator<N1, N1, N1> lqr = new LinearQuadraticRegulator<>(stateSpace, VecBuilder.fill(VELOCITY_TOLERANCE),
+                VecBuilder.fill(12), // voltage
+                Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
+        );
+        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, 12, Constants.ROBOT_TIMEOUT); // the last two are the voltage, and the time between loops
+        aux.follow(main);
     }
 
     public void setVelocity(double velocity) {
-        if (useStateSpace) {
-            stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference
-            stateSpacePredictor.correct(VecBuilder.fill(flywheelModules[0].getVelocity()));
-            stateSpacePredictor.predict(Constants.ROBOT_TIMEOUT); //every 20 ms
+        stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference
+        stateSpacePredictor.correct(VecBuilder.fill(main.getVelocity()));
+        stateSpacePredictor.predict(Constants.ROBOT_TIMEOUT); //every 20 ms
 
-            double voltage = stateSpacePredictor.getU(0); // u = input, calculated by the input.
-            // returns the voltage to apply (between 0 and 12)
-            System.out.println("Voltage: " + voltage);
-            System.out.println("Percentage: " + (voltage / 12));
-            setPower(voltage / 12); // map to be between 0 and 1
-        } else
-            for (FlywheelModule module : flywheelModules)
-                module.setVelocity(velocity);
+        double voltage = stateSpacePredictor.getU(0); // u = input, calculated by the input.
+        // returns the voltage to apply (between 0 and 12)
+        setPower(voltage / 12); // map to be between 0 and 1
     }
 
     public void setPower(double power) {
-        for (FlywheelModule module : flywheelModules) {
-            module.setPower(power);
-        }
+        main.setPower(power);
     }
 
     public double estimateVelocity(double distance) {
@@ -72,24 +56,14 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getAvgVelocity() {
-        double avg = 0;
-        for (FlywheelModule module : flywheelModules) {
-            avg += module.getVelocity();
-        }
-        return avg / flywheelModules.length;
+        return 0;
     }
 
     public boolean isReady(double desiredVelocity) {
-        for (FlywheelModule module : flywheelModules) {
-            if (!module.isReady(desiredVelocity))
-                return false;
-        }
-        return true;
+        return main.isReady(desiredVelocity);
     }
 
     public void stop() {
-        for (FlywheelModule module : flywheelModules) {
-            module.stop();
-        }
+        main.stop();
     }
 }
