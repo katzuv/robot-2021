@@ -15,18 +15,18 @@ public class ColorWheel extends SubsystemBase {
 
     private final TalonSRX motor = new TalonSRX(Ports.ColorWheel.MOTOR);
 
-    private final I2C.Port port = I2C.Port.kOnboard;
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
-    private final ColorSensorV3 colorSensorV3 = new ColorSensorV3(port);
+    private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 
     private final ColorMatch colorMatch = new ColorMatch();
 
-    private String colorString = " ";
+    private String colorString = "";
 
-    private final Color RedTarget = ColorMatch.makeColor(Constants.ColorWheel.RED[0], Constants.ColorWheel.RED[1], Constants.ColorWheel.RED[2]);
-    private final Color GreenTarget = ColorMatch.makeColor(Constants.ColorWheel.GREEN[0], Constants.ColorWheel.GREEN[1], Constants.ColorWheel.GREEN[2]);
-    private final Color BlueTarget = ColorMatch.makeColor(Constants.ColorWheel.BLUE[0], Constants.ColorWheel.BLUE[1], Constants.ColorWheel.BLUE[2]);
-    private final Color YellowTarget = ColorMatch.makeColor(Constants.ColorWheel.YELLOW[0], Constants.ColorWheel.YELLOW[1], Constants.ColorWheel.YELLOW[2]);
+    private final Color redTarget = ColorMatch.makeColor(Constants.ColorWheel.RED[0], Constants.ColorWheel.RED[1], Constants.ColorWheel.RED[2]);
+    private final Color greenTarget = ColorMatch.makeColor(Constants.ColorWheel.GREEN[0], Constants.ColorWheel.GREEN[1], Constants.ColorWheel.GREEN[2]);
+    private final Color blueTarget = ColorMatch.makeColor(Constants.ColorWheel.BLUE[0], Constants.ColorWheel.BLUE[1], Constants.ColorWheel.BLUE[2]);
+    private final Color yellowTarget = ColorMatch.makeColor(Constants.ColorWheel.YELLOW[0], Constants.ColorWheel.YELLOW[1], Constants.ColorWheel.YELLOW[2]);
 
     private ColorMatchResult matchResult;
 
@@ -34,14 +34,10 @@ public class ColorWheel extends SubsystemBase {
         motor.setInverted(Ports.ColorWheel.MOTOR_INVERTED);
         motor.setSensorPhase(Ports.ColorWheel.MOTOR_SENSOR_PHASE_INVERTED);
 
-        motor.config_kP(0, Constants.ColorWheel.kP, Constants.TALON_TIMEOUT);
-        motor.config_kI(0, Constants.ColorWheel.kI, Constants.TALON_TIMEOUT);
-        motor.config_kD(0, Constants.ColorWheel.kD, Constants.TALON_TIMEOUT);
-
-        colorMatch.addColorMatch(RedTarget);
-        colorMatch.addColorMatch(GreenTarget);
-        colorMatch.addColorMatch(BlueTarget);
-        colorMatch.addColorMatch(YellowTarget);
+        colorMatch.addColorMatch(redTarget);
+        colorMatch.addColorMatch(greenTarget);
+        colorMatch.addColorMatch(blueTarget);
+        colorMatch.addColorMatch(yellowTarget);
     }
 
     /**
@@ -59,13 +55,13 @@ public class ColorWheel extends SubsystemBase {
      * @return the color seen by the color sensor in String.
      */
     public String colorToString() {
-        if (RedTarget.equals(matchResult.color)) {
+        if (redTarget.equals(matchResult.color)) {
             return "RED";
-        } else if (GreenTarget.equals(matchResult.color)) {
+        } else if (greenTarget.equals(matchResult.color)) {
             return "GREEN";
-        } else if (BlueTarget.equals(matchResult.color)) {
+        } else if (blueTarget.equals(matchResult.color)) {
             return "BLUE";
-        } else if (YellowTarget.equals(matchResult.color)) {
+        } else if (yellowTarget.equals(matchResult.color)) {
             return "YELLOW";
         } else {
             return "UNKNOWN";
@@ -76,7 +72,7 @@ public class ColorWheel extends SubsystemBase {
      * Match the color seen by the color sensor to a color from the list and set private String colorString to the String of the color.
      */
     public void updateSensor() {
-        matchResult = colorMatch.matchClosestColor(colorSensorV3.getColor());
+        matchResult = colorMatch.matchClosestColor(colorSensor.getColor());
         colorString = colorToString();
     }
 

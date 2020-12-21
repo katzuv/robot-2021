@@ -17,16 +17,15 @@ package frc.robot;
  */
 public final class Constants {
 
-    public static final int TALON_TIMEOUT = 10;
-
-    public static class ColourWheel {
+    public static class ColorWheel {
         public static final double[] RED = {0, 0, 0};
         public static final double[] GREEN = {0, 0, 0};
         public static final double[] BLUE = {0, 0, 0};
         public static final double[] YELLOW = {0, 0, 0};
 
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final int MAX_HALF_SPINS = 6;//Amount of times the color wheel must spin in half spins.
+        public static final double REDUCE_POWER_BY = 0.5;//Percentage to cut the motor power by.
+
+        public static final String[] colors = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
     }
 }

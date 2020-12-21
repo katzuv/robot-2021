@@ -2,7 +2,7 @@ package frc.robot;
 
 public class Ports {
 
-    public static class ColourWheel {
+    public static class ColorWheel {
         public static final int MOTOR = 0;
 
         public static final boolean MOTOR_INVERTED = false;

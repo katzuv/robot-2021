@@ -1,6 +1,7 @@
 package frc.robot.subsystems.color_wheel.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.color_wheel.ColorWheel;
 
 /**
@@ -10,11 +11,12 @@ public class FindColor extends CommandBase {
     private ColorWheel colorWheel;
     private String color;
     private double power;
-    private String[] colors = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
     private String tempColor;
-    private int resultColorDis;//Amount of colors away from initial color to target color.
+    private int targetColorDistance;//Amount of colors away from initial color to target color.
     private int previousColor;
     private boolean isNewColorSeen = false;
+    private int initColorIndex;
+    private int targetColorIndex;
 
     public FindColor(ColorWheel colorWheel, String color, double power) {
         this.colorWheel = colorWheel;
@@ -25,44 +27,12 @@ public class FindColor extends CommandBase {
 
     @Override
     public void initialize() {
-        colorWheel.updateSensor();
-        tempColor = colorWheel.getColorString();
-        int targetIndex = 0, currentIndex = 0;
-        for (int i = 0; i < colors.length; i++) {
-            if (colors[i].equals(color))
-                targetIndex = i;
-            if (colors[i].equals(tempColor))
-                currentIndex = i;
-        }
-        int clockDis = 0, antiDis = 0;
-        if (targetIndex < currentIndex) {
-            clockDis = targetIndex + colors.length - currentIndex;
-            antiDis = currentIndex - targetIndex;
-        } else {
-            clockDis = targetIndex - currentIndex;
-            antiDis = colors.length - targetIndex + currentIndex;
-        }
-        if (clockDis < antiDis) {
-            colorWheel.power(power);
-            resultColorDis = clockDis;
-        } else {
-            colorWheel.power(-power);
-            resultColorDis = antiDis;
-        }
+        findDistanceToTargetAndSetPower();
     }
 
     @Override
     public void execute() {
-        colorWheel.updateSensor();
-        if (colorWheel.getColorString() != tempColor) {
-            tempColor = colorWheel.getColorString();
-            previousColor--;
-            isNewColorSeen = true;
-        }
-        if (isNewColorSeen) {
-            colorWheel.power(power - 0.1 * (resultColorDis - previousColor));
-            isNewColorSeen = false;
-        }
+        moderatePower();
     }
 
     @Override
@@ -73,5 +43,50 @@ public class FindColor extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         colorWheel.power(0);
+    }
+
+    public void findDistanceToTargetAndSetPower() {
+        colorWheel.updateSensor();
+        findInitialAndTargetColorPosition();
+        int clockDistance = 0, antiDistance = 0;
+        if (targetColorIndex < initColorIndex) {
+            clockDistance = targetColorIndex + Constants.ColorWheel.colors.length - initColorIndex;
+            antiDistance = initColorIndex - targetColorIndex;
+        } else {
+            clockDistance = targetColorIndex - initColorIndex;
+            antiDistance = Constants.ColorWheel.colors.length - targetColorIndex + initColorIndex;
+        }
+        if (clockDistance < antiDistance) {
+            colorWheel.power(power);
+            targetColorDistance = clockDistance;
+        } else {
+            colorWheel.power(-power);
+            targetColorDistance = antiDistance;
+        }
+    }
+
+    public void findInitialAndTargetColorPosition() {
+        tempColor = colorWheel.getColorString();
+        initColorIndex = 0;
+        targetColorIndex = 0;
+        for (int i = 0; i < Constants.ColorWheel.colors.length; i++) {
+            if (Constants.ColorWheel.colors[i].equals(tempColor))
+                initColorIndex = i;
+            if (Constants.ColorWheel.colors[i].equals(color))
+                targetColorIndex = i;
+        }
+    }
+
+    public void moderatePower() {
+        colorWheel.updateSensor();
+        if (colorWheel.getColorString() != tempColor) {
+            tempColor = colorWheel.getColorString();
+            previousColor--;
+            isNewColorSeen = true;
+        }
+        if (isNewColorSeen) {
+            colorWheel.power(power - 0.1 * (targetColorDistance - previousColor));
+            isNewColorSeen = false;
+        }
     }
 }
