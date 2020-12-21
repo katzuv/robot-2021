@@ -1,4 +1,4 @@
-package frc.robot.subsystems.colour_wheel;
+package frc.robot.subsystems.color_wheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Ports;
 
-public class ColourWheel extends SubsystemBase {
+public class ColorWheel extends SubsystemBase {
 
-    private final TalonSRX motor = new TalonSRX(Ports.ColourWheel.MOTOR);
+    private final TalonSRX motor = new TalonSRX(Ports.ColorWheel.MOTOR);
 
     private final I2C.Port port = I2C.Port.kOnboard;
 
@@ -23,20 +23,20 @@ public class ColourWheel extends SubsystemBase {
 
     private String colorString = " ";
 
-    private final Color RedTarget = ColorMatch.makeColor(Constants.ColourWheel.RED[0], Constants.ColourWheel.RED[1], Constants.ColourWheel.RED[2]);
-    private final Color GreenTarget = ColorMatch.makeColor(Constants.ColourWheel.GREEN[0], Constants.ColourWheel.GREEN[1], Constants.ColourWheel.GREEN[2]);
-    private final Color BlueTarget = ColorMatch.makeColor(Constants.ColourWheel.BLUE[0], Constants.ColourWheel.BLUE[1], Constants.ColourWheel.BLUE[2]);
-    private final Color YellowTarget = ColorMatch.makeColor(Constants.ColourWheel.YELLOW[0], Constants.ColourWheel.YELLOW[1], Constants.ColourWheel.YELLOW[2]);
+    private final Color RedTarget = ColorMatch.makeColor(Constants.ColorWheel.RED[0], Constants.ColorWheel.RED[1], Constants.ColorWheel.RED[2]);
+    private final Color GreenTarget = ColorMatch.makeColor(Constants.ColorWheel.GREEN[0], Constants.ColorWheel.GREEN[1], Constants.ColorWheel.GREEN[2]);
+    private final Color BlueTarget = ColorMatch.makeColor(Constants.ColorWheel.BLUE[0], Constants.ColorWheel.BLUE[1], Constants.ColorWheel.BLUE[2]);
+    private final Color YellowTarget = ColorMatch.makeColor(Constants.ColorWheel.YELLOW[0], Constants.ColorWheel.YELLOW[1], Constants.ColorWheel.YELLOW[2]);
 
     private ColorMatchResult matchResult;
 
-    public ColourWheel() {
-        motor.setInverted(Ports.ColourWheel.MOTOR_INVERTED);
-        motor.setSensorPhase(Ports.ColourWheel.MOTOR_SENSOR_PHASE_INVERTED);
+    public ColorWheel() {
+        motor.setInverted(Ports.ColorWheel.MOTOR_INVERTED);
+        motor.setSensorPhase(Ports.ColorWheel.MOTOR_SENSOR_PHASE_INVERTED);
 
-        motor.config_kP(0, Constants.ColourWheel.kP, Constants.TALON_TIMEOUT);
-        motor.config_kI(0, Constants.ColourWheel.kI, Constants.TALON_TIMEOUT);
-        motor.config_kD(0, Constants.ColourWheel.kD, Constants.TALON_TIMEOUT);
+        motor.config_kP(0, Constants.ColorWheel.kP, Constants.TALON_TIMEOUT);
+        motor.config_kI(0, Constants.ColorWheel.kI, Constants.TALON_TIMEOUT);
+        motor.config_kD(0, Constants.ColorWheel.kD, Constants.TALON_TIMEOUT);
 
         colorMatch.addColorMatch(RedTarget);
         colorMatch.addColorMatch(GreenTarget);
@@ -45,9 +45,9 @@ public class ColourWheel extends SubsystemBase {
     }
 
     /**
-     * Set power for the Colour Wheel.
+     * Set power for the Color Wheel.
      *
-     * @param percent designated percentages for the Colour Wheel's power.
+     * @param percent designated percentages for the Color Wheel's power.
      */
     public void power(double percent) {
         motor.set(ControlMode.PercentOutput, percent);

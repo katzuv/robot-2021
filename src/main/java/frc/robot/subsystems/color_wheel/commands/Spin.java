@@ -1,38 +1,38 @@
-package frc.robot.subsystems.colour_wheel.commands;
+package frc.robot.subsystems.color_wheel.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.colour_wheel.ColourWheel;
+import frc.robot.subsystems.color_wheel.ColorWheel;
 
 /**
  * Spin the wheel 3 times.
  */
 public class Spin extends CommandBase {
 
-    private final ColourWheel colourWheel;
+    private final ColorWheel colorWheel;
     private double power;
-    private String initColour;//The first color the sensor sees.
+    private String initColor;//The first color the sensor sees.
     private int spinCount;//Amount of times the sensor has seen the first color.
     boolean isDifferentColor = true;//Whether the sensor has seen a different color than the initial color.
     boolean isPowerDecreased = true;//Whether the power decrease has been executed already.
 
-    public Spin(ColourWheel colourWheel, double power) {
-        this.colourWheel = colourWheel;
+    public Spin(ColorWheel colorWheel, double power) {
+        this.colorWheel = colorWheel;
         this.power = power;
-        addRequirements(colourWheel);
+        addRequirements(colorWheel);
     }
 
     @Override
     public void initialize() {
-        colourWheel.updateSensor();
-        initColour = colourWheel.getColorString();
+        colorWheel.updateSensor();
+        initColor = colorWheel.getColorString();
         spinCount = 0;
-        colourWheel.power(power);
+        colorWheel.power(power);
     }
 
     @Override
     public void execute() {
-        colourWheel.updateSensor();
-        if (!colourWheel.getColorString().equals(initColour))
+        colorWheel.updateSensor();
+        if (!colorWheel.getColorString().equals(initColor))
             isDifferentColor = true;
         else {
             if (isDifferentColor) {
@@ -41,7 +41,7 @@ public class Spin extends CommandBase {
             }
         }
         if (spinCount == 5 && isPowerDecreased) {
-            colourWheel.power(0.5 * power);
+            colorWheel.power(0.5 * power);
             isPowerDecreased = false;
         }
     }
@@ -53,6 +53,6 @@ public class Spin extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        colourWheel.power(0);
+        colorWheel.power(0);
     }
 }
