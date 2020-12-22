@@ -14,7 +14,6 @@ public class ResetPositions extends InstantCommand {
 
     @Override
     public void initialize() {
-        System.out.println("aaaaaa");
         swerveDrive.resetAll();
     }
 
