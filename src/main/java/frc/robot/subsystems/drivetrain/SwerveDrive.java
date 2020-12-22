@@ -2,11 +2,8 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Ports;
 import frc.robot.Robot;
 import frc.robot.Utils;
 import org.techfire225.webapp.FireLog;
@@ -15,7 +12,7 @@ import static frc.robot.Ports.SwerveDrive.*;
 
 public class SwerveDrive extends SubsystemBase {
 
-    static double[][] M = new double[8][3];
+    static double[][] Dynamics = new double[8][3];
     public SwerveModule[] swerveModules = new SwerveModule[4];
     // calculates the distance from the center of the robot to the wheels
     static double Rx = Constants.SwerveDrive.ROBOT_WIDTH / 2;
@@ -33,13 +30,13 @@ public class SwerveDrive extends SubsystemBase {
 
         for (int i = 0; i < 8; i++) {
             if (i % 2 == 0) {
-                M[i][0] = 1;
-                M[i][1] = 0;
-                M[i][2] = Rx * signX[i / 2];
+                Dynamics[i][0] = 1;
+                Dynamics[i][1] = 0;
+                Dynamics[i][2] = Rx * signX[i / 2];
             } else {
-                M[i][0] = 0;
-                M[i][1] = 1;
-                M[i][2] = Ry * signY[i / 2];
+                Dynamics[i][0] = 0;
+                Dynamics[i][1] = 1;
+                Dynamics[i][2] = Ry * signY[i / 2];
             }
         }
         Robot.gyro.reset();
@@ -138,7 +135,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public static double[] calculateWheelVelocities(double[] robotHeading) {
         // multiplies M by the robotHeading to obtain the wheel velocities
-        double[] wheelVelocities = Utils.matrixVectorMult(M, robotHeading);
+        double[] wheelVelocities = Utils.matrixVectorMult(Dynamics, robotHeading);
         return wheelVelocities;
     }
 
@@ -212,5 +209,4 @@ public class SwerveDrive extends SubsystemBase {
             swerveModules[i].resetAngle();
         }
     }
-
 }
