@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
+import frc.robot.subsystems.drivetrain.SwerveModule;
 
 public class TankDrive extends CommandBase {
     private SwerveDrive swerveDrive;
@@ -16,8 +17,8 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void initialize() {
-        for (int i = 0; i < 4; i++) {
-            swerveDrive.swerveModules[i].setAngle(0);
+        for (SwerveModule swerveModule : swerveDrive.swerveModules) {
+            swerveModule.setAngle(0);
         }
     }
 
