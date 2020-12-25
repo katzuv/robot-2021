@@ -32,15 +32,15 @@ public class HolonomicDrive extends CommandBase {
         forward = joystickDeadband(forward);
         strafe = joystickDeadband(strafe) ;
         rotation = joystickDeadband(rotation);
-//        if (forward != 0 || strafe != 0 || rotation != 0){
-//            swerveDrive.holonomicDrive(forward, strafe, rotation);
-//        }else {
-//            for(int i = 0; i < 4; i++ ){
-//                swerveDrive.swerveModules[i].setSpeed(0);
-//                swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());
-//            }
-//        }
-        swerveDrive.lock();
+        if (forward != 0 || strafe != 0 || rotation != 0){
+            swerveDrive.holonomicDrive(forward, strafe, rotation);
+        }else {
+            for(int i = 0; i < 4; i++ ){
+                swerveDrive.swerveModules[i].setSpeed(0);
+                swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());
+            }
+        }
+//        swerveDrive.lock();
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
         FireLog.log("swerve direction", Robot.gyro.getAngle());
     }

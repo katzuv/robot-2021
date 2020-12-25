@@ -67,6 +67,14 @@ public class Constants {
         public static final WebConstant KF_SICK = new WebConstant("KF_SICK", 0);
     }
 
+    public static class Autonomous {
+        public static final double MAX_SPEED = 0;
+        public static final double MAX_ACCELERATION = 0;
+        public static final double MAX_CENTRIPETAL_ACCELERATION = 0;
+
+    }
+
+
 
     public static class ExampleSubsystem1 {
         //All of the Subsystem specific constants go here,and need to be static.

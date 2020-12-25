@@ -2,6 +2,11 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -25,6 +30,9 @@ public class SwerveDrive extends SubsystemBase {
     // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
     // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
     private static boolean isFieldOriented;
+
+    public static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(new Translation2d(), new Translation2d(), new Translation2d(), new Translation2d()); // TODO: add real values
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(Robot.gyro.getAngle()), new Pose2d()); // TODO: Check pose2d and angle might be ccw.
 
     public SwerveDrive(boolean isFieldOriented) {
 
@@ -209,4 +217,13 @@ public class SwerveDrive extends SubsystemBase {
             swerveModules[i].resetAngle();
         }
     }
+
+    public void setPose(Pose2d pose) {
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(Robot.gyro.getAngle())); // TODO: change, check CCW
+    }
+
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+
 }
