@@ -201,7 +201,7 @@ public class SwerveDrive extends SubsystemBase {
             sumx += velocities[i][0];
             sumy += velocities[i][1];
         }
-        return Utils.cartesianToPolar(sumx, sumy);
+        return Utils.cartesianToPolar(sumx / 4, sumy / 4);
     }
 
     public void resetAll() {
