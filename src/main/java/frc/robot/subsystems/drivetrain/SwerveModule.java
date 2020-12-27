@@ -13,7 +13,12 @@ import frc.robot.UnitModel;
 import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
-    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, Constants.SwerveDrive.MAX_CURRENT, 5, 0.02);
+    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(
+            Constants.SwerveModule.ENABLE_CURRENT_LIMIT,
+            Constants.SwerveDrive.MAX_CURRENT,
+            Constants.SwerveModule.TRIGGER_THRESHOLD_CURRENT,
+            Constants.SwerveModule.TRIGGER_THRESHOLD_TIME
+    );
     public final TalonFX driveMotor;
     private final TalonSRX angleMotor;
     private final int wheel;
@@ -39,16 +44,16 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.configSupplyCurrentLimit(currLimitConfig);
 
         angleMotor.configContinuousCurrentLimit(Constants.SwerveDrive.MAX_CURRENT);
-        angleMotor.enableCurrentLimit(true);
+        angleMotor.enableCurrentLimit(Constants.SwerveModule.ENABLE_CURRENT_LIMIT);
 
         configPIDF();
 
         // set voltage compensation and saturation
-        driveMotor.enableVoltageCompensation(true);
-        driveMotor.configVoltageCompSaturation(12);
+        driveMotor.enableVoltageCompensation(Constants.SwerveModule.ENABLE_VOLTAGE_COMPENSATION);
+        driveMotor.configVoltageCompSaturation(Constants.SwerveModule.VOLTAGE_SATURATION);
 
-        angleMotor.enableVoltageCompensation(true);
-        angleMotor.configVoltageCompSaturation(12);
+        angleMotor.enableVoltageCompensation(Constants.SwerveModule.ENABLE_VOLTAGE_COMPENSATION);
+        angleMotor.configVoltageCompSaturation(Constants.SwerveModule.VOLTAGE_SATURATION);
 
         angleMotor.selectProfileSlot(0, 0);
         driveMotor.selectProfileSlot(1, 0);

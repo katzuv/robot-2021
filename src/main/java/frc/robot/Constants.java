@@ -9,7 +9,7 @@ import frc.robot.valuetuner.WebConstant;
  */
 public class Constants {
     public static final int TALON_TIMEOUT = 10; // in ms
-    
+
     public static class SwerveDrive {
 
         public static final double TICKS_PER_METER = 2048 / (4 * 0.0254 * Math.PI) * 7.5;
@@ -58,6 +58,13 @@ public class Constants {
         public static final WebConstant KI_SICK = new WebConstant("KI_SICK", 0);
         public static final WebConstant KD_SICK = new WebConstant("KD_SICK", 8);
         public static final WebConstant KF_SICK = new WebConstant("KF_SICK", 0);
+
+        public static final boolean ENABLE_CURRENT_LIMIT = true;
+        public static final boolean ENABLE_VOLTAGE_COMPENSATION = true;
+        public static final int VOLTAGE_SATURATION = 12;
+        public static final int TRIGGER_THRESHOLD_CURRENT = 5;
+        public static final double TRIGGER_THRESHOLD_TIME = 0.02;
+
     }
 
 }
