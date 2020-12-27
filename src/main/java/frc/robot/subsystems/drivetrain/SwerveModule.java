@@ -9,16 +9,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Ports;
+import frc.robot.UnitModel;
 import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
-    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, Constants.Drivetrain.MAX_CURRENT, 5, 0.02);
+    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(true, Constants.SwerveDrive.MAX_CURRENT, 5, 0.02);
     public final TalonFX driveMotor;
     private final TalonSRX angleMotor;
     private final int wheel;
 
-    private UnitModel unitDrive = new UnitModel(Constants.Drivetrain.TICKS_PER_METER);
-    private UnitModel unitAngle = new UnitModel(Constants.Drivetrain.TICKS_PER_RAD);
+    private UnitModel unitDrive = new UnitModel(Constants.SwerveDrive.TICKS_PER_METER);
+    private UnitModel unitAngle = new UnitModel(Constants.SwerveDrive.TICKS_PER_RAD);
 
     public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor, boolean[] inverted) {
         // configure feedback sensors
@@ -37,33 +38,10 @@ public class SwerveModule extends SubsystemBase {
         // Set amperage limits
         driveMotor.configSupplyCurrentLimit(currLimitConfig);
 
-        angleMotor.configContinuousCurrentLimit(Constants.Drivetrain.MAX_CURRENT);
+        angleMotor.configContinuousCurrentLimit(Constants.SwerveDrive.MAX_CURRENT);
         angleMotor.enableCurrentLimit(true);
 
-        // set PIDF - angle motor
-        if (wheel != 2) {
-            angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kI(0, Constants.SwerveModule.KI.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kD(0, Constants.SwerveModule.KD.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kF(0, Constants.SwerveModule.KF.get(), Constants.TALON_TIMEOUT);
-        } else {
-            angleMotor.config_kP(0, Constants.SwerveModule.KP_SICK.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kI(0, Constants.SwerveModule.KI_SICK.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kD(0, Constants.SwerveModule.KD_SICK.get(), Constants.TALON_TIMEOUT);
-            angleMotor.config_kF(0, Constants.SwerveModule.KF_SICK.get(), Constants.TALON_TIMEOUT);
-        }
-
-        if (wheel != 1) {
-            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE.get(), Constants.TALON_TIMEOUT);
-        } else {
-            driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kD(1, Constants.SwerveModule.KD_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
-            driveMotor.config_kF(1, Constants.SwerveModule.KF_DRIVE_SLOW.get(), Constants.TALON_TIMEOUT);
-        }
+        configPIDF();
 
         // set voltage compensation and saturation
         driveMotor.enableVoltageCompensation(true);
@@ -118,7 +96,7 @@ public class SwerveModule extends SubsystemBase {
 
     public int getTargetTicks(double targetAngle) {
         int currEnc = angleMotor.getSelectedSensorPosition() + Constants.SwerveModule.ZERO_POSITION[wheel];
-        int curr = currEnc % Constants.Drivetrain.TICKS_IN_ENCODER;
+        int curr = currEnc % Constants.SwerveDrive.TICKS_IN_ENCODER;
         int angleTicks = unitAngle.toTicks(targetAngle) + Constants.SwerveModule.ZERO_POSITION[wheel];
         int delta = angleTicks - curr;
         int targetTicks = currEnc + delta;
@@ -167,6 +145,11 @@ public class SwerveModule extends SubsystemBase {
 
     @Override
     public void periodic() {
+        configPIDF();
+    }
+
+    private void configPIDF() {
+
         // set PIDF - angle motor
         if (wheel != 2) {
             angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);
@@ -180,7 +163,6 @@ public class SwerveModule extends SubsystemBase {
             angleMotor.config_kF(0, Constants.SwerveModule.KF_SICK.get(), Constants.TALON_TIMEOUT);
         }
 
-        // set PIDF - drive motor
         if (wheel != 1) {
             driveMotor.config_kP(1, Constants.SwerveModule.KP_DRIVE.get(), Constants.TALON_TIMEOUT);
             driveMotor.config_kI(1, Constants.SwerveModule.KI_DRIVE.get(), Constants.TALON_TIMEOUT);

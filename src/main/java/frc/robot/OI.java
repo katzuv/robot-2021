@@ -4,26 +4,26 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {
 
-    public static Joystick joystick = new Joystick(0);
+    public static Joystick rightJoystick = new Joystick(0);
 
     /**
      * @return the X value of the joystick
      */
     public static double getJoystickX() {
-        return joystick.getX();
+        return rightJoystick.getX();
     }
 
     /**
      * @return the Y value of the joystick
      */
     public static double getJoystickY() {
-        return joystick.getY();
+        return rightJoystick.getY();
     }
 
     /**
      * @return the Z value of the joystick
      */
     public static double getJoystickZ() {
-        return joystick.getZ();
+        return rightJoystick.getZ();
     }
 }

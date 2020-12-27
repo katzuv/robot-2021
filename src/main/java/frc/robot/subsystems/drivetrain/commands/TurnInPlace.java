@@ -12,7 +12,7 @@ import org.techfire225.webapp.FireLog;
 public class TurnInPlace extends CommandBase {
 
     private SwerveDrive swerveDrive;
-//    private WebConstant target = new WebConstant("targetAngle", 0);
+    //    private WebConstant target = new WebConstant("targetAngle", 0);
     private WebConstant target0 = new WebConstant("target0", 0);
     private WebConstant target1 = new WebConstant("target1", 0);
     private WebConstant target2 = new WebConstant("target2", 0);
@@ -34,19 +34,16 @@ public class TurnInPlace extends CommandBase {
 
         rotation = joystickDeadband(rotation);
 
-        System.out.println(rotation);
-
         swerveDrive.swerveModules[0].setAngle(target0.get());
         swerveDrive.swerveModules[1].setAngle(target1.get());
         swerveDrive.swerveModules[2].setAngle(target2.get());
         swerveDrive.swerveModules[3].setAngle(target3.get());
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             System.out.println(i + " " + swerveDrive.swerveModules[i].getAngle());
 
         }
-//        swerveDrive.holonomicDrive(0, 0, rotation);
-//        FireLog.log("target angle", target.get());
+
         FireLog.log("angle ", swerveDrive.swerveModules[2].getAngle());
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);

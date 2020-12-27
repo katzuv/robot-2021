@@ -25,20 +25,14 @@ public class DriveForward extends CommandBase {
     @Override
     public void execute() {
         double forward = -OI.getJoystickY();
-
-
         forward = joystickDeadband(forward);
 
-        System.out.println(forward);
-
-//        swerveDrive.holonomicDrive(forward, 0, 0);
         for (int i = 0; i< 4; i++) {
             swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());
             swerveDrive.swerveModules[i].setSpeed(target.get());
-            System.out.println(i + " " + swerveDrive.swerveModules[i].getSpeed());
             FireLog.log("speed " + i, Math.abs(swerveDrive.swerveModules[i].getSpeed()));
-
         }
+
         FireLog.log("target speed", target.get());
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
