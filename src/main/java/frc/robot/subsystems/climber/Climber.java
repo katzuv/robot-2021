@@ -21,15 +21,15 @@ public class Climber extends SubsystemBase {
         master.setInverted(Ports.Climber.IS_MASTER_INVERTED);
         slave.setInverted(Ports.Climber.IS_SLAVE_INVERTED);
 
-        master.setSensorPhase(Ports.Climber.IS_MASTER_SENSOR_PHASE_INVERTED);
+        master.setSensorPhase(Ports.Climber.IS_SENSOR_PHASE_INVERTED);
 
         master.configMotionCruiseVelocity(Constants.Climber.CRUISE_VELOCITY, Constants.TALON_TIMEOUT);
         master.configMotionAcceleration(Constants.Climber.ACCELERATION, Constants.TALON_TIMEOUT);
 
-        master.config_kP(0, Constants.Climber.kP, Constants.TALON_TIMEOUT);
-        master.config_kI(0, Constants.Climber.kI, Constants.TALON_TIMEOUT);
-        master.config_kD(0, Constants.Climber.kD, Constants.TALON_TIMEOUT);
-        master.config_kF(0, Constants.Climber.kF, Constants.TALON_TIMEOUT);
+        master.config_kP(0, Constants.Climber.KP, Constants.TALON_TIMEOUT);
+        master.config_kI(0, Constants.Climber.KI, Constants.TALON_TIMEOUT);
+        master.config_kD(0, Constants.Climber.KD, Constants.TALON_TIMEOUT);
+        master.config_kF(0, Constants.Climber.KF, Constants.TALON_TIMEOUT);
     }
 
     /**

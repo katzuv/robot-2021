@@ -22,13 +22,13 @@ public final class Constants {
     public static class Climber {
         public static final int TICKS_PER_METER = 0;
 
-        public static final int kP = 0;
-        public static final int kI = 0;
-        public static final int kD = 0;
-        public static final int kF = 0;
+        public static final int KP = 0;
+        public static final int KI = 0;
+        public static final int KD = 0;
+        public static final int KF = 0;
 
         public static final int CRUISE_VELOCITY = 0; //sensor units per 100ms.
-        public static final int ACCELERATION = 0; //sensor units per 100ms.
+        public static final int ACCELERATION = 0; //sensor units per 100ms^2.
 
         public static final double TOLERANCE = 0.1; //Error tolerance for the height [m].
     }
