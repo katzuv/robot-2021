@@ -53,8 +53,9 @@ public class Shooter extends SubsystemBase {
 
         aux.follow(main);
 
-        Vector<N1> A = VecBuilder.fill(-Math.pow(G, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
-        Vector<N1> B = VecBuilder.fill(G * Kt / (OMEGA * J));
+        // https://file.tavsys.net/control/controls-engineering-in-frc.pdf Page 76
+        Vector<N1> A = VecBuilder.fill(-Math.pow(GEAR_RATIO, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
+        Vector<N1> B = VecBuilder.fill(GEAR_RATIO * Kt / (OMEGA * J));
         LinearSystem<N1, N1, N1> stateSpace = new LinearSystem<>(A, B, Matrix.eye(Nat.N1()), new Matrix<>(Nat.N1(), Nat.N1()));
         KalmanFilter<N1, N1, N1> kalman = new KalmanFilter<>(Nat.N1(), Nat.N1(), stateSpace,
                 VecBuilder.fill(MODEL_TOLERANCE),
@@ -69,7 +70,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * @return the velocity of the shooter. [rps]
+     * @return the velocity of the shooter. [RPS]
      * @see #setVelocity(double)
      */
     public double getVelocity() {
@@ -79,7 +80,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Set the velocity to apply by the motor.
      *
-     * @param velocity the desired velocity at which the motor will rotate. [rps]
+     * @param velocity the desired velocity at which the motor will rotate. [RPS]
      * @see #setPower(double)
      */
     public void setVelocity(double velocity) {
@@ -108,7 +109,7 @@ public class Shooter extends SubsystemBase {
      * See the experiment results in (TODO: Add the path).
      *
      * @param distance the distance from the target.
-     * @return the velocity that should be applied by the shooter in order to reach the target.[rps]
+     * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
     public double estimateVelocity(double distance) {
         return distance;
@@ -118,7 +119,7 @@ public class Shooter extends SubsystemBase {
      * Get whether the flywheel has reached the desired velocity in order to reach the target.
      * Also, this function checks whether the flywheel has enough velocity in order to move the motor in first place.
      *
-     * @param desiredVelocity the desired velocity at the motor will rotate. [rps]
+     * @param desiredVelocity the desired velocity at the motor will rotate. [RPS]
      * @return whether the flywheel reaches the desired velocity.
      */
     public boolean isReady(double desiredVelocity) {
@@ -126,7 +127,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Stop the shooter from moving.
+     * Stop the shooter.
      */
     public void stop() {
         setPower(0);
