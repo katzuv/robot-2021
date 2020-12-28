@@ -30,7 +30,7 @@ import static frc.robot.Constants.Shooter.*;
 public class Shooter extends SubsystemBase {
     private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
-    private final UnitModel rpsUnitModel = new UnitModel(Constants.Shooter.TICKS_PER_ROTATION);
+    private final UnitModel unitModel = new UnitModel(Constants.Shooter.TICKS_PER_ROTATION);
 
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
@@ -48,8 +48,8 @@ public class Shooter extends SubsystemBase {
         main.enableVoltageCompensation(true);
         aux.enableVoltageCompensation(true);
 
-        main.configVoltageCompSaturation(Constants.VOLTAGE);
-        aux.configVoltageCompSaturation(Constants.VOLTAGE);
+        main.configVoltageCompSaturation(Constants.MAXIMAL_VOLTAGE);
+        aux.configVoltageCompSaturation(Constants.MAXIMAL_VOLTAGE);
 
         aux.follow(main);
 
@@ -62,10 +62,10 @@ public class Shooter extends SubsystemBase {
                 Constants.ROBOT_TIMEOUT
         );
         LinearQuadraticRegulator<N1, N1, N1> lqr = new LinearQuadraticRegulator<>(stateSpace, VecBuilder.fill(VELOCITY_TOLERANCE),
-                VecBuilder.fill(Constants.VOLTAGE),
+                VecBuilder.fill(Constants.MAXIMAL_VOLTAGE),
                 Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
         );
-        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.VOLTAGE, Constants.ROBOT_TIMEOUT);
+        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.MAXIMAL_VOLTAGE, Constants.ROBOT_TIMEOUT);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Shooter extends SubsystemBase {
      * @see #setVelocity(double)
      */
     public double getVelocity() {
-        return rpsUnitModel.toVelocity(main.getSelectedSensorVelocity());
+        return unitModel.toVelocity(main.getSelectedSensorVelocity());
     }
 
     /**
@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
 
         double voltageToApply = stateSpacePredictor.getU(0); // u = input, calculated by the input.
         // returns the voltage to apply (between 0 and 12)
-        setPower(voltageToApply / Constants.VOLTAGE); // map to be between 0 and 1
+        setPower(voltageToApply / Constants.MAXIMAL_VOLTAGE); // map to be between 0 and 1
     }
 
     /**
