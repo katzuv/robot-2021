@@ -112,7 +112,7 @@ public class Shooter extends SubsystemBase {
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
     public double estimateVelocity(double distance) {
-        return distance;
+        throw new UnsupportedOperationException("The function estimateVelocity not implemented yet");
     }
 
     /**
