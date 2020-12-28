@@ -22,7 +22,7 @@ import static frc.robot.Constants.Shooter.*;
  * The shooter class represents the physical shooter.
  * The purpose of the flywheel is to provide a set of functions to handle a shooting situation in a game.
  *
- * @author Barel Shlidor
+ * @author Barel
  * @version 1.0
  * @using TalonFX
  * @since 2021
