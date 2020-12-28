@@ -19,27 +19,29 @@ import edu.wpi.first.wpilibj.util.Units;
  */
 public final class Constants {
     public static final double ROBOT_TIMEOUT = 0.02; // [s]
-    public static final double VOLTAGE = 12; // [volt]
+    public static final double MAXIMAL_VOLTAGE = 12; // [volts]
 
     //TODO: change to real values
     public static final class Shooter {
         public static final int TICKS_PER_ROTATION = 4096;
 
-        public static final double VELOCITY_TOLERANCE = 3; // [rps]
+        // NOTE: this is the only constants you need to change
+        public static final double VELOCITY_TOLERANCE = 3; // [RPS]
         public static final double MODEL_TOLERANCE = 3;
         public static final double ENCODER_TOLERANCE = 0.1; // [ticks]
-        public static final double MINIMAL_VELOCITY = 2; // [rps] the minimal velocity where the wheel would actually move
+        public static final double MINIMAL_VELOCITY = 2; // [RPS] the minimal velocity where the wheel would actually move
 
-        public static final double STALL_CURRENT_AMPS = 0;
-        public static final double STALL_TORQUE_NEWTON_METERS = 0;
+        public static final double STALL_CURRENT = 257; // [amps]
+        public static final double STALL_TORQUE = 4.69; // [N*meters]
 
-        public static final double FREE_CURRENT_AMPS = 0;
-        public static final double FREE_SPEED_RAD_PER_SEC = Units.rotationsPerMinuteToRadiansPerSecond(0);
+        public static final double FREE_CURRENT = 1.5; // [amps]
+        public static final double FREE_SPEED = Units.rotationsPerMinuteToRadiansPerSecond(6380); // [rad/sec]
 
-        public static final double G = 0; //Gear Ratio
-        public static final double Kt = STALL_TORQUE_NEWTON_METERS / STALL_CURRENT_AMPS;// took from FRC examples
-        public static final double OMEGA = VOLTAGE / STALL_CURRENT_AMPS; // [Om]
-        public static final double Kv = FREE_SPEED_RAD_PER_SEC / (VOLTAGE - OMEGA * FREE_CURRENT_AMPS);// took from FRC examples
+        public static final double GEAR_RATIO = 0; //TODO: Choose real value
+        public static final double Kt = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
+        public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Om]
+        public static final double Kv = FREE_SPEED / (MAXIMAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
+        //TODO: Choose real value
         public static final double J = 0; //moment of inertia [kg * m^2]
         public static final double ARBITRARY_FEED_FORWARD = 0;
     }
