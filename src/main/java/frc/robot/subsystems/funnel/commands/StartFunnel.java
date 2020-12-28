@@ -20,9 +20,9 @@ public class StartFunnel extends CommandBase {
     @Override
     public void initialize() {
         if (direction)
-            funnel.setVelocity(Constants.Funnel.VELOCITY);// in
+            funnel.setVelocity(Constants.Funnel.POWER);// in
         else
-            funnel.setVelocity(-1 * Constants.Funnel.VELOCITY);// out
+            funnel.setVelocity(-1 * Constants.Funnel.POWER);// out
     }
 
     @Override

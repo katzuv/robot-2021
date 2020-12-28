@@ -17,7 +17,7 @@ package frc.robot;
  */
 public final class Constants {
     public static final class Funnel {
-        public static final double VELOCITY = 0.3; //the default velocity of Funnel's motor (m/s)
+        public static final double POWER = 0.3; //the default output of Funnel's motor (%)
     }
 
 }
