@@ -11,7 +11,8 @@ public class StartFunnel extends CommandBase {
 
     private Funnel funnel;
 
-    public StartFunnel(Funnel f) {
+    public StartFunnel(Funnel funnel) {
+
         funnel = f;
         addRequirements(funnel);
     }
