@@ -24,6 +24,7 @@ public class RobotContainer {
   public Funnel funnel = new Funnel();
   public XboxController Xbox = new XboxController(1);
   public JoystickButton BL = new JoystickButton(Xbox, XboxController.Button.kBumperLeft.value);
+  public JoystickButton BR = new JoystickButton(Xbox, XboxController.Button.kBumperRight.value);
   // The robot's subsystems and commands are defined here...
 
 
@@ -42,7 +43,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    BL.whileHeld(new StartFunnel(funnel));
+    BL.whileHeld(new StartFunnel(funnel,true));
+    BR.whileHeld(new StartFunnel(funnel,false));
   }
 
 
