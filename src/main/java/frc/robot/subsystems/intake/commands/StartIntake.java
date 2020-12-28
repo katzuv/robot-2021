@@ -6,8 +6,10 @@ import frc.robot.subsystems.intake.Intake;
 
 public class StartIntake extends CommandBase {
     private Intake intake;
-    public StartIntake(Intake i) {
+    private boolean direction;
+    public StartIntake(Intake i , boolean direction) {
         intake = i;
+        this.direction = direction;
         addRequirements(intake);
     }
 
@@ -15,7 +17,10 @@ public class StartIntake extends CommandBase {
     public void initialize() {
         if(!intake.isOpen())
             intake.togglePiston();
-        intake.setVelocity(Constants.Intake.VELOCITY);
+        if(direction)
+            intake.setVelocity(Constants.Intake.VELOCITY);// field --> funnel
+        else
+            intake.setVelocity(-1*Constants.Intake.VELOCITY);// funnel --> field
     }
 
     @Override

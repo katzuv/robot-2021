@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +27,7 @@ public class RobotContainer {
   public Intake intake = new Intake();
   public XboxController Xbox = new XboxController(1);
   public JoystickButton BL = new JoystickButton(Xbox, XboxController.Button.kBumperLeft.value);
+  public JoystickButton BR = new JoystickButton(Xbox,XboxController.Button.kBumperRight.value);
   public JoystickButton a = new JoystickButton(Xbox, XboxController.Button.kA.value);
   // The robot's subsystems and commands are defined here...
 
@@ -48,7 +48,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     a.whenPressed(new ToggleIntake(intake));
-    BL.whileHeld(new StartIntake(intake));
+    BR.whileHeld(new StartIntake(intake,true));//transfers the balls to the Funnel
+    BL.whenHeld(new StartIntake(intake,false));//transfers the balls to the field
   }
 
 
