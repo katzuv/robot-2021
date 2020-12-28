@@ -99,16 +99,6 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.set(ControlMode.Position, angleTicks);
     }
 
-    public int getTargetTicks(double targetAngle) {
-        int currEnc = angleMotor.getSelectedSensorPosition() + Constants.SwerveModule.ZERO_POSITION[wheel];
-        int curr = currEnc % Constants.SwerveDrive.TICKS_IN_ENCODER;
-        int angleTicks = unitAngle.toTicks(targetAngle) + Constants.SwerveModule.ZERO_POSITION[wheel];
-        int delta = angleTicks - curr;
-        int targetTicks = currEnc + delta;
-        return targetTicks;
-    }
-
-
     /**
      * finds the target angle of the wheel based on the shortest distance from the current position
      *
@@ -140,10 +130,18 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.set(ControlMode.PercentOutput, 0);
     }
 
+    /**
+     * reset encoder value to 0
+     */
     public void resetAngle() {
         angleMotor.setSelectedSensorPosition(0);
     }
 
+    /**
+     * set the drive power
+     *
+     * @param power a value between [-1, 1]
+     */
     public void setPower(double power) {
         driveMotor.set(ControlMode.PercentOutput, power);
     }
@@ -153,8 +151,10 @@ public class SwerveModule extends SubsystemBase {
         configPIDF();
     }
 
+    /**
+     * config PIDF for the angle motor and drive motor
+     */
     private void configPIDF() {
-
         // set PIDF - angle motor
         if (wheel != 2) {
             angleMotor.config_kP(0, Constants.SwerveModule.KP.get(), Constants.TALON_TIMEOUT);

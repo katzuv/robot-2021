@@ -32,8 +32,9 @@ public class Utils {
     }
 
     /**
-     *
-     * @return
+     * @param velocity the length of the velocity vector
+     * @param angle the angle of the velocity vector
+     * @return the cartesian representation with x and y components
      */
     public static double[] polarToCartesian(double velocity, double angle) {
         double[] v = new double[2];

@@ -22,12 +22,12 @@ public class SwerveDrive extends SubsystemBase {
     static double[] signX = {1, 1, -1, -1};
     static double[] signY = {-1, 1, -1, 1};
 
-    // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
-    // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
     private static boolean isFieldOriented;
 
     public SwerveDrive(boolean isFieldOriented) {
 
+        // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
+        // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
         for (int i = 0; i < 8; i++) {
             if (i % 2 == 0) {
                 Dynamics[i][0] = 1;
@@ -182,6 +182,9 @@ public class SwerveDrive extends SubsystemBase {
 
     }
 
+    /**
+     * @return the x and y velocities of each module
+     */
     public double[][] getXYVelocities() {
         double[][] velocities = new double[4][2];
         for (int i = 0; i < 4; i++) {
@@ -193,6 +196,9 @@ public class SwerveDrive extends SubsystemBase {
         return velocities;
     }
 
+    /**
+     * @return the velocity of the robot (length, angle)
+     */
     public double[] getVelocity() {
         double[][] velocities = getXYVelocities();
         double sumx = 0;
@@ -204,6 +210,9 @@ public class SwerveDrive extends SubsystemBase {
         return Utils.cartesianToPolar(sumx / 4, sumy / 4);
     }
 
+    /**
+     * resets all the modules
+     */
     public void resetAll() {
         for (int i = 0; i < 4; i++) {
             swerveModules[i].resetAngle();
