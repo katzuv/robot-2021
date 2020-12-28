@@ -1,5 +1,7 @@
 package frc.robot.subsystems.funnel;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
@@ -8,7 +10,7 @@ import frc.robot.Ports;
  * this subsystem transfers balls from intake to conveyor
  */
 public class Funnel extends SubsystemBase {
-    private Victor motor = new Victor(Ports.Funnel.MOTOR);
+    private VictorSPX motor = new VictorSPX(Ports.Funnel.MOTOR);
 
     public Funnel() {
         motor.setInverted(Ports.Funnel.IS_INVERTED);
@@ -16,9 +18,9 @@ public class Funnel extends SubsystemBase {
 
     /**
      * this function sets the motor's velocity
-     * @param velocity - the target velocity (m/s)
+     * @param power - the target output (%)
      */
-    public void setVelocity(double velocity) {
-        motor.set(velocity);
+    public void setVelocity(double power) {
+        motor.set(ControlMode.PercentOutput , power);
     }
 }
