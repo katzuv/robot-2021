@@ -22,10 +22,6 @@ public class Shoot extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
     public void execute() {
         shooter.setVelocity(velocity);
     }

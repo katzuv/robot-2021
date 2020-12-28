@@ -17,10 +17,6 @@ public class SpeedUp extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
     public void execute() {
         shooter.setVelocity(velocity);
     }
@@ -28,9 +24,5 @@ public class SpeedUp extends CommandBase {
     @Override
     public boolean isFinished() {
         return shooter.isReady(velocity);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
     }
 }
