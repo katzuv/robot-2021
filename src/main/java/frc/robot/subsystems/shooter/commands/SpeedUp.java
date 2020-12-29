@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.shooter.Shooter;
 
@@ -8,9 +10,9 @@ import frc.robot.subsystems.shooter.Shooter;
  */
 public class SpeedUp extends CommandBase {
     private final Shooter shooter;
-    private final double velocity;
+    private final Supplier<Double> velocity;
 
-    public SpeedUp(Shooter shooter, double velocity) {
+    public SpeedUp(Shooter shooter, Supplier<Double> velocity) {
         this.shooter = shooter;
         this.velocity = velocity;
         addRequirements(shooter);
@@ -18,7 +20,7 @@ public class SpeedUp extends CommandBase {
 
     @Override
     public void execute() {
-        shooter.setVelocity(velocity);
+        shooter.setVelocity(velocity.get());
     }
 
     @Override
