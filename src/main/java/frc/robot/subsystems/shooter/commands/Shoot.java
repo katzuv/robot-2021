@@ -5,7 +5,7 @@ import frc.robot.subsystems.shooter.Shooter;
 
 /**
  * This command keeps the shooter in the specified velocity.
- * This command does <b>NOT</b> change velocity of the shooter.
+ * This command should <b>NOT</b> be used in order to change the velocity applied by the shooter.
  * The command should come in conjunction with a button, and not to start/stop it after a specified time.
  * If you wish to accelerate the shooter to a specified velocity, please look at {@link SpeedUp}.
  *
