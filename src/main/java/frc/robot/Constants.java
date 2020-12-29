@@ -29,7 +29,6 @@ public final class Constants {
         public static final double VELOCITY_TOLERANCE = 3; // [RPS]
         public static final double MODEL_TOLERANCE = 3;
         public static final double ENCODER_TOLERANCE = 0.1; // [ticks]
-        public static final double MINIMAL_VELOCITY = 2; // [RPS] the minimal velocity where the wheel would actually move
 
         public static final double STALL_CURRENT = 257; // [amps]
         public static final double STALL_TORQUE = 4.69; // [N*meters]

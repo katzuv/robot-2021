@@ -123,8 +123,7 @@ public class Shooter extends SubsystemBase {
      * @return whether the flywheel reaches the desired velocity.
      */
     public boolean isReady(double desiredVelocity) {
-        var currentVelocity = getVelocity();
-        return Math.abs(currentVelocity - desiredVelocity) < Constants.Shooter.VELOCITY_TOLERANCE && currentVelocity > Constants.Shooter.MINIMAL_VELOCITY;
+        return Math.abs(getVelocity() - desiredVelocity) < Constants.Shooter.VELOCITY_TOLERANCE;
     }
 
     /**
