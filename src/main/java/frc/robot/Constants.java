@@ -38,7 +38,7 @@ public final class Constants {
 
         public static final double GEAR_RATIO = 0; //TODO: Choose real value
         public static final double Kt = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
-        public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Om]
+        public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Ohm]
         public static final double Kv = FREE_SPEED / (MAXIMAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
         //TODO: Choose real value
         public static final double J = 0; //moment of inertia [kg * m^2]
