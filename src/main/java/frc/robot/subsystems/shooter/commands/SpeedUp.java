@@ -25,6 +25,6 @@ public class SpeedUp extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return shooter.isReady(velocity);
+        return shooter.isReady(velocity.get());
     }
 }
