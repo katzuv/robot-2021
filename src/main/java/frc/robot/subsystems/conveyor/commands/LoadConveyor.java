@@ -1,6 +1,7 @@
 package frc.robot.subsystems.conveyor.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.conveyor.Conveyor;
 
 public class LoadConveyor extends CommandBase {
@@ -16,7 +17,9 @@ public class LoadConveyor extends CommandBase {
 
     @Override
     public void execute() {
-        conveyor.setPower(power);
+        if (Conveyor.getBallsAmount() < Constants.Conveyor.MAX_BALLS_AMOUNT)
+            conveyor.setPower(power);
+        // else TURN LEDS TO RED
     }
 
     @Override
