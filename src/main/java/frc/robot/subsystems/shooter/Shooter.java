@@ -119,11 +119,11 @@ public class Shooter extends SubsystemBase {
      * Get whether the flywheel has reached the desired velocity in order to reach the target.
      * Also, this function checks whether the flywheel has enough velocity in order to move the motor in first place.
      *
-     * @param desiredVelocity the desired velocity at the motor will rotate. [RPS]
+     * @param setpoint the desired velocity at the motor will rotate. [RPS]
      * @return whether the flywheel reaches the desired velocity.
      */
-    public boolean isReady(double desiredVelocity) {
-        return Math.abs(getVelocity() - desiredVelocity) < Constants.Shooter.VELOCITY_TOLERANCE;
+    public boolean hasReachedSetpoint(double setpoint) {
+        return Math.abs(getVelocity() - setpoint) < Constants.Shooter.VELOCITY_TOLERANCE;
     }
 
     /**
