@@ -91,7 +91,7 @@ public class Climber extends SubsystemBase {
      */
     public enum PistonMode {
         OPEN(true), CLOSED(false);
-        private boolean on;
+        final boolean on;
 
         PistonMode(boolean on) {
             this.on = on;

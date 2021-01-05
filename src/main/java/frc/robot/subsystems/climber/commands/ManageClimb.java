@@ -25,16 +25,7 @@ public class ManageClimb extends CommandBase {
     }
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public boolean isFinished() {
         return Math.abs(climber.getHeight() - height) <= Constants.Climber.TOLERANCE;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
     }
 }
