@@ -22,7 +22,7 @@ public class MovingAverage {
 
     public MovingAverage(File csv) {
         distanceVelocityMap = new TreeMap<>();
-        if (!csv.exists() || !csv.isFile()) {
+        if (csv.exists() && csv.isFile()) {
             String line = null;
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(csv))) {
                 while ((line = bufferedReader.readLine()) != null) {
@@ -31,6 +31,7 @@ public class MovingAverage {
                 }
             } catch (IOException e) {
                 System.err.println("MovingAverage class can't read the file");
+                System.out.println(e.getMessage());
             } catch (IndexOutOfBoundsException e) {
                 System.err.println("Please check that every line has a pair of values, the problem occurred on this line " + line);
             }
