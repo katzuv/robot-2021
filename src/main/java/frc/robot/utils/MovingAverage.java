@@ -51,7 +51,7 @@ public class MovingAverage {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] pair = line.split(DELIMITER);
-                distanceVelocityMap.put(Double.parseDouble(pair[0]), Double.parseDouble(pair[1]));
+                this.distanceVelocityMap.put(Double.parseDouble(pair[0]), Double.parseDouble(pair[1]));
             }
         } catch (IOException e) {
             System.err.println("MovingAverage class can't read the file");
@@ -90,7 +90,7 @@ public class MovingAverage {
      */
     private double[][] getClosestDistance(double distance) {
         double[][] closest = {{0, 0}, {Double.MAX_VALUE, 0}}; //{min, max}
-        distanceVelocityMap.forEach((key, value) -> {
+        this.distanceVelocityMap.forEach((key, value) -> {
             double currentDistance = key, velocity = value; //we need to do it because comparison of the Double wrapper-class is off
             double difference = currentDistance - distance;
             if (difference == 0) {
