@@ -29,5 +29,14 @@ public final class Constants {
         public static final double REVERSE_PEAK = 0; // [%]
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(false, 0,0,0);
         public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(false, 0,0,0); // control the acceleration
+
+        public static final int INITIAL_BALLS_AMOUNT = 3;
+        public static final int MAX_BALLS_AMOUNT = 5;
+
+        public static final double SHOOTER_PROXIMITY_LOST_VOLTAGE = 0; // [volts]
+        public static final double SHOOTER_PROXIMITY_SENSE_VOLTAGE = 0; // [volts]
+        public static final double FUNNEL_PROXIMITY_LOST_VOLTAGE = 0; // [volts]
+        public static final double FUNNEL_PROXIMITY_SENSE_VOLTAGE = 0; // [volts]
+
     }
 }
