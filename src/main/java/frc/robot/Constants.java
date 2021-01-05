@@ -29,6 +29,9 @@ public final class Constants {
         public static final double VELOCITY_TOLERANCE = 3; // [RPS]
         public static final double MODEL_TOLERANCE = 3;
         public static final double ENCODER_TOLERANCE = 0.1; // [ticks]
+        public static final double J = 0; //moment of inertia [kg * m^2] TODO: Choose real value
+        public static final double ARBITRARY_FEED_FORWARD = 0;
+
 
         public static final double STALL_CURRENT = 257; // [amps]
         public static final double STALL_TORQUE = 4.69; // [N*meters]
@@ -40,8 +43,8 @@ public final class Constants {
         public static final double Kt = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
         public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Ohm]
         public static final double Kv = FREE_SPEED / (MAXIMAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
-        //TODO: Choose real value
-        public static final double J = 0; //moment of inertia [kg * m^2]
-        public static final double ARBITRARY_FEED_FORWARD = 0;
+
+        public static final String PATH_TO_CSV = "";
+
     }
 }

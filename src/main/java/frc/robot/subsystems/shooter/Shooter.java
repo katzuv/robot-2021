@@ -15,6 +15,7 @@ import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.Constants;
 import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
+import frc.robot.utils.MovingAverage;
 
 import static frc.robot.Constants.Shooter.*;
 
@@ -30,7 +31,8 @@ import static frc.robot.Constants.Shooter.*;
 public class Shooter extends SubsystemBase {
     private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
-    private final UnitModel unitModel = new UnitModel(Constants.Shooter.TICKS_PER_ROTATION);
+    private final UnitModel unitModel = new UnitModel(TICKS_PER_ROTATION);
+    private final MovingAverage movingAverage = new MovingAverage(PATH_TO_CSV);
 
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
@@ -112,7 +114,7 @@ public class Shooter extends SubsystemBase {
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
     public double estimateVelocity(double distance) {
-        throw new UnsupportedOperationException("The function estimateVelocity not implemented yet");
+        return movingAverage.estimateVelocity(distance);
     }
 
     /**
