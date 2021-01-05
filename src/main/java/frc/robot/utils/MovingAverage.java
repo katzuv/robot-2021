@@ -1,9 +1,6 @@
 package frc.robot.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -23,17 +20,10 @@ public class MovingAverage {
     public MovingAverage(File csv) {
         distanceVelocityMap = new TreeMap<>();
         if (csv.exists() && csv.isFile()) {
-            String line = null;
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(csv))) {
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] pair = line.split(DELIMITER);
-                    distanceVelocityMap.put(Double.parseDouble(pair[0]), Double.parseDouble(pair[1]));
-                }
-            } catch (IOException e) {
-                System.err.println("MovingAverage class can't read the file");
-                System.out.println(e.getMessage());
-            } catch (IndexOutOfBoundsException e) {
-                System.err.println("Please check that every line has a pair of values, the problem occurred on this line " + line);
+            try {
+                read(new FileReader(csv));
+            } catch (FileNotFoundException e) { // Can't happen, we have already checked it
+                e.printStackTrace();
             }
         } else
             System.err.println("File not found: " + csv.getName());
@@ -48,6 +38,26 @@ public class MovingAverage {
         for (double[] pair : values) {
             if (pair.length >= 2)
                 distanceVelocityMap.put(pair[0], pair[1]);
+        }
+    }
+
+    public MovingAverage(Reader reader) {
+        this.distanceVelocityMap = new TreeMap<>();
+        read(reader);
+    }
+
+    private void read(Reader reader) {
+        String line = null;
+        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] pair = line.split(DELIMITER);
+                distanceVelocityMap.put(Double.parseDouble(pair[0]), Double.parseDouble(pair[1]));
+            }
+        } catch (IOException e) {
+            System.err.println("MovingAverage class can't read the file");
+            System.out.println(e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Please check that every line has a pair of values, the problem occurred on this line " + line);
         }
     }
 
