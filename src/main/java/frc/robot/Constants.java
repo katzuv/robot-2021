@@ -19,17 +19,18 @@ import edu.wpi.first.wpilibj.util.Units;
  */
 public final class Constants {
     public static final double ROBOT_TIMEOUT = 0.02; // [s]
-    public static final double MAXIMAL_VOLTAGE = 12; // [volts]
+    public static final double NOMINAL_VOLTAGE = 12; // [volts]
 
     //TODO: change to real values
     public static final class Shooter {
         public static final int TICKS_PER_ROTATION = 4096;
 
         // NOTE: this is the only constants you need to change
+        // TODO: Calibrate
         public static final double VELOCITY_TOLERANCE = 3; // [RPS]
         public static final double MODEL_TOLERANCE = 3;
         public static final double ENCODER_TOLERANCE = 0.1; // [ticks]
-        public static final double J = 0; //moment of inertia [kg * m^2] TODO: Choose real value
+        public static final double J = 0; //moment of inertia [kg * m^2]
         public static final double ARBITRARY_FEED_FORWARD = 0;
 
 
@@ -41,8 +42,8 @@ public final class Constants {
 
         public static final double GEAR_RATIO = 0; //TODO: Choose real value
         public static final double Kt = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
-        public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Ohm]
-        public static final double Kv = FREE_SPEED / (MAXIMAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
+        public static final double OMEGA = NOMINAL_VOLTAGE / STALL_CURRENT; // [Ohm]
+        public static final double Kv = FREE_SPEED / (NOMINAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
 
         public static final String PATH_TO_CSV = "/Shooting.csv";
 

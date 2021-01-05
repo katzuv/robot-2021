@@ -7,18 +7,18 @@ import java.util.TreeMap;
 /**
  * The moving average contains a list of velocity based on the distance, and should give an approximation of the velocity to apply.
  * In order to the moving average object to approximate better, you need to pass more values.
- * The object calculate calculate a strait line between the closest point, and retrieve the velocity (in the strait line between the records)
+ * The object calculate calculate a straight line between the closest point, and retrieve the velocity (in the straight line between the records).
  */
 public class MovingAverage {
     private final String DELIMITER = ",";
-    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, tree map is automatically sort the values by distance
+    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, tree map is automatically sort the values by distance.
 
     public MovingAverage(String pathToCsv) {
         this(new File(pathToCsv));
     }
 
     public MovingAverage(File csv) {
-        distanceVelocityMap = new TreeMap<>();
+        this.distanceVelocityMap = new TreeMap<>();
         if (csv.exists() && csv.isFile()) {
             try {
                 read(new FileReader(csv));
@@ -30,14 +30,14 @@ public class MovingAverage {
     }
 
     public MovingAverage(Map<Double, Double> map) {
-        distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
+        this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
     }
 
     public MovingAverage(double[][] values) {
-        distanceVelocityMap = new TreeMap<>();
+        this.distanceVelocityMap = new TreeMap<>();
         for (double[] pair : values) {
             if (pair.length >= 2)
-                distanceVelocityMap.put(pair[0], pair[1]);
+                this.distanceVelocityMap.put(pair[0], pair[1]);
         }
     }
 
