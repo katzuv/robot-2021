@@ -17,6 +17,9 @@ import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
 import frc.robot.utils.MovingAverage;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import static frc.robot.Constants.Shooter.*;
 
 /**
@@ -32,7 +35,7 @@ public class Shooter extends SubsystemBase {
     private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
     private final UnitModel unitModel = new UnitModel(TICKS_PER_ROTATION);
-    private final MovingAverage movingAverage = new MovingAverage(PATH_TO_CSV);
+    private final MovingAverage movingAverage;
 
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
@@ -69,6 +72,11 @@ public class Shooter extends SubsystemBase {
                 Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
         );
         this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.MAXIMAL_VOLTAGE, Constants.ROBOT_TIMEOUT);
+
+        InputStream is = getClass().getResourceAsStream(PATH_TO_CSV);
+
+        assert is != null : "Can't create input stream";
+        this.movingAverage = new MovingAverage(new InputStreamReader(is));
     }
 
     /**
