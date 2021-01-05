@@ -44,7 +44,7 @@ public final class Constants {
         public static final double OMEGA = MAXIMAL_VOLTAGE / STALL_CURRENT; // [Ohm]
         public static final double Kv = FREE_SPEED / (MAXIMAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
 
-        public static final String PATH_TO_CSV = "";
+        public static final String PATH_TO_CSV = "/Shooting.csv";
 
     }
 }
