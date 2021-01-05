@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -16,7 +19,15 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class Conveyor {
+    public static final int TALON_TIMEOUT = 10; // [ms]
 
+    // TODO: Change the values
+    public static final class Conveyor {
+        public static final double TICKS_PER_METER = 0;
+
+        public static final double FORWARD_PEAK = 0; // [%]
+        public static final double REVERSE_PEAK = 0; // [%]
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(false, 0,0,0);
+        public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(false, 0,0,0); // control the acceleration
     }
 }
