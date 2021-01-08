@@ -12,7 +12,7 @@ public class FindColor extends CommandBase {
     private String color;
     private double power;
     private String tempColor;
-    private int targetColorDistance;//Amount of colors away from initial color to target color.
+    private int targetColorDistance; //amount of colors away from initial color to target color.
     private int previousColor;
     private boolean isNewColorSeen = false;
     private int initColorIndex;
@@ -48,7 +48,7 @@ public class FindColor extends CommandBase {
     public void findDistanceToTargetAndSetPower() {
         colorWheel.updateSensor();
         findInitialAndTargetColorPosition();
-        int clockDistance = 0, antiDistance = 0;
+        int clockDistance, antiDistance;
         if (targetColorIndex < initColorIndex) {
             clockDistance = targetColorIndex + Constants.ColorWheel.colors.length - initColorIndex;
             antiDistance = initColorIndex - targetColorIndex;
@@ -79,7 +79,7 @@ public class FindColor extends CommandBase {
 
     public void moderatePower() {
         colorWheel.updateSensor();
-        if (colorWheel.getColorString() != tempColor) {
+        if (!colorWheel.getColorString().equals(tempColor)) {
             tempColor = colorWheel.getColorString();
             previousColor--;
             isNewColorSeen = true;

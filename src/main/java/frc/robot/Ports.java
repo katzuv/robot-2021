@@ -8,6 +8,5 @@ public class Ports {
         public static final boolean MOTOR_INVERTED = false;
 
         public static final boolean MOTOR_SENSOR_PHASE_INVERTED = false;
-
     }
 }

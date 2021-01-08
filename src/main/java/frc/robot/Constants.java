@@ -23,7 +23,8 @@ public final class Constants {
         public static final double[] BLUE = {0, 0, 0};
         public static final double[] YELLOW = {0, 0, 0};
 
-        public static final int MAX_HALF_SPINS = 6;//Amount of times the color wheel must spin in half spins.
+        public static final int REQUIRED_SPINS = 3;//Amount of times the color wheel must spin.
+        public static final int COLOR_WHEEL_SLOTS = 8;//Amount of times the color wheel must spin.
         public static final double REDUCE_POWER_BY = 0.5;//Percentage to cut the motor power by.
 
         public static final String[] colors = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};

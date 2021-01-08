@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.color_wheel.ColorWheel;
 
-import java.util.ConcurrentModificationException;
-
 /**
  * Spin the wheel 3 times.
  */
@@ -13,10 +11,10 @@ public class Spin extends CommandBase {
 
     private final ColorWheel colorWheel;
     private double power;
-    private String initColor;//The first color the sensor sees.
-    private int initColorSeenCount;//Amount of times the sensor has seen the first color.
-    boolean isDifferentColor = false;//Whether the sensor has seen a different color than the initial color.
-    boolean isPowerDecreased = false;//Whether the power decrease has been executed already.
+    private String previousColor; //the first color the sensor sees.
+    private String currentColor; //the first color the sensor sees.
+    private boolean isPowerDecreased = false; //whether the power decrease has been executed already.
+    private int differentColorCounter = 0;
 
     public Spin(ColorWheel colorWheel, double power) {
         this.colorWheel = colorWheel;
@@ -27,21 +25,22 @@ public class Spin extends CommandBase {
     @Override
     public void initialize() {
         colorWheel.updateSensor();
-        initColor = colorWheel.getColorString();
-        initColorSeenCount = 1;
+        previousColor = colorWheel.getColorString();
+        currentColor = colorWheel.getColorString();
         colorWheel.power(power);
     }
 
     @Override
     public void execute() {
         colorWheel.updateSensor();
-        hasSeenInitColor();
+        currentColor = colorWheel.getColorString();
+        updateDifferentColorCount();
         moderatePower();
     }
 
     @Override
     public boolean isFinished() {
-        return initColorSeenCount == Constants.ColorWheel.REDUCE_POWER_BY;
+        return differentColorCounter >= Constants.ColorWheel.REQUIRED_SPINS * Constants.ColorWheel.COLOR_WHEEL_SLOTS;
     }
 
     @Override
@@ -49,19 +48,15 @@ public class Spin extends CommandBase {
         colorWheel.power(0);
     }
 
-    public void hasSeenInitColor() {
-        if (!colorWheel.getColorString().equals(initColor))
-            isDifferentColor = true;
-        else {
-            if (isDifferentColor) {
-                isDifferentColor = false;
-                initColorSeenCount++;
-            }
+    public void updateDifferentColorCount() {
+        if (currentColor != previousColor) {
+            previousColor = currentColor;
+            differentColorCounter++;
         }
     }
 
     public void moderatePower() {
-        if (initColorSeenCount == Constants.ColorWheel.MAX_HALF_SPINS - 1 && !isPowerDecreased) {
+        if (differentColorCounter == Constants.ColorWheel.REQUIRED_SPINS * Constants.ColorWheel.COLOR_WHEEL_SLOTS - 1 && !isPowerDecreased) {
             colorWheel.power(Constants.ColorWheel.REDUCE_POWER_BY * power);
             isPowerDecreased = true;
         }
