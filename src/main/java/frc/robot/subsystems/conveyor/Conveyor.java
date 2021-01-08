@@ -87,7 +87,8 @@ public class Conveyor extends SubsystemBase {
         funnelProximity.updateState();
 
         boolean movingUp = getPower() >= 0;
-        if (!shooterProximity.hasObjectSensed() && shooterProximity.hasStateChanged() && movingUp) {
+        if (!shooterProximity.hasObjectSensed() && shooterProximity.hasStateChanged() && movingUp ||
+                !funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && !movingUp) {
             Conveyor.removeBall();
         }
 
