@@ -10,19 +10,25 @@ import frc.robot.subsystems.conveyor.Conveyor;
 public class Convey extends CommandBase {
     private final Conveyor conveyor;
     private final double power;
+    private final boolean toShooter;
 
-    public Convey(Conveyor conveyor, double power) {
+    public Convey(Conveyor conveyor, double power, boolean toShooter) {
         this.conveyor = conveyor;
         this.power = power;
+        this.toShooter = toShooter;
 
         addRequirements(conveyor);
     }
 
     @Override
     public void execute() {
-        if (Conveyor.getBallsAmount() > 0)
-            conveyor.setPower(power);
-        // else TURN ON LEDS
+        if (toShooter) {
+            if (Conveyor.getBallsAmount() > 0)
+                conveyor.setPower(power);
+            // else TURN ON LEDS
+        } else
+            if (Conveyor.getBallsAmount() < Constants.Conveyor.MAX_BALLS_AMOUNT)
+                conveyor.setPower(power);
     }
 
     @Override
