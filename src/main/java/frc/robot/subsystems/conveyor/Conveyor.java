@@ -33,26 +33,43 @@ public class Conveyor extends SubsystemBase {
         motor.configVoltageCompSaturation(12);
     }
 
+    /**
+     * Get the amount of balls sensed by the proximity.
+     *
+     * @return the amount of balls in the conveyor.
+     */
     public static synchronized int getBallsAmount() {
         return balls;
     }
 
+    /**
+     * Increment by one the amount of balls (only programmatically).
+     */
     public static synchronized void addBall() {
         balls++;
     }
 
+    /**
+     * Decrement by one the amount of balls (only programmatically).
+     */
     public static synchronized void removeBall() {
         balls--;
     }
 
-    public double getPosition() {
-        return unitModel.toUnits(motor.getSelectedSensorPosition());
-    }
-
+    /**
+     * Get the power applied by the motor.
+     *
+     * @return the power applied by the motor. [%]
+     */
     public double getPower() {
         return motor.getMotorOutputPercent();
     }
 
+    /**
+     * Set the power to apply by the motor of the conveyor.
+     *
+     * @param power the power to apply by the motor. [%]
+     */
     public void setPower(double power) {
         motor.set(TalonFXControlMode.PercentOutput, power);
     }
