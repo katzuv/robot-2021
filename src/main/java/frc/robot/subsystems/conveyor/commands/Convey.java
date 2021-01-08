@@ -4,11 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.conveyor.Conveyor;
 
-public class LoadConveyor extends CommandBase {
+/**
+ * This command convey the balls to the shooter, or to the funnel.
+ */
+public class Convey extends CommandBase {
     private final Conveyor conveyor;
     private final double power;
 
-    public LoadConveyor(Conveyor conveyor, double power) {
+    public Convey(Conveyor conveyor, double power) {
         this.conveyor = conveyor;
         this.power = power;
 
@@ -19,7 +22,7 @@ public class LoadConveyor extends CommandBase {
     public void execute() {
         if (Conveyor.getBallsAmount() < Constants.Conveyor.MAX_BALLS_AMOUNT)
             conveyor.setPower(power);
-        // else TURN LEDS TO RED
+        // else TURN ON LEDS
     }
 
     @Override
