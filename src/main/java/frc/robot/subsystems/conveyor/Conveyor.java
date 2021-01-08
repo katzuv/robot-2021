@@ -14,7 +14,6 @@ public class Conveyor extends SubsystemBase {
     private static int balls = Constants.Conveyor.INITIAL_BALLS_AMOUNT;
 
     private final TalonFX motor = new TalonFX(Ports.Conveyor.MOTOR);
-    private final UnitModel unitModel = new UnitModel(Constants.Conveyor.TICKS_PER_METER);
     private final DeadbandProximity shooterProximity = new DeadbandProximity(Ports.Conveyor.SHOOTER_PROXIMITY,
             SHOOTER_PROXIMITY_LOST_VOLTAGE, SHOOTER_PROXIMITY_SENSE_VOLTAGE);
     private final DeadbandProximity funnelProximity = new DeadbandProximity(Ports.Conveyor.SHOOTER_PROXIMITY,

@@ -23,11 +23,9 @@ public final class Constants {
 
     // TODO: Change the values
     public static final class Conveyor {
-        public static final double TICKS_PER_METER = 0;
-
         public static final double FORWARD_PEAK = 0; // [%]
         public static final double REVERSE_PEAK = 0; // [%]
-        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(false, 0,0,0);
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(false, 0,0,0); //prevent breakers from tripping.
         public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(false, 0,0,0); // control the acceleration
 
         public static final int INITIAL_BALLS_AMOUNT = 3;
