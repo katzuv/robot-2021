@@ -10,8 +10,8 @@ import java.util.TreeMap;
  * The object calculate calculate a straight line between the closest point, and retrieve the velocity (in the straight line between the records).
  */
 public class MovingAverage {
-    private final String DELIMITER = ",";
-    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, tree map is automatically sort the values by distance.
+    private static final String DELIMITER = ",";
+    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, java.util.TreeMap iterates according to the "natural ordering" of the keys.
 
     public MovingAverage(String pathToCsv) {
         this(new File(pathToCsv));
@@ -32,7 +32,7 @@ public class MovingAverage {
     public MovingAverage(Map<Double, Double> map) {
         this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
     }
-    
+
     public MovingAverage(Reader reader) {
         this.distanceVelocityMap = new TreeMap<>();
         read(reader);
