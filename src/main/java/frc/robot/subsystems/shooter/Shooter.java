@@ -40,6 +40,7 @@ public class Shooter extends SubsystemBase {
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
     public Shooter() {
+        // Configure the motors
         main.setInverted(Ports.Shooter.MAIN_INVERTED);
         aux.setInverted(Ports.Shooter.AUX_INVERTED);
         main.setSensorPhase(Ports.Shooter.IS_SENSOR_INVERTED);
@@ -58,6 +59,11 @@ public class Shooter extends SubsystemBase {
 
         aux.follow(main);
 
+        this.stateSpacePredictor = constructLinearSystem();
+        this.velocityEstimator = new MovingAverage(readCSV());
+    }
+
+    private LinearSystemLoop<N1, N1, N1> constructLinearSystem() {
         // https://file.tavsys.net/control/controls-engineering-in-frc.pdf Page 76
         Vector<N1> A = VecBuilder.fill(-Math.pow(GEAR_RATIO, 2) * Kt / (Kv * OMEGA * J)); //Change the amount of cells and rows
         Vector<N1> B = VecBuilder.fill(GEAR_RATIO * Kt / (OMEGA * J));
@@ -71,12 +77,15 @@ public class Shooter extends SubsystemBase {
                 VecBuilder.fill(Constants.NOMINAL_VOLTAGE),
                 Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
         );
-        this.stateSpacePredictor = new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.NOMINAL_VOLTAGE, Constants.ROBOT_TIMEOUT);
 
+        return new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.NOMINAL_VOLTAGE, Constants.ROBOT_TIMEOUT);
+    }
+
+    private InputStreamReader readCSV() {
         InputStream is = getClass().getResourceAsStream(PATH_TO_CSV);
-
         assert is != null : "Can't create input stream";
-        this.velocityEstimator = new MovingAverage(new InputStreamReader(is));
+
+        return new InputStreamReader(is);
     }
 
     /**
