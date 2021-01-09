@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double ROBOT_TIMEOUT = 0.02; // [s]
+    public static final double LOOP_PERIOD = 0.02; // [s]
     public static final double NOMINAL_VOLTAGE = 12; // [volts]
 
     //TODO: change to real values

@@ -71,14 +71,14 @@ public class Shooter extends SubsystemBase {
         KalmanFilter<N1, N1, N1> kalman = new KalmanFilter<>(Nat.N1(), Nat.N1(), stateSpace,
                 VecBuilder.fill(MODEL_TOLERANCE),
                 VecBuilder.fill(ENCODER_TOLERANCE),
-                Constants.ROBOT_TIMEOUT
+                Constants.LOOP_PERIOD
         );
         LinearQuadraticRegulator<N1, N1, N1> lqr = new LinearQuadraticRegulator<>(stateSpace, VecBuilder.fill(VELOCITY_TOLERANCE),
                 VecBuilder.fill(Constants.NOMINAL_VOLTAGE),
-                Constants.ROBOT_TIMEOUT // time between loops, DON'T CHANGE
+                Constants.LOOP_PERIOD // time between loops, DON'T CHANGE
         );
 
-        return new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.NOMINAL_VOLTAGE, Constants.ROBOT_TIMEOUT);
+        return new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.NOMINAL_VOLTAGE, Constants.LOOP_PERIOD);
     }
 
     private InputStreamReader readCSV() {
@@ -105,7 +105,7 @@ public class Shooter extends SubsystemBase {
     public void setVelocity(double velocity) {
         stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference
         stateSpacePredictor.correct(VecBuilder.fill(getVelocity()));
-        stateSpacePredictor.predict(Constants.ROBOT_TIMEOUT); //every 20 ms
+        stateSpacePredictor.predict(Constants.LOOP_PERIOD); //every 20 ms
 
         double voltageToApply = stateSpacePredictor.getU(0); // u = input, calculated by the input.
         // returns the voltage to apply (between 0 and 12)
