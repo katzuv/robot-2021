@@ -19,7 +19,7 @@ public class MovingAverage {
 
     public MovingAverage(File csv) {
         this.distanceVelocityMap = new TreeMap<>();
-        if (csv.exists() && csv.isFile()) {
+        if (csv.isFile()) {
             try {
                 read(new FileReader(csv));
             } catch (FileNotFoundException e) { // Can't happen, we have already checked it
@@ -32,15 +32,7 @@ public class MovingAverage {
     public MovingAverage(Map<Double, Double> map) {
         this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
     }
-
-    public MovingAverage(double[][] values) {
-        this.distanceVelocityMap = new TreeMap<>();
-        for (double[] pair : values) {
-            if (pair.length >= 2)
-                this.distanceVelocityMap.put(pair[0], pair[1]);
-        }
-    }
-
+    
     public MovingAverage(Reader reader) {
         this.distanceVelocityMap = new TreeMap<>();
         read(reader);
@@ -55,7 +47,6 @@ public class MovingAverage {
             }
         } catch (IOException e) {
             System.err.println("MovingAverage class can't read the file");
-            System.out.println(e.getMessage());
         } catch (IndexOutOfBoundsException e) {
             System.err.println("Please check that every line has a pair of values, the problem occurred on this line " + line);
         }
@@ -68,9 +59,9 @@ public class MovingAverage {
      * @return an approximation of the velocity to apply
      */
     public double estimateVelocity(double distance) {
-        double[][] nearest = getClosestDistance(distance);
+        double[][] nearest = getClosestDistances(distance);
 
-        if (nearest[0][0] == nearest[1][0]) // we have already have a record of the distance, just return the velocity based of that
+        if (nearest[0][0] == nearest[1][0]) // There is already a record of the distance, just return the velocity based of that
             return nearest[0][1];
 
         // y = mx + b
@@ -88,7 +79,7 @@ public class MovingAverage {
      * @param distance the distance to return the pairs.
      * @return a 2d array represents the closest values(below {distance, velocity}, above {distance, velocity}).
      */
-    private double[][] getClosestDistance(double distance) {
+    private double[][] getClosestDistances(double distance) {
         double[][] closest = {{0, 0}, {Double.MAX_VALUE, 0}}; //{min, max}
         this.distanceVelocityMap.forEach((key, value) -> {
             double currentDistance = key, velocity = value; //we need to do it because comparison of the Double wrapper-class is off
@@ -96,8 +87,7 @@ public class MovingAverage {
             if (difference == 0) {
                 closest[0][0] = currentDistance;
                 closest[0][1] = velocity;
-                closest[1][0] = currentDistance;
-                closest[1][1] = velocity;
+                closest[1] = closest[0];
                 return;
             }
 
