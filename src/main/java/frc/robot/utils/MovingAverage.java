@@ -22,7 +22,7 @@ public class MovingAverage {
         if (csv.isFile()) {
             try {
                 read(new FileReader(csv));
-            } catch (FileNotFoundException e) { // Can't happen, we have already checked it
+            } catch (Exception e) { // Can't happen, we have already checked it
                 e.printStackTrace();
             }
         } else
