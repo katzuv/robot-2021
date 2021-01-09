@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
     private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
     private final UnitModel unitModel = new UnitModel(TICKS_PER_ROTATION);
-    private final MovingAverage movingAverage;
+    private final MovingAverage velocityEstimator;
 
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
         InputStream is = getClass().getResourceAsStream(PATH_TO_CSV);
 
         assert is != null : "Can't create input stream";
-        this.movingAverage = new MovingAverage(new InputStreamReader(is));
+        this.velocityEstimator = new MovingAverage(new InputStreamReader(is));
     }
 
     /**
@@ -122,7 +122,7 @@ public class Shooter extends SubsystemBase {
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
     public double estimateVelocity(double distance) {
-        return movingAverage.estimateVelocity(distance);
+        return velocityEstimator.estimateVelocity(distance);
     }
 
     /**
