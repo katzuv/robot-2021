@@ -115,8 +115,6 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Estimate the velocity that the shooter should apply in order to reach the target.
-     * The function created by running an experiment of different velocities for the "most used" distances.
-     * See the experiment results in (TODO: Add the path).
      *
      * @param distance the distance from the target.
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
@@ -127,7 +125,6 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Get whether the flywheel has reached the desired velocity in order to reach the target.
-     * Also, this function checks whether the flywheel has enough velocity in order to move the motor in first place.
      *
      * @param setpoint the desired velocity at the motor will rotate. [RPS]
      * @return whether the flywheel reaches the desired velocity.

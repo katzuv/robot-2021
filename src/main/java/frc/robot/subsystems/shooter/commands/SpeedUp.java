@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.shooter.Shooter;
 
 /**
- * This command changes the velocity of the shooter to a specified velocity, in order to shoot at the best rate.
+ * This command changes the velocity of the shooter to a specified velocity.
  */
 public class SpeedUp extends CommandBase {
     private final Shooter shooter;
