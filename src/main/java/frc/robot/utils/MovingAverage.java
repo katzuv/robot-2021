@@ -27,15 +27,18 @@ public class MovingAverage {
             }
         } else
             System.err.println("File not found: " + csv.getName());
+        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     public MovingAverage(Map<Double, Double> map) {
         this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
+        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     public MovingAverage(Reader reader) {
         this.distanceVelocityMap = new TreeMap<>();
         read(reader);
+        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     private void read(Reader reader) {
@@ -59,44 +62,38 @@ public class MovingAverage {
      * @return an approximation of the velocity to apply
      */
     public double estimateVelocity(double distance) {
-        double[][] nearest = getClosestDistances(distance);
+        double[] distances = getClosestDistances(distance);
 
-        if (nearest[0][0] == nearest[1][0]) // There is already a record of the distance, just return the velocity based of that
-            return nearest[0][1];
+        if (distances[0] == distances[1]) // There is already a record of the distance, just return the velocity based of that
+            return distanceVelocityMap.get(distances[0]);
 
+        double lowerVelocity = distanceVelocityMap.get(distances[0]);
+        double higherVelocity = distanceVelocityMap.get(distances[1]);
         // y = mx + b
         // m = delta y / delta x
-        double m = (nearest[1][1] - nearest[0][1]) / (nearest[1][0] - nearest[0][0]);
+        double m = (higherVelocity - lowerVelocity) / (distances[1] - distances[0]);
         // b = y - m*x
-        double b = nearest[1][1] - m * nearest[1][0];
+        double b = higherVelocity - m * distances[1];
 
         return distance * m + b;
     }
 
     /**
-     * get a 2 pairs of (distance, velocity) of the closets distances below and above.
+     * get a pair of distances of the closets distances, one below and one above.
      *
      * @param distance the distance to return the pairs.
      * @return a 2d array represents the closest values(below {distance, velocity}, above {distance, velocity}).
      */
-    private double[][] getClosestDistances(double distance) {
-        double[][] closest = {{0, 0}, {Double.MAX_VALUE, 0}}; //{min, max}
+    private double[] getClosestDistances(double distance) {
+        double[] closest = {0, Double.MAX_VALUE}; //{min, max}
         this.distanceVelocityMap.forEach((key, value) -> {
             double currentDistance = key, velocity = value; //we need to do it because comparison of the Double wrapper-class is off
             double difference = currentDistance - distance;
-            if (difference == 0) {
-                closest[0][0] = currentDistance;
-                closest[0][1] = velocity;
-                closest[1] = closest[0];
-                return;
-            }
 
-            if (difference < closest[0][0] && difference < 0) { // the value below the desired distance
-                closest[0][0] = currentDistance;
-                closest[0][1] = velocity;
-            } else if (difference < closest[1][0] && difference > 0) {
-                closest[1][0] = currentDistance;
-                closest[1][1] = velocity;
+            if (difference < closest[0] && difference < 0) { // the value below the desired distance
+                closest[0] = currentDistance;
+            } else if (difference < closest[1] && difference > 0) {
+                closest[1] = currentDistance;
             }
         });
         return closest;
