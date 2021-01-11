@@ -32,7 +32,7 @@ public class DeadbandProximity extends AnalogInput {
      * We use this method to ensure that the proximity doesn't toggle rapidly because of sensor noise.
      */
     public void updateState() {
-        boolean lastState = objectSensed;
+        final boolean lastState = objectSensed;
         if (isObjectAway()) {
             objectSensed = false;
         } else if (isObjectClose()) {
