@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
  */
 public final class Constants {
     public static final int TALON_TIMEOUT = 10; // [ms]
+    public static final double NOMINAL_VOLTAGE = 12; // [volts]
 
     // TODO: Change the values
     public static final class Conveyor {

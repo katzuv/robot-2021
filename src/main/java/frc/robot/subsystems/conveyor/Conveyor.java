@@ -28,7 +28,7 @@ public class Conveyor extends SubsystemBase {
         motor.configStatorCurrentLimit(STATOR_CURRENT_LIMIT, Constants.TALON_TIMEOUT);
 
         motor.enableVoltageCompensation(true);
-        motor.configVoltageCompSaturation(12);
+        motor.configVoltageCompSaturation(Constants.NOMINAL_VOLTAGE);
     }
 
     /**
