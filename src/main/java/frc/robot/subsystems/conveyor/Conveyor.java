@@ -55,12 +55,12 @@ public class Conveyor extends SubsystemBase {
     }
 
     /**
-     * Get the power applied by the motor.
+     * Get whether the power applied by the motor is upward, i.e moving up.
      *
-     * @return the power applied by the motor. [%]
+     * @return whether the power applied by the motor is upward.
      */
-    public double getPower() {
-        return motor.getMotorOutputPercent();
+    public boolean isMovingUp() {
+        return motor.getMotorOutputPercent() >= 0;
     }
 
     /**
@@ -84,13 +84,12 @@ public class Conveyor extends SubsystemBase {
         shooterProximity.updateState();
         funnelProximity.updateState();
 
-        boolean movingUp = getPower() >= 0;
-        if (!shooterProximity.hasObjectSensed() && shooterProximity.hasStateChanged() && movingUp ||
-                !funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && !movingUp) {
+        if (!shooterProximity.hasObjectSensed() && shooterProximity.hasStateChanged() && isMovingUp() ||
+                !funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && !isMovingUp()) {
             Conveyor.removeBall();
         }
 
-        if (funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && movingUp) {
+        if (funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && isMovingUp()) {
             Conveyor.addBall();
         }
     }
