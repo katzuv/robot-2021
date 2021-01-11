@@ -23,12 +23,12 @@ public class Convey extends CommandBase {
     @Override
     public void execute() {
         if (toShooter) {
-            if (Conveyor.getBallsAmount() > 0)
+            if (Conveyor.getBallsAmount() > 0) {
                 conveyor.setPower(power);
-            // else TURN ON LEDS
-        } else
-            if (Conveyor.getBallsAmount() < Constants.Conveyor.MAX_BALLS_AMOUNT)
-                conveyor.setPower(power);
+            }// TODO: else TURN ON LEDS
+        } else if (Conveyor.getBallsAmount() < Constants.Conveyor.MAX_BALLS_AMOUNT) {
+            conveyor.setPower(power);
+        }
     }
 
     @Override
