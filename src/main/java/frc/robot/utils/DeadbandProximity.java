@@ -29,7 +29,7 @@ public class DeadbandProximity extends AnalogInput {
      * Update the state of the proximity.
      * An object considered as sensed when the value goes above the {@link #senseVoltage}.
      * An object considered as lost when the value goes below the {@link #lostVoltage}.
-     * We use this method to ensure that the proximity doesn't toggle rapidly because of sensor noise.
+     * This method ensures that the proximity doesn't toggle rapidly because of sensor noise.
      */
     public void updateState() {
         final boolean lastState = objectSensed;
@@ -45,7 +45,7 @@ public class DeadbandProximity extends AnalogInput {
      * Get whether the proximity sense an object.
      * If you wish to check whether the proximity lost the object, use {@link #isObjectAway()} instead.
      *
-     * @return whether the proximity sense a object.
+     * @return whether the proximity sense an object.
      */
     private boolean isObjectClose() {
         return getValue() > senseVoltage;
