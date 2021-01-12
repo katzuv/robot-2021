@@ -59,8 +59,8 @@ public class Conveyor extends SubsystemBase {
      *
      * @return whether the power applied by the motor is upward.
      */
-    public boolean isMovingUp() {
-        return motor.getMotorOutputPercent() >= 0;
+    private boolean isMovingUp() {
+        return motor.getMotorOutputPercent() > 0;
     }
 
     /**
