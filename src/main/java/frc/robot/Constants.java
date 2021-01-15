@@ -41,9 +41,9 @@ public final class Constants {
         public static final double FREE_SPEED = Units.rotationsPerMinuteToRadiansPerSecond(6380); // [rad/sec]
 
         public static final double GEAR_RATIO = 0; //TODO: Choose real value
-        public static final double Kt = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
+        public static final double kT = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
         public static final double OMEGA = NOMINAL_VOLTAGE / STALL_CURRENT; // [Ohm]
-        public static final double Kv = FREE_SPEED / (NOMINAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
+        public static final double kV = FREE_SPEED / (NOMINAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
 
         public static final String PATH_TO_CSV = "/Shooting.csv";
 

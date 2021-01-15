@@ -11,7 +11,7 @@ import java.util.TreeMap;
  */
 public class MovingAverage {
     private static final String DELIMITER = ",";
-    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, java.util.TreeMap iterates according to the "natural ordering" of the keys.
+    private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, TreeMap iterates according to the "natural ordering" of the keys (in this case, smallest distance first).
 
     public MovingAverage(String pathToCsv) {
         this(new File(pathToCsv));
@@ -22,23 +22,20 @@ public class MovingAverage {
         if (csv.isFile()) {
             try {
                 read(new FileReader(csv));
-            } catch (Exception e) { // Can't happen, we have already checked it
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else
             System.err.println("File not found: " + csv.getName());
-        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     public MovingAverage(Map<Double, Double> map) {
         this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
-        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     public MovingAverage(Reader reader) {
         this.distanceVelocityMap = new TreeMap<>();
         read(reader);
-        this.distanceVelocityMap.put(0.0, 0.0); // I don't want to use if statement
     }
 
     private void read(Reader reader) {
