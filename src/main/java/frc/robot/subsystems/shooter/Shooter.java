@@ -35,8 +35,8 @@ public class Shooter extends SubsystemBase {
     private final TalonFX main = new TalonFX(Ports.Shooter.MAIN);
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
     private final UnitModel unitModel = new UnitModel(TICKS_PER_ROTATION);
-    private final MovingAverage velocityEstimator;
 
+    private final MovingAverage velocityEstimator;
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
     public Shooter() {
@@ -90,7 +90,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * @return the velocity of the shooter. [RPS]
-     * @see #setVelocity(double)
+     * @see #setVelocity(double, double)
      */
     public double getVelocity() {
         return unitModel.toVelocity(main.getSelectedSensorVelocity());
@@ -102,10 +102,10 @@ public class Shooter extends SubsystemBase {
      * @param velocity the desired velocity at which the motor will rotate. [RPS]
      * @see #setPower(double)
      */
-    public void setVelocity(double velocity) {
+    public void setVelocity(double velocity, double difference) {
         stateSpacePredictor.setNextR(VecBuilder.fill(velocity)); //r = reference (setpoint)
         stateSpacePredictor.correct(VecBuilder.fill(getVelocity()));
-        stateSpacePredictor.predict(Constants.LOOP_PERIOD);
+        stateSpacePredictor.predict(difference);
 
         double voltageToApply = stateSpacePredictor.getU(0); // u = input, calculated by the input.
         // returns the voltage to apply (between 0 and 12)
