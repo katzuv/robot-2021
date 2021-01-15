@@ -86,9 +86,6 @@ public class MovingAverage {
      * @return a 2d array represents the closest values(below {distance, velocity}, above {distance, velocity}).
      */
     private double[] getClosestDistances(double distance) {
-        if (this.distanceVelocityMap.containsKey(distance))
-            return new double[]{distance, distance};
-
         Set<Double> keys = distanceVelocityMap.keySet();
         double min = 0;
 
