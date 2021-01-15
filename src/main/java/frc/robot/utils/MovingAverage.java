@@ -1,7 +1,10 @@
 package frc.robot.utils;
 
+import frc.robot.Constants;
+
 import java.io.*;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -61,8 +64,9 @@ public class MovingAverage {
     public double estimateVelocity(double distance) {
         double[] distances = getClosestDistances(distance);
 
-        if (distances[0] == distances[1]) // There is already a record of the distance, just return the velocity based of that
+        if (Math.abs(distances[0] - distance) <= Constants.Shooter.ALLOWED_ERROR) {
             return distanceVelocityMap.get(distances[0]);
+        }
 
         double lowerVelocity = distanceVelocityMap.get(distances[0]);
         double higherVelocity = distanceVelocityMap.get(distances[1]);

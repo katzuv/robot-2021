@@ -47,5 +47,6 @@ public final class Constants {
 
         public static final String PATH_TO_CSV = "/Shooting.csv";
 
+        public static final double ALLOWED_ERROR = 0.03;// [m]
     }
 }
