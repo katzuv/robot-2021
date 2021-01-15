@@ -82,17 +82,18 @@ public class MovingAverage {
      * @return a 2d array represents the closest values(below {distance, velocity}, above {distance, velocity}).
      */
     private double[] getClosestDistances(double distance) {
-        double[] closest = {0, Double.MAX_VALUE}; //{min, max}
-        this.distanceVelocityMap.forEach((key, value) -> {
-            double currentDistance = key, velocity = value; //we need to do it because comparison of the Double wrapper-class is off
-            double difference = currentDistance - distance;
+        if (this.distanceVelocityMap.containsKey(distance))
+            return new double[]{distance, distance};
 
-            if (difference < closest[0] && difference < 0) { // the value below the desired distance
-                closest[0] = currentDistance;
-            } else if (difference < closest[1] && difference > 0) {
-                closest[1] = currentDistance;
+        Set<Double> keys = distanceVelocityMap.keySet();
+        double min = 0;
+
+        for (double val : keys) {
+            if (val > distance) {
+                return new double[]{min, val};
             }
-        });
-        return closest;
+            min = val;
+        }
+        return new double[]{min, min}; //Out of range, either way the robot can't shoot at this distance
     }
 }
