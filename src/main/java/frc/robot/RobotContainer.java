@@ -18,11 +18,6 @@ import org.techfire225.webapp.Webserver;
 public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-    public static XboxController xbox = new XboxController(2);
-    private static Button b = new JoystickButton(xbox, 1);
-    private static JoystickButton a = new JoystickButton(xbox, XboxController.Button.kA.value);
-    private static JoystickButton c = new JoystickButton(OI.rightJoystick, 3);
-
     public SwerveDrive swerveDrive = new SwerveDrive(true);
 
     public RobotContainer(){
@@ -38,7 +33,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Grab the hatch when the 'A' button is pressed.
         swerveDrive.setDefaultCommand(new HolonomicDrive(swerveDrive));
-        c.whenPressed(new ResetPositions(swerveDrive));
+        OI.c.whenPressed(new ResetPositions(swerveDrive));
     }
 
 

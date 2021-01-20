@@ -9,6 +9,9 @@ import frc.robot.valuetuner.WebConstant;
  */
 public class Constants {
     public static final int TALON_TIMEOUT = 10; // in ms
+    public static final boolean ENABLE_CURRENT_LIMIT = true;
+    public static final boolean ENABLE_VOLTAGE_COMPENSATION = true;
+    public static final int VOLTAGE_SATURATION = 12;
 
     public static class SwerveDrive {
 
@@ -16,8 +19,8 @@ public class Constants {
         public static final int TICKS_IN_ENCODER = 1024;
         public static final double TICKS_PER_RAD = TICKS_IN_ENCODER / (2 * Math.PI);
 
-        public static final double MAX_VEL = 4;// in m/s
-        public static final double TIME_STEP = 0.02; // in seconds
+        public static final double MAX_VELOCITY = 4;// in m/s
+        public static final double TIME_STEP = 0.02; // in seconds, time step of run time
         public static final double MAX_ACCELERATION = 0.4;// in m/s^2 (currently not the correct number)
         public static final int MAX_CURRENT = 35; // in ampere
 
@@ -34,7 +37,6 @@ public class Constants {
     }
 
     public static class SwerveModule {
-        // TODO: set PIDF
         public static final WebConstant KP = new WebConstant("KP", 6);
         public static final WebConstant KI = new WebConstant("KI", 0);
         public static final WebConstant KD = new WebConstant("KD", 10);
@@ -59,9 +61,6 @@ public class Constants {
         public static final WebConstant KD_SICK = new WebConstant("KD_SICK", 8);
         public static final WebConstant KF_SICK = new WebConstant("KF_SICK", 0);
 
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_VOLTAGE_COMPENSATION = true;
-        public static final int VOLTAGE_SATURATION = 12;
         public static final int TRIGGER_THRESHOLD_CURRENT = 5;
         public static final double TRIGGER_THRESHOLD_TIME = 0.02;
 

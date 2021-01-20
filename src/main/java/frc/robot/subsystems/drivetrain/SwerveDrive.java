@@ -12,7 +12,7 @@ import static frc.robot.Ports.SwerveDrive.*;
 
 public class SwerveDrive extends SubsystemBase {
 
-    static double[][] Dynamics = new double[8][3];
+    static double[][] dynamics = new double[8][3];
     public SwerveModule[] swerveModules = new SwerveModule[4];
     // calculates the distance from the center of the robot to the wheels
     static double Rx = Constants.SwerveDrive.ROBOT_WIDTH / 2;
@@ -30,21 +30,21 @@ public class SwerveDrive extends SubsystemBase {
         // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
         for (int i = 0; i < 8; i++) {
             if (i % 2 == 0) {
-                Dynamics[i][0] = 1;
-                Dynamics[i][1] = 0;
-                Dynamics[i][2] = Rx * signX[i / 2];
+                dynamics[i][0] = 1;
+                dynamics[i][1] = 0;
+                dynamics[i][2] = Rx * signX[i / 2];
             } else {
-                Dynamics[i][0] = 0;
-                Dynamics[i][1] = 1;
-                Dynamics[i][2] = Ry * signY[i / 2];
+                dynamics[i][0] = 0;
+                dynamics[i][1] = 1;
+                dynamics[i][2] = Ry * signY[i / 2];
             }
         }
         Robot.gyro.reset();
 
-        swerveModules[0] = new SwerveModule(0, new TalonFX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1), FRONT_RIGHT_INVERTED);
-        swerveModules[1] = new SwerveModule(1, new TalonFX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2), FRONT_LEFT_INVERTED);
-        swerveModules[2] = new SwerveModule(2, new TalonFX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3), BACK_RIGHT_INVERTED);
-        swerveModules[3] = new SwerveModule(3, new TalonFX(DRIVE_MOTOR_4), new TalonSRX(ANGLE_MOTOR_4), BACK_LEFT_INVERTED);
+        swerveModules[0] = new SwerveModule(0, new TalonFX(DRIVE_MOTOR_0), new TalonSRX(ANGLE_MOTOR_0), FRONT_RIGHT_INVERTED);
+        swerveModules[1] = new SwerveModule(1, new TalonFX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1), FRONT_LEFT_INVERTED);
+        swerveModules[2] = new SwerveModule(2, new TalonFX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2), BACK_RIGHT_INVERTED);
+        swerveModules[3] = new SwerveModule(3, new TalonFX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3), BACK_LEFT_INVERTED);
 
         this.isFieldOriented = isFieldOriented;
     }
@@ -135,7 +135,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public static double[] calculateWheelVelocities(double[] robotHeading) {
         // multiplies M by the robotHeading to obtain the wheel velocities
-        double[] wheelVelocities = Utils.matrixVectorMult(Dynamics, robotHeading);
+        double[] wheelVelocities = Utils.matrixVectorMult(dynamics, robotHeading);
         return wheelVelocities;
     }
 

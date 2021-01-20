@@ -12,23 +12,23 @@ public class Ports {
 
     public static class SwerveDrive {
         // front right
-        public static final int DRIVE_MOTOR_1 = 11;
-        public static final int ANGLE_MOTOR_1 = 12;
+        public static final int DRIVE_MOTOR_0 = 11;
+        public static final int ANGLE_MOTOR_0 = 12;
         public static final boolean[] FRONT_RIGHT_INVERTED = {false, false, true, false};
 
         // front left
-        public static final int DRIVE_MOTOR_2 = 21;
-        public static final int ANGLE_MOTOR_2 = 22;
+        public static final int DRIVE_MOTOR_1 = 21;
+        public static final int ANGLE_MOTOR_1 = 22;
         public static final boolean[] FRONT_LEFT_INVERTED = {true, false, false, false};
 
         // back right
-        public static final int DRIVE_MOTOR_3 = 31;
-        public static final int ANGLE_MOTOR_3 = 32;
+        public static final int DRIVE_MOTOR_2 = 31;
+        public static final int ANGLE_MOTOR_2 = 32;
         public static final boolean[] BACK_RIGHT_INVERTED = {true, false, false, false};
 
         // back left
-        public static final int DRIVE_MOTOR_4 = 41;
-        public static final int ANGLE_MOTOR_4 = 42;
+        public static final int DRIVE_MOTOR_3 = 41;
+        public static final int ANGLE_MOTOR_3 = 42;
         public static final boolean[] BACK_LEFT_INVERTED = {true, false, false, true};
 
         // encoder not continuous feedback

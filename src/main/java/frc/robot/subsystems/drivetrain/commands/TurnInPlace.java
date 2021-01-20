@@ -30,7 +30,7 @@ public class TurnInPlace extends CommandBase {
 
     @Override
     public void execute() {
-        double rotation = -RobotContainer.xbox.getY();
+        double rotation = -OI.xbox.getY();
 
         rotation = joystickDeadband(rotation);
 
