@@ -65,4 +65,18 @@ public class Utils {
         return out;
     }
 
+
+    /**
+     * sets the value of the joystick to 0 if the value is less than the threshold
+     *
+     * @param val the joystick value
+     * @return 0 if val is less than the threshold else val
+     */
+    public static double joystickDeadband(double val) {
+        if (Math.abs(val) < Constants.SwerveDrive.JOYSTICK_THRESHOLD)
+            return 0;
+        return Math.pow(val, 3);
+    }
+
+
 }
