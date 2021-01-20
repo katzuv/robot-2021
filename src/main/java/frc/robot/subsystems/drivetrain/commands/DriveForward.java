@@ -24,8 +24,7 @@ public class DriveForward extends CommandBase {
 
     @Override
     public void execute() {
-        double forward = -OI.getJoystickY();
-        forward = joystickDeadband(forward);
+        double forward = joystickDeadband(-OI.getJoystickY());
 
         for (int i = 0; i< 4; i++) {
             swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());

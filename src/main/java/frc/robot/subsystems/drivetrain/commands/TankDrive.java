@@ -24,10 +24,10 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        swerveDrive.swerveModules[0].setSpeed(RobotContainer.xbox.getY(GenericHID.Hand.kRight));
-        swerveDrive.swerveModules[2].setSpeed(RobotContainer.xbox.getY(GenericHID.Hand.kRight));
+        swerveDrive.swerveModules[0].setSpeed(OI.xbox.getY(GenericHID.Hand.kRight));
+        swerveDrive.swerveModules[2].setSpeed(OI.xbox.getY(GenericHID.Hand.kRight));
 
-        swerveDrive.swerveModules[1].setSpeed(RobotContainer.xbox.getY(GenericHID.Hand.kLeft));
-        swerveDrive.swerveModules[3].setSpeed(RobotContainer.xbox.getY(GenericHID.Hand.kLeft));
+        swerveDrive.swerveModules[1].setSpeed(OI.xbox.getY(GenericHID.Hand.kLeft));
+        swerveDrive.swerveModules[3].setSpeed(OI.xbox.getY(GenericHID.Hand.kLeft));
     }
 }
