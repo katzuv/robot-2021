@@ -14,12 +14,12 @@ import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
     private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(
-            Constants.SwerveModule.ENABLE_CURRENT_LIMIT,
+            Constants.ENABLE_CURRENT_LIMIT,
             Constants.SwerveDrive.MAX_CURRENT,
             Constants.SwerveModule.TRIGGER_THRESHOLD_CURRENT,
             Constants.SwerveModule.TRIGGER_THRESHOLD_TIME
     );
-    public final TalonFX driveMotor;
+    private final TalonFX driveMotor;
     private final TalonSRX angleMotor;
     private final int wheel;
 
@@ -28,7 +28,7 @@ public class SwerveModule extends SubsystemBase {
 
     public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor, boolean[] inverted) {
         // configure feedback sensors
-        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, wheel, Constants.TALON_TIMEOUT);
+        angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, Constants.TALON_TIMEOUT);
         angleMotor.configFeedbackNotContinuous(Ports.SwerveDrive.IS_NOT_CONTINUOUS_FEEDBACK, Constants.TALON_TIMEOUT);
 
         angleMotor.setNeutralMode(NeutralMode.Brake);
@@ -44,16 +44,16 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.configSupplyCurrentLimit(currLimitConfig);
 
         angleMotor.configContinuousCurrentLimit(Constants.SwerveDrive.MAX_CURRENT);
-        angleMotor.enableCurrentLimit(Constants.SwerveModule.ENABLE_CURRENT_LIMIT);
+        angleMotor.enableCurrentLimit(Constants.ENABLE_CURRENT_LIMIT);
 
         configPIDF();
 
         // set voltage compensation and saturation
-        driveMotor.enableVoltageCompensation(Constants.SwerveModule.ENABLE_VOLTAGE_COMPENSATION);
-        driveMotor.configVoltageCompSaturation(Constants.SwerveModule.VOLTAGE_SATURATION);
+        driveMotor.enableVoltageCompensation(Constants.ENABLE_VOLTAGE_COMPENSATION);
+        driveMotor.configVoltageCompSaturation(Constants.VOLTAGE_SATURATION);
 
-        angleMotor.enableVoltageCompensation(Constants.SwerveModule.ENABLE_VOLTAGE_COMPENSATION);
-        angleMotor.configVoltageCompSaturation(Constants.SwerveModule.VOLTAGE_SATURATION);
+        angleMotor.enableVoltageCompensation(Constants.ENABLE_VOLTAGE_COMPENSATION);
+        angleMotor.configVoltageCompSaturation(Constants.VOLTAGE_SATURATION);
 
         angleMotor.selectProfileSlot(0, 0);
         driveMotor.selectProfileSlot(1, 0);
@@ -106,7 +106,7 @@ public class SwerveModule extends SubsystemBase {
      * @param currentAngle the current angle of the wheel
      * @return the target angle
      */
-    public double getTargetAngle(double angle, double currentAngle) {
+    public static double getTargetAngle(double angle, double currentAngle) {
         // makes sure the value is between -pi and pi
         angle = Utils.floorMod(angle, 2 * Math.PI);
         double[] angles = {angle - 2 * Math.PI, angle, angle + 2 * Math.PI}; // An array of all possible target angles

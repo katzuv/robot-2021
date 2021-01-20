@@ -15,12 +15,12 @@ public class SwerveModuleTest {
 
     @Before
     public void setUp() {
-        swerveModule = new SwerveModule(0, new TalonFX(0), new TalonSRX(1), new boolean[]{false, false, false, false});
+
     }
 
     @Test
     public void getTargetAngle() {
-        double targetAngle = swerveModule.getTargetAngle(-1.5 * Math.PI, -Math.PI / 4);
+        double targetAngle = SwerveModule.getTargetAngle(-1.5 * Math.PI, -Math.PI / 4);
         double expectedAngle = Math.PI / 2;
 
         Assert.assertEquals(expectedAngle, targetAngle, delta);
