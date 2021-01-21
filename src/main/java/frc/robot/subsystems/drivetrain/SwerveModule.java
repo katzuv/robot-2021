@@ -45,7 +45,7 @@ public class SwerveModule extends SubsystemBase {
                 Constants.SwerveModule.TRIGGER_THRESHOLD_CURRENT,
                 Constants.SwerveModule.TRIGGER_THRESHOLD_TIME
         );
-        
+
         driveMotor.configSupplyCurrentLimit(currLimitConfig);
 
         angleMotor.configContinuousCurrentLimit(Constants.SwerveDrive.MAX_CURRENT);

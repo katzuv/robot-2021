@@ -1,7 +1,9 @@
 package robot.subsystems.drivetrain;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
 import org.junit.*;
+import org.opencv.core.Mat;
 
 import java.util.Arrays;
 
@@ -19,20 +21,24 @@ public class SwerveDriveTest {
 
     @Before
     public void setup() {
-        swerveDrive = new SwerveDrive(false);
-        swerveField = new SwerveDrive(true);
+        swerveDrive = new SwerveDrive(false, true);
+        swerveField = new SwerveDrive(true, true);
     }
 
-    //@Test
+    @Test
     public void turnInPlace() {
         forward = 0;
         strafe = 0;
         rotation = -1;
 
-        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
-        expectedHeadingField = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
+        expectedHeading = new double[]{strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
+        expectedHeadingField = new double[]{strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
 
-        expectedVel = new double[]{-Math.PI / 2, Math.PI / 2, -Math.PI / 2, -Math.PI / 2, Math.PI / 2, -Math.PI / 2, Math.PI / 2, Math.PI / 2};
+        double vy = ROTATION_MULTIPLIER * ROBOT_LENGTH / 2;
+        double vx = ROTATION_MULTIPLIER * ROBOT_LENGTH / 2;
+
+
+        expectedVel = new double[]{-vy, vx, -vy, -vx, vy, vx, vy, -vx};
 
         getRobotHeading();
         getRobotHeadingField();
@@ -46,11 +52,11 @@ public class SwerveDriveTest {
         rotation = 0;
         gyro =  3 * Math.PI / 2;
 
-        expectedHeading = new double[]{forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, rotation * ROTATION_MULTIPLIER};
-        expectedHeadingField = new double[]{0, -0.7, 0};
-        expectedVel = new double[]{ strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER,
-                strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER, strafe * SPEED_MULTIPLIER, forward * SPEED_MULTIPLIER};
-        expectedVelField = new double[]{-0.7, 0, -0.7, 0, -0.7, 0, -0.7, 0};
+        expectedHeading = new double[]{0, -forward * SPEED_MULTIPLIER, 0};
+        expectedHeadingField = new double[]{0, -forward * SPEED_MULTIPLIER, 0};
+        expectedVel = new double[]{0, -forward * SPEED_MULTIPLIER, 0, -forward * SPEED_MULTIPLIER,
+                0, -forward * SPEED_MULTIPLIER, 0, -forward * SPEED_MULTIPLIER};
+        expectedVelField = new double[]{0, -forward * SPEED_MULTIPLIER, 0, -forward * SPEED_MULTIPLIER, 0, -forward * SPEED_MULTIPLIER, 0, -forward * SPEED_MULTIPLIER};
 
         getRobotHeading();
         getRobotHeadingField();
