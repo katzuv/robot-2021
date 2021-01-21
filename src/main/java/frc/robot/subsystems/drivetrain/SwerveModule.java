@@ -13,12 +13,6 @@ import frc.robot.UnitModel;
 import frc.robot.Utils;
 
 public class SwerveModule extends SubsystemBase {
-    private SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(
-            Constants.SwerveModule.ENABLE_CURRENT_LIMIT,
-            Constants.SwerveDrive.MAX_CURRENT,
-            Constants.SwerveModule.TRIGGER_THRESHOLD_CURRENT,
-            Constants.SwerveModule.TRIGGER_THRESHOLD_TIME
-    );
     private final TalonFX driveMotor;
     private final TalonSRX angleMotor;
     private final int wheel;
@@ -45,10 +39,17 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setSensorPhase(inverted[3]);
 
         // Set amperage limits
+        SupplyCurrentLimitConfiguration currLimitConfig = new SupplyCurrentLimitConfiguration(
+                Constants.ENABLE_CURRENT_LIMIT,
+                Constants.SwerveDrive.MAX_CURRENT,
+                Constants.SwerveModule.TRIGGER_THRESHOLD_CURRENT,
+                Constants.SwerveModule.TRIGGER_THRESHOLD_TIME
+        );
+        
         driveMotor.configSupplyCurrentLimit(currLimitConfig);
 
         angleMotor.configContinuousCurrentLimit(Constants.SwerveDrive.MAX_CURRENT);
-        angleMotor.enableCurrentLimit(Constants.SwerveModule.ENABLE_CURRENT_LIMIT);
+        angleMotor.enableCurrentLimit(Constants.ENABLE_CURRENT_LIMIT);
 
         configPIDF();
 

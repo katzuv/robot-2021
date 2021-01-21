@@ -24,7 +24,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private static boolean isFieldOriented;
 
-    public SwerveDrive(boolean isFieldOriented) {
+    public SwerveDrive(boolean isFieldOriented, boolean testMode) {
 
         // creates an inverse matrix of all the mathematical operations needed to calculate the wheel velocities
         // see https://file.tavsys.net/control/controls-engineering-in-frc.pdf pg.144
@@ -41,10 +41,12 @@ public class SwerveDrive extends SubsystemBase {
         }
         Robot.gyro.reset();
 
-        swerveModules[0] = new SwerveModule(0, DRIVE_MOTOR_0, ANGLE_MOTOR_0, FRONT_RIGHT_INVERTED);
-        swerveModules[1] = new SwerveModule(1, DRIVE_MOTOR_1, ANGLE_MOTOR_1, FRONT_LEFT_INVERTED);
-        swerveModules[2] = new SwerveModule(2, DRIVE_MOTOR_2, ANGLE_MOTOR_2, BACK_RIGHT_INVERTED);
-        swerveModules[3] = new SwerveModule(3, DRIVE_MOTOR_3, ANGLE_MOTOR_3, BACK_LEFT_INVERTED);
+        if (!testMode) {
+            swerveModules[0] = new SwerveModule(0, DRIVE_MOTOR_0, ANGLE_MOTOR_0, FRONT_RIGHT_INVERTED);
+            swerveModules[1] = new SwerveModule(1, DRIVE_MOTOR_1, ANGLE_MOTOR_1, FRONT_LEFT_INVERTED);
+            swerveModules[2] = new SwerveModule(2, DRIVE_MOTOR_2, ANGLE_MOTOR_2, BACK_RIGHT_INVERTED);
+            swerveModules[3] = new SwerveModule(3, DRIVE_MOTOR_3, ANGLE_MOTOR_3, BACK_LEFT_INVERTED);
+        }
 
         this.isFieldOriented = isFieldOriented;
     }

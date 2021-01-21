@@ -9,7 +9,7 @@ import frc.robot.valuetuner.WebConstant;
  */
 public class Constants {
     public static final int TALON_TIMEOUT = 10; // in ms
-
+    public static final boolean ENABLE_CURRENT_LIMIT = true;
 
     public static class SwerveDrive {
 
@@ -59,7 +59,6 @@ public class Constants {
 
         public static final int TRIGGER_THRESHOLD_CURRENT = 5; // ampere
         public static final double TRIGGER_THRESHOLD_TIME = 0.02; // seconds
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
         public static final boolean ENABLE_VOLTAGE_COMPENSATION = true;
         public static final int VOLTAGE_SATURATION = 12; // volts
 

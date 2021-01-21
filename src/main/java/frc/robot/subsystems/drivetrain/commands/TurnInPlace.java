@@ -10,6 +10,8 @@ public class TurnInPlace extends CommandBase {
 
     private SwerveDrive swerveDrive;
     //    private WebConstant target = new WebConstant("targetAngle", 0);
+
+    // the target angles for each wheel by numbered index
     private WebConstant target0 = new WebConstant("target0", 0);
     private WebConstant target1 = new WebConstant("target1", 0);
     private WebConstant target2 = new WebConstant("target2", 0);
