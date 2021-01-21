@@ -8,7 +8,7 @@ import org.techfire225.webapp.FireLog;
 
 public class HolonomicDrive extends CommandBase {
 
-    private SwerveDrive swerveDrive;
+    private final SwerveDrive swerveDrive;
 
     public HolonomicDrive(SwerveDrive swerveDrive) {
         this.swerveDrive = swerveDrive;
@@ -18,7 +18,6 @@ public class HolonomicDrive extends CommandBase {
     @Override
     public void initialize() {
         Robot.gyro.reset();
-
     }
 
     @Override

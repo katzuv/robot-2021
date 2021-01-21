@@ -5,7 +5,7 @@ import frc.robot.subsystems.drivetrain.SwerveDrive;
 
 public class ResetPositions extends InstantCommand {
 
-    private SwerveDrive swerveDrive;
+    private final SwerveDrive swerveDrive;
 
     public ResetPositions(SwerveDrive swerveDrive) {
         this.swerveDrive = swerveDrive;

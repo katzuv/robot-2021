@@ -25,24 +25,14 @@ public class TurnInPlace extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
     public void execute() {
         double rotation = -OI.xbox.getY();
-
         rotation = joystickDeadband(rotation);
 
         swerveDrive.swerveModules[0].setAngle(target0.get());
         swerveDrive.swerveModules[1].setAngle(target1.get());
         swerveDrive.swerveModules[2].setAngle(target2.get());
         swerveDrive.swerveModules[3].setAngle(target3.get());
-
-        for (int i = 0; i < 4; i++) {
-            System.out.println(i + " " + swerveDrive.swerveModules[i].getAngle());
-
-        }
 
         FireLog.log("angle ", swerveDrive.swerveModules[2].getAngle());
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
