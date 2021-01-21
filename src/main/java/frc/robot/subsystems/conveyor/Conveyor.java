@@ -84,11 +84,13 @@ public class Conveyor extends SubsystemBase {
         shooterSensor.updateState();
         funnelSensor.updateState();
 
+        // An object is being taken out either from the shooter or from the funnel
         if (!shooterSensor.hasObjectSensed() && shooterSensor.hasStateChanged() && isMovingUp() ||
                 !funnelSensor.hasObjectSensed() && funnelSensor.hasStateChanged() && !isMovingUp()) {
             Conveyor.removeBall();
         }
 
+        // An object is being inserted into the conveyor
         if (funnelSensor.hasObjectSensed() && funnelSensor.hasStateChanged() && isMovingUp()) {
             Conveyor.addBall();
         }
