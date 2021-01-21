@@ -26,7 +26,11 @@ public class SwerveModule extends SubsystemBase {
     private final UnitModel unitDrive = new UnitModel(Constants.SwerveDrive.TICKS_PER_METER);
     private final UnitModel unitAngle = new UnitModel(Constants.SwerveDrive.TICKS_PER_RAD);
 
-    public SwerveModule(int wheel, TalonFX driveMotor, TalonSRX angleMotor, boolean[] inverted) {
+    public SwerveModule(int wheel, int driveMotorPort, int angleMotorPort, boolean[] inverted) {
+
+        driveMotor = new TalonFX(driveMotorPort);
+        angleMotor = new TalonSRX(angleMotorPort);
+
         // configure feedback sensors
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, Constants.TALON_TIMEOUT);
         angleMotor.configFeedbackNotContinuous(Ports.SwerveDrive.IS_NOT_CONTINUOUS_FEEDBACK, Constants.TALON_TIMEOUT);
@@ -58,8 +62,6 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.selectProfileSlot(0, 0);
         driveMotor.selectProfileSlot(1, 0);
 
-        this.driveMotor = driveMotor;
-        this.angleMotor = angleMotor;
         this.wheel = wheel;
     }
 

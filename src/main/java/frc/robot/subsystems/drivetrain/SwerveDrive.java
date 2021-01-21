@@ -41,10 +41,10 @@ public class SwerveDrive extends SubsystemBase {
         }
         Robot.gyro.reset();
 
-        swerveModules[0] = new SwerveModule(0, new TalonFX(DRIVE_MOTOR_0), new TalonSRX(ANGLE_MOTOR_0), FRONT_RIGHT_INVERTED);
-        swerveModules[1] = new SwerveModule(1, new TalonFX(DRIVE_MOTOR_1), new TalonSRX(ANGLE_MOTOR_1), FRONT_LEFT_INVERTED);
-        swerveModules[2] = new SwerveModule(2, new TalonFX(DRIVE_MOTOR_2), new TalonSRX(ANGLE_MOTOR_2), BACK_RIGHT_INVERTED);
-        swerveModules[3] = new SwerveModule(3, new TalonFX(DRIVE_MOTOR_3), new TalonSRX(ANGLE_MOTOR_3), BACK_LEFT_INVERTED);
+        swerveModules[0] = new SwerveModule(0, DRIVE_MOTOR_0, ANGLE_MOTOR_0, FRONT_RIGHT_INVERTED);
+        swerveModules[1] = new SwerveModule(1, DRIVE_MOTOR_1, ANGLE_MOTOR_1, FRONT_LEFT_INVERTED);
+        swerveModules[2] = new SwerveModule(2, DRIVE_MOTOR_2, ANGLE_MOTOR_2, BACK_RIGHT_INVERTED);
+        swerveModules[3] = new SwerveModule(3, DRIVE_MOTOR_3, ANGLE_MOTOR_3, BACK_LEFT_INVERTED);
 
         this.isFieldOriented = isFieldOriented;
     }
