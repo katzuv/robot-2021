@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Ports;
-import frc.robot.utils.DeadbandProximity;
+import frc.robot.utils.DeadbandLaserSensor;
 
 import static frc.robot.Constants.Conveyor.*;
 
