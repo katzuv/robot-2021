@@ -1,10 +1,7 @@
 package frc.robot.subsystems.drivetrain.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.OI;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
+import frc.robot.*;
 import frc.robot.subsystems.drivetrain.SwerveDrive;
 import frc.robot.valuetuner.WebConstant;
 import org.techfire225.webapp.FireLog;
@@ -27,7 +24,7 @@ public class TurnInPlace extends CommandBase {
     @Override
     public void execute() {
         double rotation = -OI.xbox.getY();
-        rotation = joystickDeadband(rotation);
+        rotation = Utils.joystickDeadband(rotation);
 
         swerveDrive.swerveModules[0].setAngle(target0.get());
         swerveDrive.swerveModules[1].setAngle(target1.get());
@@ -38,18 +35,6 @@ public class TurnInPlace extends CommandBase {
         FireLog.log("swerve velocity", swerveDrive.getVelocity()[0]);
         FireLog.log("swerve angle by vectors", swerveDrive.getVelocity()[1]);
         FireLog.log("swerve direction", Robot.gyro.getAngle());
-    }
-
-    /**
-     * sets the value of the joystick to 0 if the value is less than the threshold
-     *
-     * @param val the joystick value
-     * @return 0 if val is less than the threshold else val
-     */
-    private double joystickDeadband(double val) {
-        if (val < Constants.SwerveDrive.JOYSTICK_THRESHOLD)
-            return 0;
-        return val;
     }
 
     @Override
