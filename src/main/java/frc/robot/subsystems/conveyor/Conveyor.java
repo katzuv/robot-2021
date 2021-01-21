@@ -13,9 +13,9 @@ public class Conveyor extends SubsystemBase {
     private static int balls = Constants.Conveyor.INITIAL_BALLS_AMOUNT;
 
     private final TalonFX motor = new TalonFX(Ports.Conveyor.MOTOR);
-    private final DeadbandProximity shooterProximity = new DeadbandProximity(Ports.Conveyor.SHOOTER_PROXIMITY,
+    private final DeadbandLaserSensor shooterSensor = new DeadbandLaserSensor(Ports.Conveyor.SHOOTER_LASER_SENSOR,
             SHOOTER_PROXIMITY_LOST_VOLTAGE, SHOOTER_PROXIMITY_SENSE_VOLTAGE);
-    private final DeadbandProximity funnelProximity = new DeadbandProximity(Ports.Conveyor.SHOOTER_PROXIMITY,
+    private final DeadbandLaserSensor funnelSensor = new DeadbandLaserSensor(Ports.Conveyor.FUNNEL_LASER_SENSOR,
             FUNNEL_PROXIMITY_LOST_VOLTAGE, FUNNEL_PROXIMITY_SENSE_VOLTAGE);
 
     public Conveyor() {
@@ -81,15 +81,15 @@ public class Conveyor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterProximity.updateState();
-        funnelProximity.updateState();
+        shooterSensor.updateState();
+        funnelSensor.updateState();
 
-        if (!shooterProximity.hasObjectSensed() && shooterProximity.hasStateChanged() && isMovingUp() ||
-                !funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && !isMovingUp()) {
+        if (!shooterSensor.hasObjectSensed() && shooterSensor.hasStateChanged() && isMovingUp() ||
+                !funnelSensor.hasObjectSensed() && funnelSensor.hasStateChanged() && !isMovingUp()) {
             Conveyor.removeBall();
         }
 
-        if (funnelProximity.hasObjectSensed() && funnelProximity.hasStateChanged() && isMovingUp()) {
+        if (funnelSensor.hasObjectSensed() && funnelSensor.hasStateChanged() && isMovingUp()) {
             Conveyor.addBall();
         }
     }
