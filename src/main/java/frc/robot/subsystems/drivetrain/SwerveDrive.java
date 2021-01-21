@@ -218,4 +218,12 @@ public class SwerveDrive extends SubsystemBase {
             swerveModules[i].resetAngle();
         }
     }
+
+    /**
+     * @param i the index of the module
+     * @return the corresponding module
+     */
+    public SwerveModule getModule(int i) {
+        return swerveModules[i];
+    }
 }

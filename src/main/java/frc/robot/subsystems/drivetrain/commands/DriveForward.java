@@ -24,8 +24,8 @@ public class DriveForward extends CommandBase {
         double forward = Utils.joystickDeadband(-OI.getJoystickY());
 
         for (int i = 0; i< 4; i++) {
-            swerveDrive.swerveModules[i].setAngle(swerveDrive.swerveModules[i].getAngle());
-            swerveDrive.swerveModules[i].setSpeed(target.get());
+            swerveDrive.getModule(i).setAngle(swerveDrive.swerveModules[i].getAngle());
+            swerveDrive.getModule(i).setSpeed(target.get());
             FireLog.log("speed " + i, Math.abs(swerveDrive.swerveModules[i].getSpeed()));
         }
 
