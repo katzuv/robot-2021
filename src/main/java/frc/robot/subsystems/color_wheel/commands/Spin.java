@@ -13,7 +13,6 @@ public class Spin extends CommandBase {
     private double power;
     private String previousColor; //the first color the sensor sees.
     private String currentColor; //the first color the sensor sees.
-    private boolean isPowerDecreased = false; //whether the power decrease has been executed already.
     private int differentColorCounter = 0;
 
     public Spin(ColorWheel colorWheel, double power) {
@@ -48,17 +47,17 @@ public class Spin extends CommandBase {
         colorWheel.power(0);
     }
 
-    public void updateDifferentColorCount() {
+    private void updateDifferentColorCount() {
         if (currentColor != previousColor) {
             previousColor = currentColor;
             differentColorCounter++;
         }
     }
 
-    public void moderatePower() {
-        if (differentColorCounter == Constants.ColorWheel.REQUIRED_SPINS * Constants.ColorWheel.COLOR_WHEEL_SLOTS - 1 && !isPowerDecreased) {
+    private void moderatePower() {
+        if (differentColorCounter == Constants.ColorWheel.REQUIRED_SPINS * Constants.ColorWheel.COLOR_WHEEL_SLOTS - 1)
             colorWheel.power(Constants.ColorWheel.REDUCE_POWER_BY * power);
-            isPowerDecreased = true;
-        }
+        else
+            colorWheel.power(power);
     }
 }

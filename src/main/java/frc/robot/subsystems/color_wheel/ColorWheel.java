@@ -15,29 +15,23 @@ public class ColorWheel extends SubsystemBase {
 
     private final TalonSRX motor = new TalonSRX(Ports.ColorWheel.MOTOR);
 
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
-    private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+    private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
     private final ColorMatch colorMatch = new ColorMatch();
 
     private String colorString = "";
 
-    private final Color redTarget = ColorMatch.makeColor(Constants.ColorWheel.RED[0], Constants.ColorWheel.RED[1], Constants.ColorWheel.RED[2]);
-    private final Color greenTarget = ColorMatch.makeColor(Constants.ColorWheel.GREEN[0], Constants.ColorWheel.GREEN[1], Constants.ColorWheel.GREEN[2]);
-    private final Color blueTarget = ColorMatch.makeColor(Constants.ColorWheel.BLUE[0], Constants.ColorWheel.BLUE[1], Constants.ColorWheel.BLUE[2]);
-    private final Color yellowTarget = ColorMatch.makeColor(Constants.ColorWheel.YELLOW[0], Constants.ColorWheel.YELLOW[1], Constants.ColorWheel.YELLOW[2]);
-
-    private ColorMatchResult matchResult;
+    private ColorMatchResult matchResult = new ColorMatchResult(Color.kBlack, 0);
 
     public ColorWheel() {
         motor.setInverted(Ports.ColorWheel.MOTOR_INVERTED);
         motor.setSensorPhase(Ports.ColorWheel.MOTOR_SENSOR_PHASE_INVERTED);
-
-        colorMatch.addColorMatch(redTarget);
-        colorMatch.addColorMatch(greenTarget);
-        colorMatch.addColorMatch(blueTarget);
-        colorMatch.addColorMatch(yellowTarget);
+        motor.configVoltageCompSaturation(Constants.ColorWheel.VOLTAGE);
+        motor.enableVoltageCompensation(true);
+        colorMatch.addColorMatch(Constants.ColorWheel.RED_TARGET);
+        colorMatch.addColorMatch(Constants.ColorWheel.GREEN_TARGET);
+        colorMatch.addColorMatch(Constants.ColorWheel.BLUE_TARGET);
+        colorMatch.addColorMatch(Constants.ColorWheel.YELLOW_TARGET);
     }
 
     /**
@@ -54,14 +48,14 @@ public class ColorWheel extends SubsystemBase {
      *
      * @return the color seen by the color sensor in String.
      */
-    public String colorToString() {
-        if (redTarget.equals(matchResult.color)) {
+    private String colorToString() {
+        if (Constants.ColorWheel.RED_TARGET.equals(matchResult.color)) {
             return "RED";
-        } else if (greenTarget.equals(matchResult.color)) {
+        } else if (Constants.ColorWheel.GREEN_TARGET.equals(matchResult.color)) {
             return "GREEN";
-        } else if (blueTarget.equals(matchResult.color)) {
+        } else if (Constants.ColorWheel.BLUE_TARGET.equals(matchResult.color)) {
             return "BLUE";
-        } else if (yellowTarget.equals(matchResult.color)) {
+        } else if (Constants.ColorWheel.YELLOW_TARGET.equals(matchResult.color)) {
             return "YELLOW";
         } else {
             return "UNKNOWN";

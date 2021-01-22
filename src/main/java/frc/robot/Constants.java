@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorMatch;
+import edu.wpi.first.wpilibj.util.Color;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -18,15 +21,18 @@ package frc.robot;
 public final class Constants {
 
     public static class ColorWheel {
-        public static final double[] RED = {0, 0, 0};
-        public static final double[] GREEN = {0, 0, 0};
-        public static final double[] BLUE = {0, 0, 0};
-        public static final double[] YELLOW = {0, 0, 0};
+        public static final double VOLTAGE = 0;
 
-        public static final int REQUIRED_SPINS = 3;//Amount of times the color wheel must spin.
-        public static final int COLOR_WHEEL_SLOTS = 8;//Amount of times the color wheel must spin.
-        public static final double REDUCE_POWER_BY = 0.5;//Percentage to cut the motor power by.
+        //RGB values (0-255)
+        public static final Color RED_TARGET = ColorMatch.makeColor(255, 0, 0);
+        public static final Color GREEN_TARGET = ColorMatch.makeColor(0, 255, 0);
+        public static final Color BLUE_TARGET = ColorMatch.makeColor(0, 0, 255);
+        public static final Color YELLOW_TARGET = ColorMatch.makeColor(255, 255, 0);
 
-        public static final String[] colors = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
+        public static final int REQUIRED_SPINS = 3; //amount of spins the wheel must complete to win
+        public static final int COLOR_WHEEL_SLOTS = 8; //amount of color slots in the wheel
+        public static final double REDUCE_POWER_BY = 0.5; //percentage to cut the motor power by
+
+        public static final String[] COLORS = new String[]{"YELLOW", "BLUE", "GREEN", "RED"};
     }
 }
