@@ -128,8 +128,8 @@ public class Shooter extends SubsystemBase {
      * @param distance the distance from the target.
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
-    public double estimateVelocity(double distance) {
-        return velocityEstimator.estimateVelocity(distance);
+    public double evaluateVelocity(double distance) {
+        return velocityEstimator.evaluateVelocity(distance);
     }
 
     /**
