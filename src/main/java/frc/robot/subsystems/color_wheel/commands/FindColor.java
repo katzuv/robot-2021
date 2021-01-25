@@ -27,7 +27,23 @@ public class FindColor extends CommandBase {
 
     @Override
     public void initialize() {
-        findDistanceToTargetAndSetPower();
+        colorWheel.updateSensor();
+        findInitialAndTargetColorPosition();
+        int clockDistance, antiDistance;
+        if (targetColorIndex < initColorIndex) {
+            clockDistance = targetColorIndex + Constants.ColorWheel.COLORS.length - initColorIndex;
+            antiDistance = initColorIndex - targetColorIndex;
+        } else {
+            clockDistance = targetColorIndex - initColorIndex;
+            antiDistance = Constants.ColorWheel.COLORS.length - targetColorIndex + initColorIndex;
+        }
+        if (clockDistance < antiDistance) {
+            colorWheel.power(power);
+            targetColorDistance = clockDistance;
+        } else {
+            colorWheel.power(-power);
+            targetColorDistance = antiDistance;
+        }
     }
 
     @Override
@@ -52,26 +68,6 @@ public class FindColor extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         colorWheel.power(0);
-    }
-
-    public void findDistanceToTargetAndSetPower() {
-        colorWheel.updateSensor();
-        findInitialAndTargetColorPosition();
-        int clockDistance, antiDistance;
-        if (targetColorIndex < initColorIndex) {
-            clockDistance = targetColorIndex + Constants.ColorWheel.COLORS.length - initColorIndex;
-            antiDistance = initColorIndex - targetColorIndex;
-        } else {
-            clockDistance = targetColorIndex - initColorIndex;
-            antiDistance = Constants.ColorWheel.COLORS.length - targetColorIndex + initColorIndex;
-        }
-        if (clockDistance < antiDistance) {
-            colorWheel.power(power);
-            targetColorDistance = clockDistance;
-        } else {
-            colorWheel.power(-power);
-            targetColorDistance = antiDistance;
-        }
     }
 
     private void findInitialAndTargetColorPosition() {

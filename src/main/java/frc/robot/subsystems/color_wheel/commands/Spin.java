@@ -10,7 +10,7 @@ import frc.robot.subsystems.color_wheel.ColorWheel;
 public class Spin extends CommandBase {
 
     private final ColorWheel colorWheel;
-    private double power;
+    private final double power;
     private String previousColor; //the first color the sensor sees.
     private String currentColor; //the first color the sensor sees.
     private int differentColorCounter = 0;
@@ -48,7 +48,7 @@ public class Spin extends CommandBase {
     }
 
     private void updateDifferentColorCount() {
-        if (currentColor != previousColor) {
+        if (!currentColor.equals(previousColor)) {
             previousColor = currentColor;
             differentColorCounter++;
         }
