@@ -34,6 +34,7 @@ public final class Constants {
         public static final double ARBITRARY_FEED_FORWARD = 0;
 
 
+        // TODO: Note that we might need to change the values here using the frc-characterizations if the model won't satisfy our needs.
         public static final double STALL_CURRENT = 257; // [amps]
         public static final double STALL_TORQUE = 4.69; // [N*meters]
 
