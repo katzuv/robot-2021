@@ -63,6 +63,11 @@ public class Shooter extends SubsystemBase {
         this.velocityEstimator = new MovingAverage(readCSV());
     }
 
+    /**
+     * Initialize the linear system to the default values in order to use the state-space.
+     *
+     * @return an object that represents the model to reach the velocity at the best rate.
+     */
     private LinearSystemLoop<N1, N1, N1> constructLinearSystem() {
         // https://file.tavsys.net/control/controls-engineering-in-frc.pdf Page 76
         Vector<N1> A = VecBuilder.fill(-Math.pow(GEAR_RATIO, 2) * kT / (kV * OMEGA * J));
@@ -81,6 +86,11 @@ public class Shooter extends SubsystemBase {
         return new LinearSystemLoop<>(stateSpace, lqr, kalman, Constants.NOMINAL_VOLTAGE, Constants.LOOP_PERIOD);
     }
 
+    /**
+     * Internal function to create an input stream reader, in order values from the shooting experiments.
+     *
+     * @return a reader to the CSV.
+     */
     private InputStreamReader readCSV() {
         InputStream is = getClass().getResourceAsStream(PATH_TO_CSV);
         assert is != null : "Can't create input stream";
@@ -115,7 +125,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Set the power to apply by the motor.
      *
-     * @param power the power at which the motor will rotate. [percentage, between 0 and 1]
+     * @param power the power at which the motor will rotate. [percentage, between -1 and 1]
      * @see #stop()
      */
     public void setPower(double power) {
@@ -125,7 +135,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Estimate the velocity that the shooter should apply in order to reach the target.
      *
-     * @param distance the distance from the target.
+     * @param distance the distance from the target. [meters]
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
     public double evaluateVelocity(double distance) {
