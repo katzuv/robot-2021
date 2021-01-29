@@ -3,6 +3,9 @@ package frc.robot.subsystems.conveyor.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.conveyor.Conveyor;
 
+/**
+ * This command load the conveyor, as long as the conveyor isn't "out of space".
+ */
 public class LoadConveyor extends CommandBase {
     private final Conveyor conveyor;
     private final double power;
