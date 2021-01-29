@@ -25,7 +25,7 @@ public final class Constants {
     public static final class Shooter {
         public static final int TICKS_PER_ROTATION = 4096;
 
-        // NOTE: this is the only constants you need to change
+        // NOTE: these are the only constants you need to change.
         // TODO: Calibrate
         public static final double VELOCITY_TOLERANCE = 3; // [RPS]
         public static final double MODEL_TOLERANCE = 3;
@@ -41,10 +41,10 @@ public final class Constants {
         public static final double FREE_CURRENT = 1.5; // [amps]
         public static final double FREE_SPEED = Units.rotationsPerMinuteToRadiansPerSecond(6380); // [rad/sec]
 
-        public static final double GEAR_RATIO = 0; //TODO: Choose real value
-        public static final double kT = STALL_TORQUE / STALL_CURRENT;// took from FRC examples
+        public static final double GEAR_RATIO = 0; //TODO: Choose real value.
+        public static final double kT = STALL_TORQUE / STALL_CURRENT;// took from FRC examples.
         public static final double OMEGA = NOMINAL_VOLTAGE / STALL_CURRENT; // [Ohm]
-        public static final double kV = FREE_SPEED / (NOMINAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples
+        public static final double kV = FREE_SPEED / (NOMINAL_VOLTAGE - OMEGA * FREE_CURRENT);// took from FRC examples.
 
         public static final String PATH_TO_CSV = "/Shooting.csv";
 
