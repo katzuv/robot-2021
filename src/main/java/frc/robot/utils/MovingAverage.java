@@ -58,10 +58,10 @@ public class MovingAverage {
     /**
      * Retrieve an approximation for the velocity based on the distance.
      *
-     * @param distance the distance from the target.
+     * @param distance the distance from the target. [meters]
      * @return an approximation of the velocity to apply
      */
-    public double evaluateVelocity(double distance) {
+    public double evaluateVelocityByDistance(double distance) {
         double[] distances = getClosestDistances(distance);
 
         if (Math.abs(distances[0] - distance) <= Constants.Shooter.ALLOWED_ERROR) {
