@@ -36,21 +36,29 @@ public class Conveyor extends SubsystemBase {
      *
      * @return the amount of balls in the conveyor.
      */
-    public static synchronized int getBallsAmount() {
+    private static int getBallsAmount() {
         return balls;
+    }
+
+    public static synchronized boolean isConveyorFull() {
+        return getBallsAmount() >= MAX_BALLS_AMOUNT;
+    }
+
+    public static synchronized boolean isConveyorEmpty() {
+        return getBallsAmount() <= 0;
     }
 
     /**
      * Increment by one the amount of balls (only programmatically).
      */
-    public static synchronized void addBall() {
+    private static synchronized void addBall() {
         balls++;
     }
 
     /**
      * Decrement by one the amount of balls (only programmatically).
      */
-    public static synchronized void removeBall() {
+    private static synchronized void removeBall() {
         balls--;
     }
 
