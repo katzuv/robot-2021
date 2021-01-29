@@ -13,4 +13,23 @@ public class LoadConveyor extends CommandBase {
 
         addRequirements(conveyor);
     }
+
+    @Override
+    public void execute() {
+        if (!Conveyor.isConveyorFull()) {
+            conveyor.setPower(power);
+        } // TODO: else turn on LEDs to notify that the conveyor is full
+        // TODO: Add override option in case that the sensor is "broken"
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        conveyor.stop();
+    }
 }
