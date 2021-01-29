@@ -15,7 +15,6 @@ import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.Constants;
 import frc.robot.Ports;
 import frc.robot.subsystems.UnitModel;
-import frc.robot.utils.MovingAverage;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -138,8 +137,8 @@ public class Shooter extends SubsystemBase {
      * @param distance the distance from the target. [meters]
      * @return the velocity that should be applied by the shooter in order to reach the target.[RPS]
      */
-    public double evaluateVelocityByDistance(double distance) {
-        return velocityEstimator.evaluateVelocityByDistance(distance);
+    public double estimateVelocityFromDistance(double distance) {
+        return velocityEstimator.estimateVelocityFromDistance(distance);
     }
 
     /**

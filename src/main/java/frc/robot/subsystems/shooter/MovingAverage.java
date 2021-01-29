@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.subsystems.shooter;
 
 import frc.robot.Constants;
 
@@ -61,7 +61,7 @@ public class MovingAverage {
      * @param distance the distance from the target. [meters]
      * @return an approximation of the velocity to apply
      */
-    public double evaluateVelocityByDistance(double distance) {
+    public double estimateVelocityFromDistance(double distance) {
         double[] distances = getClosestDistances(distance);
 
         if (Math.abs(distances[0] - distance) <= Constants.Shooter.ALLOWED_ERROR) {
