@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
     private final TalonFX aux = new TalonFX(Ports.Shooter.AUX);
     private final UnitModel unitModel = new UnitModel(TICKS_PER_ROTATION);
 
-    private final MovingAverage velocityEstimator;
+    private final LinearRegression velocityEstimator;
     private final LinearSystemLoop<N1, N1, N1> stateSpacePredictor;
 
     public Shooter() {
@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
         aux.follow(main);
 
         this.stateSpacePredictor = constructLinearSystem();
-        this.velocityEstimator = new MovingAverage(readCSV());
+        this.velocityEstimator = new LinearRegression(readCSV());
     }
 
     /**

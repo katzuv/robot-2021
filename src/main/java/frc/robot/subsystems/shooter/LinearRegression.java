@@ -8,19 +8,19 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * The moving average contains a list of velocity based on the distance, and should give an approximation of the velocity to apply.
- * In order to the moving average object to approximate better, you need to pass more values.
+ * The linear regression contains a list of velocity based on the distance, and should give an approximation of the velocity to apply.
+ * In order to the linear regression object to approximate better, you need to pass more values.
  * The object calculate calculate a straight line between the closest point, and retrieve the velocity (in the straight line between the records).
  */
-public class MovingAverage {
+public class LinearRegression {
     private static final String DELIMITER = ",";
     private final Map<Double, Double> distanceVelocityMap; // <key - distance, value - velocity>, TreeMap iterates according to the "natural ordering" of the keys (in this case, smallest distance first).
 
-    public MovingAverage(String pathToCsv) {
+    public LinearRegression(String pathToCsv) {
         this(new File(pathToCsv));
     }
 
-    public MovingAverage(File csv) {
+    public LinearRegression(File csv) {
         this.distanceVelocityMap = new TreeMap<>();
         if (csv.isFile()) {
             try {
@@ -32,11 +32,11 @@ public class MovingAverage {
             System.err.println("File not found: " + csv.getName());
     }
 
-    public MovingAverage(Map<Double, Double> map) {
+    public LinearRegression(Map<Double, Double> map) {
         this.distanceVelocityMap = new TreeMap<>(map); // just because I want to order the values by the key.
     }
 
-    public MovingAverage(Reader reader) {
+    public LinearRegression(Reader reader) {
         this.distanceVelocityMap = new TreeMap<>();
         read(reader);
     }
@@ -80,7 +80,7 @@ public class MovingAverage {
     }
 
     /**
-     * get a pair of distances of the closets distances, one below and one above.
+     * Get a pair of distances of the closets distances, one below and one above.
      *
      * @param distance the distance to return the pairs.
      * @return a 2d array represents the closest values(below {distance, velocity}, above {distance, velocity}).
