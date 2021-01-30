@@ -10,6 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import frc.robot.subsystems.shooter.Shooter;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.ExampleSubsystem.ExampleSubsystem;
+
 import frc.robot.valuetuner.ValueTuner;
 import webapp.Webserver;
 
@@ -20,7 +25,13 @@ import webapp.Webserver;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
+
+  private final Shooter shooter = new Shooter();
+  public XboxController Xbox = new XboxController(1);
+  public JoystickButton a = new JoystickButton(Xbox, XboxController.Button.kA.value);
+  public JoystickButton b = new JoystickButton(Xbox, XboxController.Button.kB.value);
+  // The robot's subsystems and commands are defined here...
+
 
 
     /**
